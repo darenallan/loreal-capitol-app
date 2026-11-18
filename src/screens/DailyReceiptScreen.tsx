@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, FileText, Download, Store, Clock, ShoppingBag } fr
 import { exportSalesCSV } from '../utils/exportHelpers';
 import { isSuperBoss, getLocalCache } from '../db/database';
 import { subscribeResilient } from '../db/resilientSync';
+import { getEffectiveTotal, isAnyAdvance, itemsSummary, isOnLocalDay, todayKey } from '../utils/saleMath';
 import { colors, fonts, radius, shadow, formatMoney } from '../theme';
 import { useResponsive, GlassCard, TiltCard, GoldButton, PressableScale, Pill, AnimatedNumber, FadeIn } from '../ui';
 
@@ -23,14 +24,13 @@ export default function DailyReceiptScreen({ navigation, route }: any) {
       setSales([]);
       return;
     }
-    const d = new Date();
-    const localDateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-    const isoDateStr = d.toISOString().split('T')[0];
+    // Jour LOCAL (et non UTC) : une vente faite entre 00h et 01h compte bien pour aujourd'hui.
+    const today = todayKey();
     
     const allSales = Object.keys(data).map(k => ({ id: k, ...data[k] }));
     const todaySalesList = allSales
       .filter(s => {
-        if (!s.date || typeof s.date !== 'string' || (!s.date.startsWith(localDateStr) && !s.date.startsWith(isoDateStr))) return false;
+        if (!isOnLocalDay(s.date, today)) return false;
         if (currentStore === 'all') return true;
         const sStore = (s.store || 'falaise').toLowerCase();
         return sStore === currentStore.toLowerCase();
@@ -38,18 +38,14 @@ export default function DailyReceiptScreen({ navigation, route }: any) {
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       
     const formattedSales = todaySalesList.map(s => {
-      const isAdvInitial = s.is_advance === 1 && !s.is_advance_installment && s.advanceData && s.advanceData.amountPaid !== undefined;
-      const effectiveTotal = isAdvInitial
-        ? (Number(s.advanceData.amountPaid) || 0)
-        : (Number(s.total) || 0);
+      const effectiveTotal = getEffectiveTotal(s);
       const baseItems = Array.isArray(s.items)
-        ? s.items.map((i: any) => `${i.name} (x${i.quantity || 1})`).join(', ')
+        ? itemsSummary(s.items)
         : (s.items || 'Articles');
       const clientTag = (s.client_name || s.advanceData?.clientName) ? ` (${s.client_name || s.advanceData?.clientName})` : '';
-      const isAnyAdvance = s.is_advance === 1 || s.is_advance_installment === 1 || !!s.advanceData || s.payment_method === 'Avance';
       const displayItems = s.sale_label
         ? s.sale_label
-        : (isAnyAdvance
+        : (isAnyAdvance(s)
             ? (effectiveTotal > 0
                 ? `Avance ${formatMoney(effectiveTotal)} FCFA sur ${baseItems}${clientTag}`
                 : `Avance (0 FCFA versé) sur ${baseItems}${clientTag}`)

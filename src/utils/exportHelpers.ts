@@ -2,6 +2,7 @@
 import { db } from '../db/firebaseConfig';
 import { ref, get } from 'firebase/database';
 import { getAuditLogs, getAdvanceStore } from '../db/database';
+import { localDayKey, normStore, todayKey } from './saleMath';
 
 export function downloadCSV(filename: string, headers: string[], rows: (string | number | null | undefined)[][]) {
   const escapeCell = (cell: any) => {
@@ -57,7 +58,7 @@ export async function exportSalesCSV(salesList?: any[], storeId: string = 'all')
   // Trier par date décroissante
   sales.sort((a, b) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime());
 
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayKey(); // jour local (nom de fichier)
   const storeLabel = targetStore === 'falaise' ? 'LA_FALAISE' : targetStore === 'tougou' ? 'TOUGOU' : 'GLOBAL';
   const headers = [
     'ID Vente',
@@ -143,7 +144,7 @@ export async function exportProductsCSV(productsList?: any[], storeId: string = 
     return (a.color || '').localeCompare(b.color || '');
   });
 
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayKey(); // jour local (nom de fichier)
   const storeLabel = targetStore === 'falaise' ? 'LA_FALAISE' : targetStore === 'tougou' ? 'TOUGOU' : 'TOUS_MAGASINS';
   const headers = [
     'ID Produit',
@@ -203,7 +204,7 @@ export async function exportAdvancesCSV(advancesList?: any[], storeId: string = 
     advances = advances.filter(a => getAdvanceStore(a) === storeId.toLowerCase());
   }
 
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayKey(); // jour local (nom de fichier)
   const storeLabel = storeId === 'falaise' ? 'LA_FALAISE' : storeId === 'tougou' ? 'TOUGOU' : 'TOUS';
   const headers = [
     'ID Avance',
@@ -272,7 +273,7 @@ export async function exportTransfersCSV(transfersList?: any[]) {
     }
   }
 
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayKey(); // jour local (nom de fichier)
   const headers = [
     'ID Transfert',
     'Date Initié',
@@ -318,7 +319,7 @@ export async function exportAuditLogsCSV(logsList?: any[]) {
     }
   }
 
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayKey(); // jour local (nom de fichier)
   const headers = [
     'Date & Heure',
     'Utilisateur',
@@ -351,7 +352,7 @@ export function exportHistoryCSV(sales: any[], periodLabel: string, storeId: str
 
   const target = (storeId || 'all').trim().toLowerCase();
   const storeLabel = target === 'falaise' ? 'LA_FALAISE' : target === 'tougou' ? 'TOUGOU' : 'GLOBAL';
-  const safePeriod = String(periodLabel || '').replace(/[^0-9A-Za-z_-]+/g, '_') || new Date().toISOString().split('T')[0];
+  const safePeriod = String(periodLabel || '').replace(/[^0-9A-Za-z_-]+/g, '_') || todayKey();
   const fmtDate = (iso: any) => {
     if (!iso) return '';
     const d = new Date(iso);
@@ -363,10 +364,10 @@ export function exportHistoryCSV(sales: any[], periodLabel: string, storeId: str
     const items = Array.isArray(s.items) ? s.items : [];
     const articles = s.itemsLabel
       || items.map((i: any) => `${i?.name || 'Article'} x${i?.quantity || 1}`).join(' | ');
-    const store = String(s.store || 'falaise').trim().toLowerCase();
+    const store = normStore(s.store);
     return [
       s.id,
-      s.backdated ? String(s.day || String(s.date || '').slice(0, 10)) : fmtDate(s.date),
+      s.backdated ? String(s.day || localDayKey(s.date)) : fmtDate(s.date),
       store === 'tougou' ? 'Tougou' : 'La Falaise',
       s.seller_name || '',
       s.client_name || '',

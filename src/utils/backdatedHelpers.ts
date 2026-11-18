@@ -3,6 +3,7 @@
  * Toutes les dates « jour » sont au format YYYY-MM-DD.
  */
 import type { HistorySale } from '../db/database';
+import { localDayKey, ymdLocal } from './saleMath';
 
 export type StoreChoice = 'falaise' | 'tougou' | 'all';
 export type EntryStore = 'falaise' | 'tougou';
@@ -19,7 +20,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 /** Jour local YYYY-MM-DD d'une date. */
 export function toLocalYMD(d: Date): string {
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  return ymdLocal(d);
 }
 
 /** Date locale (minuit) à partir d'un YYYY-MM-DD. */
@@ -28,7 +29,7 @@ export function parseYMD(ymd: string): Date {
   return new Date(y, (m || 1) - 1, d || 1);
 }
 
-/** ISO du jour choisi à midi heure locale (stable pour date.slice(0,10)). */
+/** ISO du jour choisi à midi heure locale (stable pour localDayKey). */
 export function middayLocalISO(ymd: string): string {
   const [y, m, d] = ymd.split('-').map(n => parseInt(n, 10));
   return new Date(y, m - 1, d, 12, 0, 0).toISOString();
@@ -105,7 +106,7 @@ export function summarizeSales(list: HistorySale[]): { total: number; count: num
 export function groupByDay(list: HistorySale[]): Record<string, HistorySale[]> {
   const out: Record<string, HistorySale[]> = {};
   for (const s of list) {
-    const k = s.day || String(s.date || '').slice(0, 10);
+    const k = s.day || localDayKey(s.date);
     (out[k] = out[k] || []).push(s);
   }
   return out;

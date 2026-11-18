@@ -6,6 +6,7 @@ import { ArrowLeft, Search, Check, AlertTriangle, Download, RefreshCw, Barcode, 
 import { applyPhysicalInventory, isUserAdmin, isSuperBoss, getLocalCache } from '../db/database';
 import { subscribeResilient } from '../db/resilientSync';
 import { downloadCSV } from '../utils/exportHelpers';
+import { todayKey } from '../utils/saleMath';
 import { colors, fonts, radius, shadow, formatMoney } from '../theme';
 import { useResponsive, GlassCard, TiltCard, GoldButton, PressableScale, Pill, SectionTitle, FadeIn } from '../ui';
 
@@ -110,7 +111,7 @@ export default function PhysicalInventoryScreen({ navigation, route }: any) {
   }, 0);
 
   const handleExportCSV = () => {
-    const dateStr = new Date().toISOString().split('T')[0];
+    const dateStr = todayKey(); // jour local (nom de fichier)
     const headers = [
       'ID Produit',
       'Code-barres',

@@ -26,7 +26,10 @@ Bienvenue sur le projet **L'Oréal Capitol** (Application de Gestion Commerciale
   - `PhysicalInventoryScreen.tsx` : Inventaire physique par scan
 - `src/db/` :
   - `firebaseConfig.ts` : Configuration du projet Firebase
-  - `database.ts` : Fonctions CRUD temps réel, cache hors-ligne résilient et règles métier
+  - `database.ts` : point d'entrée unique (barrel) qui ré-exporte `src/db/services/*` (voir « Architecture des données »)
+  - `services/` : fonctions CRUD temps réel, cache hors-ligne et règles métier, découpées par domaine
+  - `resilientSync.ts` : souscriptions résilientes (REST + WebSocket)
+- `src/utils/saleMath.ts` : règles de calcul partagées (total effectif d'une vente, avances, jour local d'une vente)
 - `src/components/` : Modales, composants réutilisables, scanners et cartes produits
 - `src/theme/` : Thème de luxe (doré & sombre), polices et constantes graphiques
 - `website/` : Site web vitrine grand public (collections, showrooms, catalogue)
@@ -59,9 +62,36 @@ npm install
 
 ---
 
-## 4. Note Importante : `App.tsx` & `App.active.tsx`
-- `App.active.tsx` contient l'intégralité du code actif de l'application (toutes les routes, la navigation et les écrans).
-- Si `App.tsx` est en mode pause, il vous suffit de remplacer le contenu de `App.tsx` par celui de `App.active.tsx` (ou de copier `App.active.tsx` vers `App.tsx`) pour retrouver immédiatement l'application complète active.
+## 4. Point d'entrée de l'application : `App.tsx`
+- `App.tsx` est l'**unique source** du code actif de l'application (routes, navigation, écrans).
+- L'ancien fichier `App.active.tsx` (copie de sauvegarde identique) a été supprimé : ne plus le recréer, modifier directement `App.tsx`.
+
+---
+
+## Architecture des données (`src/db/services/`)
+Tous les écrans importent depuis `src/db/database.ts`, qui ne contient plus que des `export * from './services/...'`.
+Chaque service regroupe un domaine :
+
+| Module | Contenu |
+|---|---|
+| `config.ts` | `RTDB_REST_URL` (URL REST de la base, dérivée de `firebaseConfig`) |
+| `roles.ts` | `DEFAULT_USERS`, `isUserAdmin`, `isSuperBoss` (aucune dépendance interne) |
+| `cache.ts` | cache mémoire + disque : `getFastCache`, `saveFastCache`, `getLocalCache`, `setLocalCache` (aucune dépendance interne) |
+| `users.ts` | `initDB`, utilisateurs (ajout, modification, PIN, profil, suppression), journaux de sécurité |
+| `audit.ts` | `logAudit`, `getAuditLogs` |
+| `products.ts` | produits : lecture, création, modification, stock, arrivages, noms |
+| `advances.ts` | acomptes : `getAdvanceStore`, `addAdvancePayment`, `completeAdvance`, `deleteAdvanceAndRestoreStock` |
+| `sales.ts` | ventes : `recordSale`, `getDailySales`, `getSalesByDateRange`, `deleteSale`, `updateSalePaymentMethod`, `exchangeProduct` |
+| `backdated.ts` | saisies antérieures (Super Boss) : `recordBackdatedSale`, `deleteBackdatedSale` et leurs types |
+| `stores.ts` | emplacements des boutiques, distance et temps de trajet |
+| `transfers.ts` | transferts inter-boutiques (envoi, demande, suivi, annulation, retour) |
+| `inventory.ts` | `applyPhysicalInventory`, `getProductByBarcode` |
+
+Règles :
+- Les dépendances vont toujours vers `config`, `roles`, `cache`, `audit` (et `stores` pour `transfers`) : pas d'import circulaire.
+- Une nouvelle fonction se place dans le service adéquat ; elle est ré-exportée automatiquement par `database.ts`.
+- Le jour d'une vente se calcule en **heure locale** avec `localDayKey` / `isOnLocalDay` / `todayKey` (`src/utils/saleMath.ts`), jamais avec `date.slice(0, 10)` ou `toISOString().split('T')[0]` (jour UTC). Les dates restent **écrites** en ISO UTC (`toISOString()`).
+- Le montant encaissé d'une vente se calcule avec `getEffectiveTotal` (avance initiale = montant versé).
 
 ---
 
