@@ -73,3 +73,28 @@ npm run vercel-build
 npx expo export --platform web
 npx vercel --prod
 ```
+
+---
+
+## 6. Mode TEST local (sans toucher la base de production)
+
+Une base Firebase **locale** (émulateur) permet de tester toutes les fonctionnalités
+sans écrire dans la vraie base des boutiques.
+
+Prérequis : Java 11+ installé.
+
+```bash
+npm install --include=dev   # (si NODE_ENV=production est défini sur la machine)
+npm run emulator            # terminal 1 — base locale sur 127.0.0.1:9000, UI sur http://127.0.0.1:4000
+npm run seed:test           # terminal 2 — données fictives : 2 boutiques, 12 articles, 60 ventes, 1 acompte
+npm run dev:test            # terminal 2 — app sur http://localhost:8081 branchée sur l'émulateur
+```
+
+- La console du navigateur affiche `[Capitol] Mode TEST — émulateur Firebase local`.
+- Sans `EXPO_PUBLIC_USE_EMULATOR=1`, l'app fonctionne exactement comme avant (production).
+- Les données de l'émulateur sont effacées à son arrêt : relancer `npm run seed:test`.
+
+## 7. Rangement du dépôt
+- `tools/` : scripts utilitaires ponctuels (`check_bundle.js`, `update_pins.js`, `photo-retouche/`).
+- `docs/rapports/` : rapports PDF générés.
+- `test-env/` : règles et données de l'environnement de test local.

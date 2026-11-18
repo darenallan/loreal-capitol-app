@@ -50,3 +50,6 @@ RECU_*.pdf
 firebase-debug.log
 database-debug.log
 .emulator-data/
+
+# Archives privées locales
+archive/prive/

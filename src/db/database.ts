@@ -1,7 +1,7 @@
-import { db } from './firebaseConfig';
+import { db, DATABASE_URL } from './firebaseConfig';
 import { ref, get, set, push, update } from 'firebase/database';
 
-export const RTDB_REST_URL = 'https://l-oreal-capitol-default-rtdb.firebaseio.com';
+export const RTDB_REST_URL = DATABASE_URL;
 
 export const DEFAULT_USERS = [
   { id: 'boss', name: 'Boss', role: 'admin', pin: 'B000000.', store: 'all' },

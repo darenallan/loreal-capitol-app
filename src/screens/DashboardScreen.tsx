@@ -11,7 +11,7 @@ import {
 import { 
   addUser, getUsers, updateUser, deleteUser, getSecurityLogs, deleteSecurityLog, 
   deleteSale, transferStock, getProductByBarcode, getProducts, getLocalCache, setLocalCache, isUserAdmin, isSuperBoss,
-  getAuditLogs, getAdvanceStore, getFastCache
+  getAuditLogs, getAdvanceStore, getFastCache, RTDB_REST_URL
 } from '../db/database';
 import { 
   exportSalesCSV, exportProductsCSV, exportAdvancesCSV, exportTransfersCSV, exportAuditLogsCSV 
@@ -441,7 +441,7 @@ export default function DashboardScreen({ navigation, route }: any) {
       // 2. Si le cache est absent, fallback HTTPS REST résilient
       if (!data || typeof data !== 'object' || Object.keys(data).length === 0) {
         try {
-          const res = await fetch('https://l-oreal-capitol-default-rtdb.firebaseio.com/sales.json');
+          const res = await fetch(`${RTDB_REST_URL}/sales.json`);
           if (res.ok) data = await res.json();
         } catch (e) {
           console.warn('Fallback REST sales warning:', e);
