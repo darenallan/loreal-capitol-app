@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "^/(style\\.css|app\\.js|catalog-snapshot\\.js|logo\\.jpg|assets/(.*))$",
+      "headers": { "cache-control": "public, max-age=0, must-revalidate" },
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

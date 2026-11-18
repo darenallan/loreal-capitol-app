@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Reçu Officiel — L'Oréal Capitol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-dark: #b8972e;
+      --gold-light: #f3e5ab;
+      --gold-bg: rgba(212, 175, 55, 0.12);
+      --bg: #0a0a0d;
+      --card-bg: #ffffff;
+      --text-dark: #121214;
+      --text-muted: #666670;
+      --green: #15803d;
+      --green-bg: #dcfce7;
+      --amber: #b45309;
+      --amber-bg: #fef3c7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: #f0f0f2;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px 32px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Ambient luxury glow background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Top Floating Header */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
+      background: rgba(18, 18, 22, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+    }
+
+    .brand-pill-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: var(--gold);
+    }
+
+    .official-badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.14);
+      padding: 3px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Action bar */
+    .actions-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #d4af37 0%, #b8972e 100%);
+      color: #0d0e12;
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+    }
+    .btn-gold:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(212, 175, 55, 0.45);
+    }
+
+    .btn-dark {
+      background: #18191f;
+      color: #e5e7eb;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .btn-dark:hover {
+      background: #22232b;
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+
+    /* Receipt Paper Card */
+    .receipt-paper {
+      background: #ffffff;
+      color: var(--text-dark);
+      border-radius: 14px;
+      padding: 22px 18px 24px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(212, 175, 55, 0.4);
+      position: relative;
+    }
+
+    /* Serrated top & bottom edge effect */
+    .receipt-paper::before,
+    .receipt-paper::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: radial-gradient(circle, transparent, transparent 50%, #ffffff 50%, #ffffff 100%);
+      background-size: 10px 10px;
+    }
+    .receipt-paper::before {
+      top: -5px;
+      transform: rotate(180deg);
+    }
+    .receipt-paper::after {
+      bottom: -5px;
+    }
+
+    /* Paper Header */
+    .paper-header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .paper-logo {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 6px;
+      border-radius: 50%;
+      background: #0f0f12;
+      border: 1.5px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.25);
+    }
+
+    .paper-logo img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .paper-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: 17px;
+      letter-spacing: 2px;
+      color: #121214;
+      line-height: 1.2;
+    }
+
+    .paper-subtitle {
+      font-size: 10.5px;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .paper-store-badge {
+      display: inline-block;
+      margin-top: 6px;
+      background: #121214;
+      color: var(--gold);
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 3px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--gold);
+      text-transform: uppercase;
+    }
+
+    .paper-advance-badge {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .badge-completed {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid rgba(21, 128, 61, 0.3);
+    }
+    .badge-pending {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border: 1px solid rgba(180, 83, 9, 0.3);
+    }
+
+    .gold-divider {
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 12px 0 10px;
+    }
+
+    .dashed-divider {
+      border-top: 1px dashed #cccccc;
+      margin: 10px 0;
+    }
+
+    /* Meta Details */
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      margin-bottom: 4px;
+      color: #333333;
+    }
+
+    .meta-row b {
+      color: #121214;
+      font-weight: 700;
+    }
+
+    /* Items Table */
+    .items-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #444444;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #eeeeee;
+      margin-top: 8px;
+    }
+
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 6px 0;
+      border-bottom: 1px dotted #e5e5e5;
+    }
+    .item-row:last-child {
+      border-bottom: none;
+    }
+
+    .item-desc {
+      flex: 1;
+      padding-right: 10px;
+    }
+
+    .item-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #121214;
+      line-height: 1.25;
+    }
+
+    .item-sub {
+      font-size: 10px;
+      color: #777777;
+      margin-top: 2px;
+    }
+
+    .item-total {
+      font-size: 12px;
+      font-weight: 700;
+      color: #121214;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    /* Totals Box */
+    .total-box {
+      margin-top: 12px;
+      background: #fbf9f2;
+      border: 1.5px solid var(--gold);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .total-label {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      color: #121214;
+    }
+
+    .total-amount {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 900;
+      color: #b38e1e;
+    }
+
+    /* Advance breakdown */
+    .advance-box {
+      margin-top: 10px;
+      background: #fffcf5;
+      border: 1.5px solid var(--gold);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .adv-title {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--amber);
+      text-align: center;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .adv-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      padding: 3px 0;
+      border-bottom: 0.5px solid #f1e8d0;
+    }
+    .adv-row:last-child {
+      border-bottom: none;
+    }
+
+    .adv-row b {
+      font-weight: 700;
+    }
+
+    .adv-remain-green {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .adv-remain-amber {
+      color: var(--amber);
+      font-weight: 800;
+    }
+
+    /* Footer Note */
+    .paper-footer {
+      text-align: center;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed #cccccc;
+    }
+
+    .footer-msg {
+      font-size: 10px;
+      color: #444444;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .footer-sub {
+      font-size: 9px;
+      color: #888888;
+      margin-bottom: 5px;
+    }
+
+    .footer-contact {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #b38e1e;
+      margin-bottom: 6px;
+    }
+
+    /* Barcode simulation */
+    .barcode-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      margin-top: 8px;
+      height: 24px;
+    }
+
+    .bar {
+      height: 100%;
+      background: #1a1a1a;
+    }
+
+    .barcode-num {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: #888888;
+      margin-top: 3px;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      body::before {
+        display: none !important;
+      }
+      .top-bar, .actions-bar, .bottom-help {
+        display: none !important;
+      }
+      .container {
+        max-width: 100% !important;
+      }
+      .receipt-paper {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+      }
+    }
+
+    .bottom-help {
+      text-align: center;
+      font-size: 11px;
+      color: #8e8e93;
+      margin-top: 6px;
+    }
+    .bottom-help a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="brand-pill">
+        <div class="brand-pill-dot"></div>
+        <div class="brand-pill-text">L'ORÉAL CAPITOL</div>
+      </div>
+      <div class="official-badge" id="badgeStatus">Reçu Officiel</div>
+    </div>
+
+    <!-- Quick Action Buttons -->
+    <div class="actions-bar">
+      <button class="btn btn-gold" id="btnDownloadPdf" onclick="downloadPdf()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Télécharger PDF
+      </button>
+      <button class="btn btn-dark" onclick="window.print()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Imprimer
+      </button>
+    </div>
+
+    <!-- Receipt Card -->
+    <div class="receipt-paper" id="receiptPaper">
+      <div class="paper-header">
+        <div class="paper-logo">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#d4af37"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+        </div>
+        <h1 class="paper-title">L'ORÉAL CAPITOL</h1>
+        <div class="paper-subtitle">La capitale du prêt-à-porter</div>
+        <div class="paper-store-badge" id="storeBadge">BOUTIQUE LA FALAISE</div>
+        <div id="advanceBadgeWrap"></div>
+      </div>
+
+      <div class="gold-divider"></div>
+
+      <!-- Ticket & Date -->
+      <div class="meta-row">
+        <span>Ticket : <b id="ticketNum">#OFFICIEL</b></span>
+        <span id="ticketDate">--/--/---- --:--</span>
+      </div>
+      <div class="meta-row">
+        <span>Vendeur : <b id="sellerName">Équipe L'Oréal</b></span>
+        <span>Paiement : <b id="paymentMethod">Espèces</b></span>
+      </div>
+      <div class="meta-row" id="clientMetaRow" style="display:none;">
+        <span>Client : <b id="clientName">Client</b></span>
+        <span id="clientPhoneWrap"></span>
+      </div>
+
+      <div class="dashed-divider"></div>
+
+      <!-- Articles Header -->
+      <div class="items-header">
+        <span id="itemsColTitle">DÉSIGNATION DES ARTICLES</span>
+        <span>TOTAL (FCFA)</span>
+      </div>
+
+      <!-- Articles List -->
+      <div id="itemsContainer">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="gold-divider"></div>
+
+      <!-- Regular Total Box -->
+      <div class="total-box" id="regularTotalBox">
+        <div class="total-row">
+          <span class="total-label">TOTAL NET :</span>
+          <span class="total-amount" id="totalNetVal">0 FCFA</span>
+        </div>
+      </div>
+
+      <!-- Advance Financial Card (if advance) -->
+      <div class="advance-box" id="advanceBox" style="display:none;">
+        <div class="adv-title">Résumé Financier Acompte</div>
+        <div class="adv-row">
+          <span>Valeur des articles :</span>
+          <b id="advTotalVal">0 FCFA</b>
+        </div>
+        <div class="adv-row">
+          <span>Acompte versé :</span>
+          <b style="color:var(--amber);" id="advPaidVal">0 FCFA</b>
+        </div>
+        <div class="adv-row">
+          <span>Solde restant :</span>
+          <b id="advRemainVal">0 FCFA</b>
+        </div>
+        <div class="adv-row" id="advDueDateRow" style="display:none;">
+          <span>Date limite de retrait :</span>
+          <b id="advDueDateVal">--/--/----</b>
+        </div>
+      </div>
+
+      <!-- Footer Note -->
+      <div class="paper-footer">
+        <div class="footer-msg">Merci de votre visite et de votre fidélité !</div>
+        <div class="footer-sub">Les articles vendus ne sont ni repris ni échangés.</div>
+        <div class="footer-contact">📞 (+237) 699 93 20 24 / 670 37 18 20 / 679 74 70 11</div>
+        <div class="footer-sub">★ L'Élégance à son Sommet ★</div>
+
+        <!-- Barcode visual -->
+        <div class="barcode-wrap" id="barcodeVisual"></div>
+        <div class="barcode-num" id="barcodeNum">* TICKET *</div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Help / WhatsApp Contact -->
+    <div class="bottom-help">
+      Besoin d'une assistance ? <a href="https://api.whatsapp.com/send/?phone=237699932024&text=Bonjour%20L'Or%C3%A9al%20Capitol,%20j'ai%20une%20question%20concernant%20mon%20re%C3%A7u." target="_blank">Contacter le service client WhatsApp</a>
+    </div>
+
+  </div>
+
+  <script>
+    function money(v) {
+      var n = Math.round(Number(v) || 0);
+      return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+
+    var receiptData = {
+      id: 'OFFICIEL',
+      store: 'La Falaise',
+      date: new Date().toLocaleString('fr-FR'),
+      client: '',
+      phone: '',
+      seller: 'Équipe L\'Oréal',
+      method: 'Espèces',
+      total: 0,
+      paid: 0,
+      remaining: 0,
+      isAdvance: false,
+      isCompleted: false,
+      dueDate: '',
+      items: []
+    };
+
+    function parseParams() {
+      var params = new URLSearchParams(window.location.search);
+      var d = params.get('d') || params.get('data');
+      if (d) {
+        try {
+          var decoded = decodeURIComponent(d);
+          var jsonStr = atob(decoded);
+          var obj = JSON.parse(decodeURIComponent(escape(jsonStr)));
+          if (obj) {
+            receiptData.id = obj.id || receiptData.id;
+            receiptData.store = obj.store || receiptData.store;
+            receiptData.date = obj.date || receiptData.date;
+            receiptData.client = obj.client || '';
+            receiptData.phone = obj.phone || '';
+            receiptData.method = obj.method || 'Espèces';
+            receiptData.total = Number(obj.total) || 0;
+            receiptData.paid = Number(obj.paid) || 0;
+            receiptData.remaining = Number(obj.remaining !== undefined ? obj.remaining : Math.max(0, receiptData.total - receiptData.paid));
+            receiptData.isAdvance = !!obj.isAdvance;
+            receiptData.isCompleted = receiptData.isAdvance && (receiptData.remaining <= 0);
+            receiptData.dueDate = obj.dueDate || '';
+            receiptData.items = Array.isArray(obj.items) ? obj.items : [];
+            render();
+            return;
+          }
+        } catch (e) {
+          console.warn('Erreur décodage payload base64:', e);
+        }
+      }
+
+      // Fallback query parameters
+      if (params.get('id')) receiptData.id = params.get('id');
+      if (params.get('store')) receiptData.store = params.get('store');
+      if (params.get('client')) receiptData.client = params.get('client');
+      if (params.get('phone')) receiptData.phone = params.get('phone');
+      if (params.get('total')) receiptData.total = Number(params.get('total')) || 0;
+      if (params.get('paid')) receiptData.paid = Number(params.get('paid')) || 0;
+      if (params.get('rem')) receiptData.remaining = Number(params.get('rem')) || 0;
+      if (params.get('isAdvance') === '1' || params.get('adv') === '1') {
+        receiptData.isAdvance = true;
+        receiptData.isCompleted = receiptData.remaining <= 0;
+      }
+      render();
+
+      // Fallback: try fetching from Firebase RTDB if id looks like REC-...
+      var idParam = params.get('id');
+      if (idParam && idParam.startsWith('REC-')) {
+        fetch('https://l-oreal-capitol-default-rtdb.firebaseio.com/sales/' + idParam + '.json')
+          .then(function(res) { return res.json(); })
+          .then(function(data) {
+            if (data) {
+              receiptData.total = data.total || receiptData.total;
+              receiptData.client = data.client_name || data.clientName || receiptData.client;
+              receiptData.date = data.date ? new Date(data.date).toLocaleString('fr-FR') : receiptData.date;
+              if (Array.isArray(data.items) && data.items.length > 0) receiptData.items = data.items;
+              receiptData.method = data.payment_method || receiptData.method;
+              render();
+            }
+          })
+          .catch(function(err) { console.log('Firebase fetch info:', err); });
+      }
+    }
+
+    function render() {
+      document.getElementById('ticketNum').textContent = '#' + (receiptData.id || 'OFFICIEL');
+      document.getElementById('ticketDate').textContent = receiptData.date;
+      var cleanStoreName = String(receiptData.store || 'LA FALAISE').replace(/^boutique\s+/i, '').trim() || 'LA FALAISE';
+      document.getElementById('storeBadge').textContent = 'BOUTIQUE ' + cleanStoreName.toUpperCase();
+      document.getElementById('paymentMethod').textContent = receiptData.method;
+
+      if (receiptData.client || receiptData.phone) {
+        document.getElementById('clientMetaRow').style.display = 'flex';
+        document.getElementById('clientName').textContent = receiptData.client || 'Client';
+        if (receiptData.phone) {
+          document.getElementById('clientPhoneWrap').innerHTML = 'Tél : <b>' + receiptData.phone + '</b>';
+        }
+      }
+
+      var advBadgeWrap = document.getElementById('advanceBadgeWrap');
+      if (receiptData.isAdvance) {
+        document.getElementById('itemsColTitle').textContent = 'ARTICLES RÉSERVÉS';
+        document.getElementById('regularTotalBox').style.display = 'none';
+        document.getElementById('advanceBox').style.display = 'block';
+
+        document.getElementById('advTotalVal').textContent = money(receiptData.total) + ' FCFA';
+        document.getElementById('advPaidVal').textContent = money(receiptData.paid) + ' FCFA';
+
+        var remainEl = document.getElementById('advRemainVal');
+        if (receiptData.remaining <= 0) {
+          remainEl.textContent = '0 FCFA (SOLDÉ ✓)';
+          remainEl.className = 'adv-remain-green';
+          advBadgeWrap.innerHTML = '<div class="paper-advance-badge badge-completed">✦ REÇU DE SOLDE D\'ACOMPTE (100%) ✦</div>';
+          document.getElementById('badgeStatus').textContent = 'Soldé 100%';
+        } else {
+          remainEl.textContent = money(receiptData.remaining) + ' FCFA';
+          remainEl.className = 'adv-remain-amber';
+          advBadgeWrap.innerHTML = '<div class="paper-advance-badge badge-pending">✦ REÇU D\'ACOMPTE & RÉSERVATION ✦</div>';
+          document.getElementById('badgeStatus').textContent = 'Acompte en cours';
+        }
+
+        if (receiptData.dueDate) {
+          document.getElementById('advDueDateRow').style.display = 'flex';
+          document.getElementById('advDueDateVal').textContent = receiptData.dueDate;
+        }
+      } else {
+        document.getElementById('itemsColTitle').textContent = 'DÉSIGNATION DES ARTICLES';
+        document.getElementById('regularTotalBox').style.display = 'block';
+        document.getElementById('advanceBox').style.display = 'none';
+        document.getElementById('totalNetVal').textContent = money(receiptData.total) + ' FCFA';
+      }
+
+      // Render items
+      var container = document.getElementById('itemsContainer');
+      container.innerHTML = '';
+      if (receiptData.items && receiptData.items.length > 0) {
+        receiptData.items.forEach(function(item) {
+          var row = document.createElement('div');
+          row.className = 'item-row';
+          var qty = Number(item.qty || item.quantity) || 1;
+          var unitPrice = Number(item.price) || 0;
+          var lineTotal = qty * unitPrice;
+
+          var specs = [];
+          if (item.ref || item.reference) specs.push('Réf: ' + (item.ref || item.reference));
+          if (item.size) specs.push('T: ' + item.size);
+          if (item.color) specs.push(item.color);
+
+          var subText = qty + ' × ' + money(unitPrice) + ' FCFA' + (specs.length > 0 ? '  •  (' + specs.join(' • ') + ')' : '');
+
+          row.innerHTML = 
+            '<div class="item-desc">' +
+              '<div class="item-name">' + (item.name || 'Article') + '</div>' +
+              '<div class="item-sub">' + subText + '</div>' +
+            '</div>' +
+            '<div class="item-total">' + money(lineTotal) + ' FCFA</div>';
+          container.appendChild(row);
+        });
+      } else {
+        container.innerHTML = 
+          '<div class="item-row">' +
+            '<div class="item-desc"><div class="item-name">Articles Prêt-à-Porter</div></div>' +
+            '<div class="item-total">' + money(receiptData.total) + ' FCFA</div>' +
+          '</div>';
+      }
+
+      // Barcode
+      var barcodeWrap = document.getElementById('barcodeVisual');
+      barcodeWrap.innerHTML = '';
+      var widths = [3, 1, 4, 2, 1, 3, 2, 4, 1, 2, 3, 1, 4, 2, 1, 3, 2, 1, 4, 2];
+      widths.forEach(function(w, i) {
+        var bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.width = w + 'px';
+        bar.style.backgroundColor = (i % 2 === 0) ? '#1a1a1a' : '#ffffff';
+        barcodeWrap.appendChild(bar);
+      });
+      document.getElementById('barcodeNum').textContent = '* ' + (receiptData.id || 'OFFICIEL') + ' *';
+    }
+
+    // Direct official PDF generation
+    function downloadPdf() {
+      if (typeof window.jspdf === 'undefined' || !window.jspdf.jsPDF) {
+        window.print();
+        return;
+      }
+      var jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [80, 220]
+      });
+
+      doc.setFillColor(255, 255, 255);
+      doc.rect(0, 0, 80, 220, 'F');
+
+      var y = 14;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(20, 20, 20);
+      doc.text("L'OREAL CAPITOL", 40, y, { align: 'center' });
+
+      y += 4;
+      doc.setFont('helvetica', 'italic');
+      doc.setFontSize(7);
+      doc.setTextColor(100, 100, 100);
+      doc.text("La capitale du pret a porter.", 40, y, { align: 'center' });
+
+      y += 4;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7.5);
+      doc.setTextColor(180, 130, 20);
+      var cleanPdfStore = String(receiptData.store || 'LA FALAISE').replace(/^boutique\s+/i, '').trim() || 'LA FALAISE';
+      doc.text("BOUTIQUE " + cleanPdfStore.toUpperCase(), 40, y, { align: 'center' });
+
+      y += 4;
+      doc.setDrawColor(212, 175, 55);
+      doc.setLineWidth(0.35);
+      doc.line(6.5, y, 73.5, y);
+
+      y += 4.5;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7);
+      doc.setTextColor(30, 30, 30);
+      doc.text("Ticket : #" + (receiptData.id || 'OFFICIEL'), 6.5, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(70, 70, 70);
+      doc.text(receiptData.date, 73.5, y, { align: 'right' });
+
+      if (receiptData.client) {
+        y += 4;
+        doc.setFont('helvetica', 'bold');
+        doc.text("Client : " + receiptData.client, 6.5, y);
+        if (receiptData.phone) {
+          doc.setFont('helvetica', 'normal');
+          doc.text("Tel : " + receiptData.phone, 73.5, y, { align: 'right' });
+        }
+      }
+
+      y += 4;
+      doc.setDrawColor(200, 200, 200);
+      doc.line(6.5, y, 73.5, y);
+
+      y += 4;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7.5);
+      doc.setTextColor(20, 20, 20);
+      doc.text(receiptData.isAdvance ? "ARTICLES RESERVES" : "ARTICLES", 6.5, y);
+      doc.text("TOTAL (FCFA)", 73.5, y, { align: 'right' });
+
+      y += 4.5;
+      if (receiptData.items && receiptData.items.length > 0) {
+        receiptData.items.forEach(function(item) {
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(7);
+          doc.setTextColor(30, 30, 30);
+          var lineTotal = (Number(item.qty || item.quantity) || 1) * (Number(item.price) || 0);
+          doc.text(String(item.name || 'Article').substring(0, 26), 6.5, y);
+          doc.text(money(lineTotal) + " FCFA", 73.5, y, { align: 'right' });
+          y += 3.5;
+        });
+      }
+
+      y += 4;
+      doc.setFillColor(250, 248, 240);
+      doc.setDrawColor(212, 175, 55);
+      doc.roundedRect(6, y, 68, 10, 1.5, 1.5, 'FD');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(15, 15, 15);
+      doc.text(receiptData.isAdvance ? "TOTAL COMMANDE :" : "TOTAL NET :", 9, y + 6.5);
+      doc.setFontSize(9.5);
+      doc.setTextColor(180, 120, 10);
+      doc.text(money(receiptData.total) + " FCFA", 71, y + 6.5, { align: 'right' });
+
+      y += 16;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      doc.setTextColor(80, 80, 80);
+      doc.text("Merci de votre visite et de votre fidelite !", 40, y, { align: 'center' });
+      y += 3.5;
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(180, 130, 20);
+      doc.text("Contact : (+237) 699 93 20 24 / 670 37 18 20", 40, y, { align: 'center' });
+
+      doc.save("Recu_LOREAL_" + (receiptData.id || 'OFFICIEL') + ".pdf");
+    }
+
+    parseParams();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>L'Oréal Capitol — Haute Couture & Prêt-à-Porter | Yaoundé</title>
+  <meta name="description" content="Maison L'Oréal Capitol : Haute confection italienne, costumes d'apparat, souliers Mack James et Berwick à Yaoundé. Showrooms La Falaise et Tougou.">
+  <meta name="theme-color" content="#07080a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Favicon officiel avec le logo de la Maison -->
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="apple-touch-icon" href="assets/logo.jpg">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="L'Oréal Capitol — Haute Couture & Prêt-à-Porter de Prestige">
+  <meta property="og:description" content="Maison L'Oréal Capitol : Découvrez les collections exclusives Homme & Femme et nos deux showrooms La Falaise et Tougou à Yaoundé.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.orealcapitol.cc">
+  <meta property="og:image" content="https://www.orealcapitol.cc/assets/hero_model.jpg">
+
+  <!-- Polices Google Fonts : Playfair Display (Logo & Titres Luxe) & Montserrat (Sans-serif épuré Zegna) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="device-mobile">
+
+  <!-- ==========================================================================
+       TRANSITION D'ENTRÉE CINÉMATIQUE (SPLASH SCREEN LOGO ZOOM)
+       ========================================================================== -->
+  <div class="intro-splash" id="introSplash">
+    <div class="intro-splash-inner">
+      <div class="intro-logo-container">
+        <img src="assets/logo.jpg" alt="L'Oréal Capitol Logo" class="intro-logo-img">
+      </div>
+      <div class="intro-text-block">
+        <span class="intro-brand-name">L'ORÉAL CAPITOL</span>
+        <span class="intro-brand-sub">LA CAPITALE DU PRÊT À PORTER</span>
+        <span class="intro-city">YAOUNDÉ • SHOWROOMS LA FALAISE & TOUGOU</span>
+      </div>
+      <div class="intro-loading-line">
+        <div class="intro-loading-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inputs cachés pour la prise de photo caméra ou sélection galerie -->
+  <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;" aria-hidden="true">
+  <input type="file" id="galleryInput" accept="image/*" style="display:none;" aria-hidden="true">
+
+  <!-- Curseur Or Personnalisé PC & Aura Dorée Haute Couture -->
+  <div class="custom-cursor-dot" id="cursorDot"></div>
+  <div class="custom-cursor-follower" id="cursorFollower"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- ==========================================================================
+       BARRE D'ANNONCE SUPÉRIEURE (TOP BAR ZEGNA STYLE NOIR & OR)
+       ========================================================================== -->
+  <div class="top-bar">
+    <div class="top-bar-center">
+      AMÉLIOREZ VOTRE EXPÉRIENCE D’ACHAT. <a href="#catalog" onclick="scrollToCatalogSection(event)">DÉCOUVREZ NOS COLLECTIONS.</a>
+    </div>
+    <div class="top-bar-right">
+      <span id="activeShowroomLabel">YAOUNDÉ - LA FALAISE</span>
+      <span class="divider">|</span>
+      <a href="#store-locator" onclick="openRegionModal(event)">CHANGER SHOWROOM</a>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       EN-TÊTE & NAVIGATION PRINCIPALE (HEADER ZEGNA STYLE NOIR & OR)
+       ========================================================================== -->
+  <header class="main-header" id="mainHeader">
+    <div class="header-left">
+      <!-- Logo Officiel de la Maison -->
+      <a href="#home" class="brand-link" onclick="scrollToTopSection(event)" aria-label="L'Oréal Capitol Accueil">
+        <div class="brand-logo-frame">
+          <img src="assets/logo.jpg" alt="Logo L'Oréal Capitol" class="brand-logo-img">
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-logo">L'ORÉAL CAPITOL</span>
+          <span class="brand-sub">LA CAPITALE DU PRÊT À PORTER</span>
+        </div>
+      </a>
+
+      <!-- Menu Principal Zegna Style -->
+      <nav class="main-nav" id="mainNav">
+        <ul>
+          <li><a href="#home" onclick="scrollToTopSection(event)">Accueil</a></li>
+          <li><a href="#showroom-video">Vidéo 4K</a></li>
+          <li><a href="#lookbook">Éditorial</a></li>
+          <li><a href="#catalog" onclick="scrollToCatalogSection(event)">Collections</a></li>
+          <li><a href="#catalog" onclick="filterByNavCategory(event, 'Costume')">Costumes</a></li>
+          <li><a href="#catalog" onclick="filterByNavCategory(event, 'Chaussure Homme')">Souliers</a></li>
+          <li><a href="#services" onclick="scrollToServicesSection(event)">À Votre Service</a></li>
+          <li><a href="#store-locator" onclick="scrollToLocatorSection(event)">Store Locator (Yaoundé)</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Icônes d'Actions Zegna Style -->
+    <div class="header-icons">
+      <!-- Icône Recherche (Ouvre Search Overlay Plein Écran) -->
+      <a href="#" id="openSearchBtn" aria-label="Rechercher" title="Rechercher un modèle ou une pièce">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.6" fill="none">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </a>
+
+      <!-- Icône WhatsApp Direct -->
+      <a href="https://wa.me/237699942024?text=Bonjour%20Maison%20L'%C3%94r%C3%A9al%20Capitol,%20je%20souhaite%20r%C3%A9server%20un%20article." target="_blank" rel="noopener" aria-label="WhatsApp Showroom" title="Contacter un conseiller en direct">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.6" fill="none">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+      </a>
+
+      <!-- Icône Store Locator / GPS -->
+      <a href="#store-locator" onclick="scrollToLocatorSection(event)" aria-label="Store Locator" title="Localiser nos boutiques">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.6" fill="none">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+      </a>
+
+      <!-- Icône Réservation Directe / Panier (Tiroir Latéral) -->
+      <a href="#" id="openCartBtn" aria-label="Réservations" title="Ma sélection de réservation">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.6" fill="none">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="cart-badge" id="cartCountBadge" style="display: none;">0</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       SECTION HERO 1 : HAUTE CONFECTION ITALIENNE (MANNEQUIN NOIR EN COSTUME EXACT)
+       ========================================================================== -->
+  <section class="hero-section hero-1" id="home">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-subtitle">MAISON FONDÉE À YAOUNDÉ • HAUTE CONFECTION</p>
+      <h1 class="hero-title">L'ÉLÉGANCE PURE, SANS CONCESSION</h1>
+      <p class="hero-lead">
+        Costumes d'apparat confectionnés pour l'homme d'exception, parures exclusives et disponibilité en temps réel dans nos showrooms La Falaise et Tougou.
+      </p>
+      <div class="hero-btn-group">
+        <a href="#catalog" onclick="scrollToCatalogSection(event)" class="btn-primary">Découvrir les Collections</a>
+        <a href="#store-locator" onclick="scrollToLocatorSection(event)" class="btn-secondary">Store Locator Yaoundé</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION HERO 2 : SOULIERS D'APPARAT MACK JAMES & BERWICK
+       ========================================================================== -->
+  <section class="hero-section hero-2">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-subtitle">SOULIERS DE MAÎTRE & MAROQUINERIE</p>
+      <h2 class="hero-title">MACK JAMES & BERWICK</h2>
+      <p class="hero-lead">
+        Cousu Goodyear authentique, cuirs pleine fleur nobles et patines artisanales pour une allure incomparable.
+      </p>
+      <a href="#catalog" onclick="filterByNavCategory(event, 'Chaussure Homme')" class="btn-primary">Explorer les Souliers en Stock</a>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION SERVICES : « À VOTRE SERVICE » (GRILLE 3 COLONNES ZEGNA STYLE)
+       ========================================================================== -->
+  <section class="services-section" id="services">
+    <div class="container">
+      <h2 class="section-heading">À VOTRE SERVICE</h2>
+      <p class="section-subheading">L'excellence de la réception Haute Couture dans la capitale politique du Cameroun.</p>
+
+      <div class="services-grid">
+        <!-- Service 1 : Coupe Personnalisée -->
+        <div class="service-card" onclick="scrollToCatalogSection(event)">
+          <div class="service-img service-img-1"></div>
+          <p class="service-tag">COUPE PERSONNALISÉE</p>
+          <h3 class="service-title">DÉCOUVREZ LE SUR-MESURE</h3>
+          <p class="service-desc">Retouches d'apparat, patronage italien et finitions soignées pour sublimer chaque morphologie.</p>
+          <a href="#catalog" onclick="scrollToCatalogSection(event)" class="service-link">Découvrir la collection →</a>
+        </div>
+
+        <!-- Service 2 : Essayages en Boutique -->
+        <div class="service-card" onclick="openWhatsAppContact('falaise')">
+          <div class="service-img service-img-2"></div>
+          <p class="service-tag">ESSAYAGES EN BOUTIQUE</p>
+          <h3 class="service-title">PRENEZ RENDEZ-VOUS</h3>
+          <p class="service-desc">Réservez votre créneau privatisé à La Falaise ou Tougou pour un accompagnement sur-mesure.</p>
+          <span class="service-link">Réserver dès maintenant →</span>
+        </div>
+
+        <!-- Service 3 : Visite & Itinéraire GPS -->
+        <div class="service-card" onclick="scrollToLocatorSection(event)">
+          <div class="service-img service-img-3"></div>
+          <p class="service-tag">EXPÉRIENCE PRIVILÉGIÉE</p>
+          <h3 class="service-title">NOS DEUX SHOWROOMS</h3>
+          <p class="service-desc">Calculez instantanément votre itinéraire GPS en direct vers La Falaise ou Tougou à Yaoundé.</p>
+          <a href="#store-locator" onclick="scrollToLocatorSection(event)" class="service-link">Localiser sur le plan GPS →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION VIDÉO HAUTE CONFECTION : IMMERSION SHOWROOM 4K
+       ========================================================================== -->
+  <section class="video-showcase-section" id="showroom-video">
+    <div class="container">
+      <div class="video-section-header">
+        <span class="video-kicker">IMMERSION HAUTE CONFECTION • EXPÉRIENCE 4K</span>
+        <h2 class="video-title">L'Expérience Showroom en Vidéo</h2>
+        <p class="video-subtitle">
+          Pénétrez au cœur de la Maison L'Oréal Capitol à Yaoundé. Admirez la noblesse des tissus italiens, la précision de nos maîtres tailleurs et l'ambiance prestigieuse de nos salons.
+        </p>
+      </div>
+
+      <div class="video-player-frame">
+        <span class="video-player-badge">HAUTE CONFECTION YAOUNDÉ • 4K</span>
+        <video 
+          id="lorealShowcaseVideo" 
+          class="luxury-video-player" 
+          controls 
+          preload="metadata" 
+          playsinline
+        >
+          <source src="assets/loreal_showcase_video.mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la vidéo HTML5.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION STORE LOCATOR : STYLE ZEGNA (YAOUNDÉ) AVEC GPS EN DIRECT
+       ========================================================================== -->
+  <section class="store-locator-section" id="store-locator">
+    <div class="container">
+      
+      <!-- En-tête Store Locator Style Zegna -->
+      <div class="locator-header-band">
+        <span class="locator-kicker">RÉSEAU OFFICIEL DE LA MAISON</span>
+        <h2 class="locator-title">Store Locator — Yaoundé</h2>
+        <p class="locator-subtitle">
+          Retrouvez nos deux showrooms de prestige à Yaoundé. Cliquez sur « Itinéraire GPS en direct » pour calculer automatiquement la route la plus rapide depuis votre position.
+        </p>
+      </div>
+
+      <!-- Barre de Recherche Épurée Style Zegna Store Locator -->
+      <div class="locator-search-wrapper">
+        <div class="locator-search-bar">
+          <span class="loc-search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="locatorSearchInput" 
+            placeholder="Rechercher par nom de boutique, adresse, quartier (ex: Falaise, Tougou, Onembele)..." 
+            oninput="filterLocatorStores(this.value)"
+            aria-label="Recherche de boutique"
+          >
+          <button class="clear-loc-search" id="clearLocSearchBtn" onclick="clearLocatorSearch()" aria-label="Effacer" style="display: none;">✕</button>
+        </div>
+      </div>
+
+      <!-- Onglets Sélecteurs Zegna -->
+      <div class="locator-tabs-bar">
+        <button class="locator-tab-btn active" id="locTabAll" onclick="selectLocatorStore('all')">
+          <span>Toutes les Adresses (2)</span>
+        </button>
+        <button class="locator-tab-btn" id="locTabFalaise" onclick="selectLocatorStore('falaise')">
+          <span>Showroom La Falaise</span>
+        </button>
+        <button class="locator-tab-btn" id="locTabTougou" onclick="selectLocatorStore('tougou')">
+          <span>Showroom Tougou</span>
+        </button>
+      </div>
+
+      <!-- Grille des 2 Boutiques Style Zegna Store Locator -->
+      <div class="locator-cards-grid">
+        
+        <!-- Boutique 1 : La Falaise (Yaoundé) -->
+        <div class="zegna-store-card" id="cardStoreFalaise">
+          <div class="store-facade-banner">
+            <img src="assets/showroom_falaise_interior.jpg" alt="Intérieur Showroom La Falaise L'Oréal Capitol" class="store-facade-img">
+            <span class="store-facade-caption">Intérieur Showroom La Falaise (Rayons Souliers & Maroquinerie)</span>
+          </div>
+
+          <div class="store-card-header">
+            <span class="store-flag">SHOWROOM PRINCIPAL</span>
+            <h3 class="store-card-name">L'Oréal Capitol — LA FALAISE</h3>
+            <div class="store-address-badge">
+              <span class="pin">📍</span>
+              <strong>VGC8+58F, Yaoundé, Cameroun</strong>
+            </div>
+          </div>
+
+          <div class="store-card-body">
+            <div class="store-detail-row">
+              <span class="detail-label">🕒 Horaires d'ouverture :</span>
+              <span class="detail-value">Lundi au Samedi : 08h30 – 20h30</span>
+            </div>
+            <div class="store-detail-row">
+              <span class="detail-label">📞 Téléphones directs :</span>
+              <span class="detail-value">
+                <a href="tel:+237699942024">(+237) 699 94 20 24</a> / 
+                <a href="tel:+237694389584">694 38 95 84</a>
+              </span>
+            </div>
+            <div class="store-detail-row">
+              <span class="detail-label">✉️ Courriel officiel :</span>
+              <span class="detail-value">
+                <a href="mailto:lorealcapitol@gmail.com">lorealcapitol@gmail.com</a>
+              </span>
+            </div>
+            <div class="store-detail-row">
+              <span class="detail-label">✨ Spécialités en rayon :</span>
+              <span class="detail-value">Costumes d'Apparat, Souliers Mack James, Berwick, Chemises Royales</span>
+            </div>
+          </div>
+
+          <!-- Services en Boutique Style Zegna -->
+          <div class="store-services-list">
+            <span class="service-tag">✓ Retouches d'Apparat</span>
+            <span class="service-tag">✓ Essayage Privatisé</span>
+            <span class="service-tag">✓ Réservation Directe</span>
+          </div>
+
+          <!-- Actions GPS en Direct & Contact -->
+          <div class="store-card-actions">
+            <button class="store-gps-btn" onclick="openGpsRoute('falaise')">
+              <span class="gps-icon">🧭</span>
+              <span class="gps-label">
+                <strong>ITINÉRAIRE GPS EN DIRECT</strong>
+                <small>Calcul automatique depuis votre position</small>
+              </span>
+            </button>
+
+            <a href="https://wa.me/237699942024?text=Bonjour%20Maison%20L'%C3%94r%C3%A9al%20Capitol%20La%20Falaise%20(Yaound%C3%A9),%20je%20souhaite%20r%C3%A9server%20d%C3%A8s%20maintenant." target="_blank" rel="noopener" class="store-wa-reserve-btn">
+              <span>💬 Réserver dès maintenant</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Boutique 2 : Tougou (Yaoundé) -->
+        <div class="zegna-store-card" id="cardStoreTougou">
+          <div class="store-facade-banner">
+            <img src="assets/store_exterior_facade.jpg" alt="Façade Extérieure Boutique L'Oréal Capitol" class="store-facade-img">
+            <span class="store-facade-caption">Façade Extérieure du Magasin (Yaoundé)</span>
+          </div>
+
+          <div class="store-card-header">
+            <span class="store-flag">SHOWROOM MODE & CÉRÉMONIE</span>
+            <h3 class="store-card-name">L'Oréal Capitol — TOUGOU</h3>
+            <div class="store-address-badge">
+              <span class="pin">📍</span>
+              <strong>VGJF+W8C, Rue Onembele Nkou, Yaoundé, Cameroun</strong>
+            </div>
+          </div>
+
+          <div class="store-card-body">
+            <div class="store-detail-row">
+              <span class="detail-label">🕒 Horaires d'ouverture :</span>
+              <span class="detail-value">Lundi au Samedi : 08h30 – 20h30</span>
+            </div>
+            <div class="store-detail-row">
+              <span class="detail-label">📞 Téléphone direct :</span>
+              <span class="detail-value">
+                <a href="tel:+237670371820">(+237) 670 37 18 20</a>
+              </span>
+            </div>
+            <div class="store-detail-row">
+              <span class="detail-label">📍 Situation exacte :</span>
+              <span class="detail-value">Boulevard Commercial, Rue Onembele Nkou</span>
+            </div>
+            <div class="store-detail-row">
+              <span class="detail-label">✨ Spécialités en rayon :</span>
+              <span class="detail-value">Prêt-à-Porter Urbain Chic, Robes de Soirée, Ensembles & Accessoires</span>
+            </div>
+          </div>
+
+          <!-- Services en Boutique Style Zegna -->
+          <div class="store-services-list">
+            <span class="service-tag">✓ Conseil de Style</span>
+            <span class="service-tag">✓ Mises de Côté</span>
+            <span class="service-tag">✓ Réservation Directe</span>
+          </div>
+
+          <!-- Actions GPS en Direct & Contact -->
+          <div class="store-card-actions">
+            <button class="store-gps-btn" onclick="openGpsRoute('tougou')">
+              <span class="gps-icon">🧭</span>
+              <span class="gps-label">
+                <strong>ITINÉRAIRE GPS EN DIRECT</strong>
+                <small>Calcul automatique depuis votre position</small>
+              </span>
+            </button>
+
+            <a href="https://wa.me/237670371820?text=Bonjour%20Maison%20L'%C3%94r%C3%A9al%20Capitol%20Tougou%20(Yaound%C3%A9),%20je%20souhaite%20r%C3%A9server%20d%C3%A8s%20maintenant." target="_blank" rel="noopener" class="store-wa-reserve-btn">
+              <span>💬 Réserver dès maintenant</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Panneau Carte Interactive Zegna Style (Yaoundé) -->
+      <div class="locator-map-panel">
+        <div class="locator-map-header">
+          <div class="map-header-left">
+            <span class="map-kicker">CARTOGRAPHIE ZEGNA STYLE</span>
+            <h3 class="map-title">Plan Interactif des Showrooms à Yaoundé</h3>
+          </div>
+          <div class="map-header-right">
+            <span class="live-gps-badge">🛰️ Navigation GPS Directe Activée</span>
+          </div>
+        </div>
+
+        <div class="locator-map-visual">
+          <div class="map-canvas-mock">
+            <div class="map-grid-lines"></div>
+
+            <!-- Marqueur Showroom 1 : La Falaise -->
+            <div class="map-pin-marker pin-falaise" onclick="openGpsRoute('falaise')" title="Lancer l'itinéraire vers La Falaise">
+              <div class="pin-pulse"></div>
+              <div class="pin-bubble">
+                <span class="pin-icon">📍</span>
+                <div class="pin-texts">
+                  <strong>SHOWROOM LA FALAISE</strong>
+                  <small>VGC8+58F, Yaoundé</small>
+                </div>
+                <span class="pin-route-arrow">🧭</span>
+              </div>
+            </div>
+
+            <!-- Marqueur Showroom 2 : Tougou -->
+            <div class="map-pin-marker pin-tougou" onclick="openGpsRoute('tougou')" title="Lancer l'itinéraire vers Tougou">
+              <div class="pin-pulse"></div>
+              <div class="pin-bubble">
+                <span class="pin-icon">📍</span>
+                <div class="pin-texts">
+                  <strong>SHOWROOM TOUGOU</strong>
+                  <small>VGJF+W8C, Rue Onembele Nkou</small>
+                </div>
+                <span class="pin-route-arrow">🧭</span>
+              </div>
+            </div>
+
+            <div class="map-city-watermark">YAOUNDÉ</div>
+          </div>
+
+          <!-- Actions Rapides Navigation GPS -->
+          <div class="map-quick-actions">
+            <button class="map-nav-btn primary" onclick="openGpsRoute('falaise')">
+              <span class="ico">🧭</span>
+              <span>Itinéraire Direct : <strong>La Falaise</strong></span>
+            </button>
+            <button class="map-nav-btn secondary" onclick="openGpsRoute('tougou')">
+              <span class="ico">🧭</span>
+              <span>Itinéraire Direct : <strong>Tougou</strong></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION ÉDITORIAL LOOKBOOK HAUTE COUTURE (HOMME & FEMME)
+       ========================================================================== -->
+  <section class="editorial-lookbook-section" id="lookbook">
+    <div class="container">
+      <div class="editorial-header-band">
+        <span class="editorial-kicker">ÉDITORIAL HAUTE COUTURE • YAOUNDÉ</span>
+        <h2 class="editorial-title">L'Art de Paraître & la Haute Confection</h2>
+        <p class="editorial-subtitle">
+          Découvrez nos silhouettes exclusives portées avec distinction. De la saharienne d'apparat masculine aux parures plissées féminines, l'expression pure du chic camerounais et italien.
+        </p>
+      </div>
+
+      <div class="editorial-grid">
+        
+        <!-- CARTE 1 : HOMME EN SAHARIENNE SAFARI -->
+        <div class="editorial-card" onclick="setGenderFilter('homme'); scrollToCatalogSection(event);">
+          <div class="editorial-img-box">
+            <img src="assets/loreal_man_safari_jacket.jpg" alt="Mannequin Homme en Veste Saharienne L'Oréal Capitol" class="editorial-img" loading="lazy">
+            <span class="editorial-badge">👔 COLLECTION HOMME</span>
+          </div>
+          <div class="editorial-content">
+            <div>
+              <p class="editorial-meta">HAUTE CONFECTION MASCULINE</p>
+              <h3 class="editorial-card-title">Ensemble Saharienne Safari d'Apparat</h3>
+              <p class="editorial-card-desc">
+                Coupe 4 poches à rabat plaquées, tissu sergé beige impérial, boutons en corne naturelle et tombé parfait pour une distinction souveraine.
+              </p>
+            </div>
+            <a href="#catalog" class="editorial-btn" onclick="setGenderFilter('homme'); scrollToCatalogSection(event);">
+              Explorer la Collection Homme →
+            </a>
+          </div>
+        </div>
+
+        <!-- CARTE 2 : FEMME EN ENSEMBLE PLISSÉ -->
+        <div class="editorial-card" onclick="setGenderFilter('femme'); scrollToCatalogSection(event);">
+          <div class="editorial-img-box">
+            <img src="assets/loreal_woman_pleated_outfit.jpg" alt="Mannequin Femme en Ensemble Plissé L'Oréal Capitol" class="editorial-img" loading="lazy">
+            <span class="editorial-badge">👗 COLLECTION FEMME</span>
+          </div>
+          <div class="editorial-content">
+            <div>
+              <p class="editorial-meta">HAUTE COUTURE FÉMININE</p>
+              <h3 class="editorial-card-title">Ensemble Soie Plissée & Palazzo</h3>
+              <p class="editorial-card-desc">
+                Imprimé feuillage vert émeraude, plissé accordéon haute précision et pantalon palazzo fluide offrant un mouvement aérien et captivant.
+              </p>
+            </div>
+            <a href="#catalog" class="editorial-btn" onclick="setGenderFilter('femme'); scrollToCatalogSection(event);">
+              Explorer la Collection Femme →
+            </a>
+          </div>
+        </div>
+
+        <!-- CARTE 3 : GENTLEMAN EN COSTUME & CANNE -->
+        <div class="editorial-card" onclick="setGenderFilter('homme'); scrollToCatalogSection(event);">
+          <div class="editorial-img-box">
+            <img src="assets/loreal_gentleman_suit.jpg" alt="Gentleman L'Oréal Capitol en Veste et Canne de Maître" class="editorial-img" loading="lazy">
+            <span class="editorial-badge">🎩 DANDY D'APPARAT</span>
+          </div>
+          <div class="editorial-content">
+            <div>
+              <p class="editorial-meta">CÉRÉMONIE & MAÎTRISE</p>
+              <h3 class="editorial-card-title">L'Allure Royale & Dandysme</h3>
+              <p class="editorial-card-desc">
+                L'accord suprême du chapeau feutre bordeaux, nœud papillon en soie sauvage et complet sur-mesure magnifié par la canne d'apparat traditionnelle.
+              </p>
+            </div>
+            <a href="#catalog" class="editorial-btn" onclick="setGenderFilter('homme'); scrollToCatalogSection(event);">
+              Découvrir les Costumes Cérémonie →
+            </a>
+          </div>
+        </div>
+
+        <!-- CARTE 4 : COUPLE EN BLEU ROYAL AU SHOWROOM -->
+        <div class="editorial-card" onclick="scrollToLocatorSection(event);">
+          <div class="editorial-img-box">
+            <img src="assets/loreal_couple_boutique.jpg" alt="Couple en tenue de prestige au Showroom L'Oréal Capitol" class="editorial-img" loading="lazy">
+            <span class="editorial-badge">📍 EXPÉRIENCE SHOWROOM</span>
+          </div>
+          <div class="editorial-content">
+            <div>
+              <p class="editorial-meta">HARMONIE DUO & RÉCEPTION</p>
+              <h3 class="editorial-card-title">Parures Royales en Boutique</h3>
+              <p class="editorial-card-desc">
+                Costume trois pièces bleu royal et robe de gala coordonnée. Essayez vos créations de noces et de galas dans nos salons privatisés à Yaoundé.
+              </p>
+            </div>
+            <a href="#store-locator" class="editorial-btn" onclick="scrollToLocatorSection(event);">
+              Prendre Rendez-Vous Showroom →
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION CATALOGUE : COLLECTIONS EN TEMPS RÉEL (GRILLE 2 COLONNES STRICTES)
+       ========================================================================== -->
+  <section class="catalog-section" id="catalog">
+    <div class="container">
+
+      <!-- En-tête du Catalogue avec Contrôles -->
+      <div class="catalog-header">
+        
+        <div class="catalog-heading-block">
+          <div class="heading-badge">
+            <span class="dot"></span>
+            <span id="activeFilterBadge">COLLECTION GLOBALE • SHOWROOMS YAOUNDÉ</span>
+          </div>
+          <h2 class="section-title">Pièces Disponibles en Rayon</h2>
+          <p class="section-desc">
+            Chaque modèle regroupe l'ensemble des pointures et coloris actuellement présents en rayon à Yaoundé. 
+            Les photos s'affichent sans bordure blanche et s'agrandissent au survol ou au clic.
+          </p>
+        </div>
+
+        <!-- Switcher Homme / Femme -->
+        <div class="gender-pill-tabs">
+          <button class="pill-tab active" data-gender="all" onclick="setGenderFilter('all')">Tous</button>
+          <button class="pill-tab" data-gender="homme" onclick="setGenderFilter('homme')">👔 Homme</button>
+          <button class="pill-tab" data-gender="femme" onclick="setGenderFilter('femme')">👗 Femme</button>
+        </div>
+
+      </div>
+
+      <!-- BARRE D'OUTILS DE RECHERCHE ULTRA-ÉPURÉE & MINIMALISTE -->
+      <div class="filter-toolbar-minimal" id="filterToolbar">
+        
+        <!-- Champ de Recherche Compact Haute Couture -->
+        <div class="search-box-minimal">
+          <span class="search-ico">🔍</span>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Rechercher Mack James, Berwick, costume, taille..."
+            aria-label="Recherche de pièces"
+          >
+          <button class="clear-search-btn" id="clearSearchBtn" aria-label="Effacer">✕</button>
+        </div>
+
+        <!-- Filtres Déroulants Discrets -->
+        <div class="filter-pills-row">
+          
+          <div class="filter-pill-select">
+            <select id="categorySelect" aria-label="Catégorie">
+              <option value="all">Toutes les catégories</option>
+            </select>
+          </div>
+
+          <div class="filter-pill-select">
+            <select id="sizeSelect" aria-label="Taille">
+              <option value="all">Toutes les pointures/tailles</option>
+            </select>
+          </div>
+
+          <div class="filter-pill-select">
+            <select id="storeSelect" aria-label="Showroom">
+              <option value="all">Tous les showrooms (Yaoundé)</option>
+              <option value="falaise">La Falaise</option>
+              <option value="tougou">Tougou</option>
+            </select>
+          </div>
+
+          <!-- Compteur Compact -->
+          <div class="results-counter-pill" id="resultsCounter">
+            <span id="resultsCount">Chargement...</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- GRILLE DE PRODUITS : STRICTEMENT 2 COLONNES (MOBILE & DESKTOP) -->
+      <div class="products-grid" id="productsGrid">
+        <div class="grid-loading">
+          <div class="luxury-spinner"></div>
+          <p>Mise à disposition des collections de Yaoundé...</p>
+        </div>
+      </div>
+
+      <!-- Pagination / Voir Plus -->
+      <div class="pagination-wrapper" id="paginationWrapper" style="display: none;">
+        <button class="load-more-btn" id="loadMoreBtn">
+          <span>DÉCOUVRIR D'AUTRES PIÈCES</span>
+          <span class="arrow">↓</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MODAL DE DÉTAIL DU MODÈLE & RÉSERVATION DIRECTE
+       ========================================================================== -->
+  <div class="product-modal-backdrop" id="productModal" style="display: none;">
+    <div class="product-modal-card">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Fermer">✕</button>
+
+      <div class="modal-grid">
+        
+        <!-- Espace Photo avec prise de vue / galerie -->
+        <div class="modal-photo-col">
+          <div class="modal-photo-frame" id="modalPhotoFrame" title="Cliquez pour zoomer ou changer la photo">
+            <!-- Injecté dynamiquement par app.js -->
+          </div>
+          <div class="modal-photo-badge" id="modalStoreBadge">📍 Showroom La Falaise (Yaoundé)</div>
+        </div>
+
+        <!-- Informations Détaillées & Réservation -->
+        <div class="modal-details-col">
+          
+          <div class="modal-category" id="modalCategory">CHAUSSURE HOMME</div>
+          <h2 class="modal-title" id="modalTitle">Mack James</h2>
+          
+          <div class="modal-price-block">
+            <span class="price-val" id="modalPrice">150 000 FCFA</span>
+            <span class="tax-info">Prix officiel en boutique</span>
+          </div>
+
+          <!-- Badge Disponibilité Immédiate -->
+          <div class="modal-stock-status in-stock" id="modalStockStatus">
+            <span class="stock-dot"></span>
+            <span class="stock-text" id="modalStockText">Disponible immédiatement en boutique</span>
+          </div>
+
+          <div class="modal-specs-list">
+            <div class="spec-item">
+              <span class="spec-label">Référence :</span>
+              <span class="spec-val" id="modalRef">...</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Disponibilité :</span>
+              <span class="spec-val" id="modalUnits">...</span>
+            </div>
+            <div class="spec-item full-width">
+              <span class="spec-label">Teintes & Coloris Disponibles (Cliquez sur un cercle pour filtrer) :</span>
+              <div class="modal-swatches-container" id="modalSwatchesContainer"></div>
+              <span class="spec-val" id="modalColorsList" style="display: none;">...</span>
+            </div>
+            <div class="spec-item full-width">
+              <span class="spec-label">Pointures & Unités pour cette teinte :</span>
+              <div class="modal-sizes-chips" id="modalSizesChips"></div>
+              <span class="spec-val" id="modalSizesList" style="display: none;">...</span>
+            </div>
+            <div class="spec-item full-width">
+              <span class="spec-label">Showroom(s) détenteur(s) à Yaoundé :</span>
+              <span class="spec-val" id="modalStoreName">...</span>
+            </div>
+          </div>
+
+          <!-- Bouton Photo direct -->
+          <div class="modal-photo-action-row">
+            <button class="modal-photo-quick-btn" id="modalPhotoUploadBtn" type="button">
+              <span>📷 Photographier / Mettre à jour la photo de cette pièce</span>
+            </button>
+          </div>
+
+          <!-- Note de Réservation Directe -->
+          <div class="modal-advance-notice">
+            <span class="notice-icon">⚜️</span>
+            <p>
+              <strong>Service Conciergerie :</strong> Réservez ce modèle dès maintenant par WhatsApp. Nos conseillers préparent votre article pour votre essayage immédiat en boutique.
+            </p>
+          </div>
+
+          <!-- Bouton Commande Directe WhatsApp -->
+          <div class="modal-actions-area">
+            <button class="modal-wa-order-btn" id="modalWaBtn">
+              <span class="wa-ico">💬</span>
+              <span class="wa-btn-label">
+                <strong>RÉSERVER CE MODÈLE DÈS MAINTENANT</strong>
+                <small>Message automatique avec nom, référence, pointure et showroom</small>
+              </span>
+            </button>
+          </div>
+
+          <!-- GESTION DIRECTE DES COULEURS, TAILLES & UNITÉS DANS LE SITE WEB -->
+          <div class="modal-admin-variant-box" id="modalAdminVariantBox">
+            <button type="button" class="admin-variant-toggle-btn" id="adminVariantToggleBtn" onclick="toggleAdminVariantBox()">
+              <span class="admin-toggle-icon">⚙️</span>
+              <span class="admin-toggle-text">Gestion Déclinaisons & Stock (Couleur, Taille, Unités)</span>
+              <span class="admin-toggle-arrow" id="adminVariantToggleArrow">▼</span>
+            </button>
+
+            <div class="admin-variant-drawer" id="adminVariantDrawer" style="display: none;">
+              
+              <!-- 1. MODIFICATION DIRECTE DE LA DÉCLINAISON -->
+              <div class="admin-section-block">
+                <div class="admin-section-header">
+                  <span class="admin-badge-gold">MODIFICATION DIRECTE</span>
+                  <h4>Modifier la déclinaison sélectionnée</h4>
+                </div>
+                <p class="admin-hint-text">
+                  Modifiez directement le nom exact de la couleur, la taille / pointure, la référence, le prix et les unités (quantité de stock) pour cette pièce.
+                </p>
+
+                <div class="admin-form-grid">
+                  <div class="admin-input-group">
+                    <label for="webEditColor">Nom exact de la couleur :</label>
+                    <input type="text" id="webEditColor" class="admin-ctrl-input" placeholder="Ex: Bleu Crocco, Noir...">
+                  </div>
+                  <div class="admin-input-group">
+                    <label for="webEditSize">Taille / Pointure :</label>
+                    <input type="text" id="webEditSize" class="admin-ctrl-input" placeholder="Ex: 42, 43, L, XL...">
+                  </div>
+                  <div class="admin-input-group">
+                    <label for="webEditRef">Référence produit :</label>
+                    <input type="text" id="webEditRef" class="admin-ctrl-input" placeholder="Ex: MACK-J-01...">
+                  </div>
+                  <div class="admin-input-group">
+                    <label for="webEditPrice">Prix officiel (FCFA) :</label>
+                    <input type="number" id="webEditPrice" class="admin-ctrl-input" placeholder="150000">
+                  </div>
+                  <div class="admin-input-group">
+                    <label for="webEditStock">Unités (quantité en stock) :</label>
+                    <input type="number" id="webEditStock" class="admin-ctrl-input" placeholder="Ex: 5" min="0">
+                  </div>
+                </div>
+
+                <div class="admin-btn-row">
+                  <button type="button" class="admin-submit-btn" id="saveVariantWebBtn" onclick="saveActiveVariantFromWeb()">
+                    <span>💾 Enregistrer la modification</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 2. AJOUT DIRECT D'UNE NOUVELLE DÉCLINAISON -->
+              <div class="admin-section-block admin-new-decl-block">
+                <div class="admin-section-header">
+                  <span class="admin-badge-gold">NOUVELLE DÉCLINAISON</span>
+                  <h4>+ Ajouter une nouvelle couleur ou taille</h4>
+                </div>
+                <p class="admin-hint-text">
+                  Ajoutez immédiatement pour le même article une nouvelle couleur (ex: Bleu Crocco, Noir...), sa taille et son nombre d'unités sans avoir à recréer tout le produit.
+                </p>
+
+                <div class="admin-form-grid">
+                  <div class="admin-input-group">
+                    <label for="webNewColor">Nouvelle Couleur :</label>
+                    <input type="text" id="webNewColor" class="admin-ctrl-input" placeholder="Ex: Bleu Crocco, Noir, Marron...">
+                  </div>
+                  <div class="admin-input-group">
+                    <label for="webNewSize">Taille / Pointure :</label>
+                    <input type="text" id="webNewSize" class="admin-ctrl-input" placeholder="Ex: 42, 43, 44, M, L...">
+                  </div>
+                  <div class="admin-input-group">
+                    <label for="webNewStock">Nombre d'unités (stock) :</label>
+                    <input type="number" id="webNewStock" class="admin-ctrl-input" placeholder="1" min="1" value="1">
+                  </div>
+                  <div class="admin-input-group">
+                    <label for="webNewStore">Showroom détenteur :</label>
+                    <select id="webNewStore" class="admin-ctrl-input">
+                      <option value="falaise">La Falaise (Yaoundé)</option>
+                      <option value="tougou">Tougou (Yaoundé)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="admin-btn-row">
+                  <button type="button" class="admin-submit-btn admin-add-btn" id="addVariantWebBtn" onclick="addNewVariantFromWeb()">
+                    <span>✨ + Ajouter cette déclinaison au catalogue</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="admin-status-toast" id="adminStatusToast" style="display: none;"></div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL DE ZOOM HAUTE DÉFINITION (STYLE LOOKBOOK LUXE)
+       ========================================================================== -->
+  <div class="image-zoom-backdrop" id="imageZoomModal" style="display: none;" onclick="closeImageZoom(event)">
+    <div class="image-zoom-container" onclick="event.stopPropagation()">
+      <button class="zoom-close-btn" onclick="closeImageZoom()" aria-label="Fermer le zoom">✕</button>
+      
+      <div class="zoom-toolbar">
+        <button class="zoom-tool-btn" onclick="zoomInImg()" title="Agrandir (+)">+</button>
+        <button class="zoom-tool-btn" onclick="zoomOutImg()" title="Réduire (−)">−</button>
+        <button class="zoom-tool-btn" onclick="resetZoomImg()" title="Taille réelle (1:1)">1:1</button>
+      </div>
+
+      <div class="zoom-viewport" id="zoomViewport">
+        <img src="" alt="Vue haute définition" class="zoom-active-img" id="zoomActiveImg">
+      </div>
+
+      <div class="zoom-caption">
+        <span class="zoom-caption-title" id="zoomCaptionTitle">L'Oréal Capitol</span>
+        <span class="zoom-caption-ref" id="zoomCaptionRef">Showrooms Yaoundé • Zoom haute résolution</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ACTION SHEET D'AJOUT DE PHOTO (Caméra en direct ou Galerie)
+       ========================================================================== -->
+  <div class="photo-modal-backdrop" id="photoActionModal" style="display: none;">
+    <div class="photo-action-sheet">
+      <div class="photo-sheet-header">
+        <span class="sheet-sub">PHOTO DE L'ARTICLE • L'ORÉAL CAPITOL</span>
+        <h3 class="sheet-title" id="photoTargetTitle">Mettre à jour la photo</h3>
+        <p class="sheet-desc" id="photoTargetRef">RÉFÉRENCE</p>
+        <div class="photo-studio-info-pill">
+          <span class="sparkle-icon">✨</span>
+          <span>Votre photo reste telle que vous la prenez ou l'importez • Optimisation automatique de la qualité et du poids pour un affichage rapide et net</span>
+        </div>
+      </div>
+      
+      <div class="photo-action-buttons">
+        <button class="sheet-btn-action primary" id="btnSnapPhoto" type="button">
+          <span class="btn-icon">📷</span>
+          <span class="btn-text">
+            <strong>Prendre une photo en direct</strong>
+            <small>Activer l'appareil photo du smartphone ou de la tablette</small>
+          </span>
+        </button>
+
+        <button class="sheet-btn-action" id="btnPickGallery" type="button">
+          <span class="btn-icon">🖼️</span>
+          <span class="btn-text">
+            <strong>Choisir dans la galerie</strong>
+            <small>Sélectionner une photo depuis vos albums ou fichiers</small>
+          </span>
+        </button>
+
+        <button class="sheet-btn-action cancel" id="btnCancelPhoto" type="button">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       OVERLAYS INTERACTIFS ZEGNA (FOND ASSOMBRI, PANIER, RECHERCHE, SHOWROOMS)
+       ========================================================================== -->
+  <div class="ui-backdrop" id="uiBackdrop"></div>
+
+  <!-- A. Tiroir Panier / Réservations Latéral -->
+  <aside class="ui-drawer" id="cartDrawer">
+    <div class="drawer-header">
+      <span>VOTRE SÉLECTION DE RÉSERVATION</span>
+      <button class="close-btn" id="closeCartBtn" aria-label="Fermer">&times;</button>
+    </div>
+    <div class="drawer-body" id="cartDrawerBody">
+      <p>Votre sélection est actuellement vide.</p>
+      <button class="drawer-btn" onclick="scrollToCatalogSection(event)">Découvrir les Collections</button>
+    </div>
+  </aside>
+
+  <!-- B. Barre de Recherche Plein Écran Zegna Style -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-container">
+      <div class="search-input-group">
+        <input type="text" id="zegnaSearchInput" placeholder="Que recherchez-vous ? (ex: Costume, Mack James, Berwick...)">
+        <button class="close-btn" id="closeSearchOverlayBtn" aria-label="Fermer">&times;</button>
+      </div>
+      <div class="search-suggestions">
+        Recherches fréquentes :
+        <span onclick="applyQuickSearch('Mack James')">Mack James</span>
+        <span onclick="applyQuickSearch('Berwick')">Berwick</span>
+        <span onclick="applyQuickSearch('Costume')">Costumes Italiens</span>
+        <span onclick="applyQuickSearch('Albacost')">Albacost</span>
+        <span onclick="applyQuickSearch('La Falaise')">La Falaise</span>
+        <span onclick="applyQuickSearch('Tougou')">Tougou</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- C. Modale Showroom / Emplacement Zegna Style -->
+  <div class="region-modal" id="regionModal">
+    <div class="drawer-header">
+      <span>SÉLECTIONNEZ VOTRE SHOWROOM À YAOUNDÉ</span>
+      <button class="close-btn" id="closeRegionBtn" aria-label="Fermer">&times;</button>
+    </div>
+    <div class="region-grid">
+      <div class="region-item" onclick="selectShowroomAndClose('falaise')">
+        <div>
+          <strong>Showroom La Falaise</strong>
+          <small style="display:block; color:#9ba1b0;">VGC8+58F, Yaoundé</small>
+        </div>
+        <span class="gold-badge">FLAGSHIP</span>
+      </div>
+      <div class="region-item" onclick="selectShowroomAndClose('tougou')">
+        <div>
+          <strong>Showroom Tougou</strong>
+          <small style="display:block; color:#9ba1b0;">Rue Onembele Nkou</small>
+        </div>
+        <span class="gold-badge">MODE & CÉRÉMONIE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MOBILE BOTTOM NAVIGATION BAR (iOS / ANDROID)
+       ========================================================================== -->
+  <nav class="mobile-bottom-nav">
+    <a href="#home" class="mobile-nav-item active" id="mNavHome" onclick="scrollToTopSection(event)">
+      <span class="m-icon">⚜️</span>
+      <span>Accueil</span>
+    </a>
+    <a href="#catalog" class="mobile-nav-item" id="mNavCatalog" onclick="scrollToCatalogSection(event)">
+      <span class="m-icon">👔</span>
+      <span>Collections</span>
+    </a>
+    <a href="#store-locator" class="mobile-nav-item" id="mNavLocator" onclick="scrollToLocatorSection(event)">
+      <span class="m-icon">📍</span>
+      <span>Showrooms</span>
+    </a>
+    <a href="https://wa.me/237699942024?text=Bonjour%20Maison%20L'%C3%94r%C3%A9al%20Capitol,%20je%20souhaite%20r%C3%A9server%20un%20article." target="_blank" rel="noopener" class="mobile-nav-item wa">
+      <span class="m-icon">💬</span>
+      <span>Réserver</span>
+    </a>
+  </nav>
+
+  <!-- ==========================================================================
+       PIED DE PAGE (FOOTER ZEGNA STYLE NOIR & OR)
+       ========================================================================== -->
+  <footer class="main-footer">
+    <div class="container">
+      
+      <!-- Newsletter Box -->
+      <div class="newsletter-box">
+        <h4>NEWSLETTER HAUTE COUTURE</h4>
+        <p>Inscrivez-vous pour profiter d'aperçus exclusifs, des arrivages de souliers et des nouvelles collections de la Maison à Yaoundé.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="Saisissez votre adresse électronique *" required>
+          <button type="submit" aria-label="S'inscrire">→</button>
+        </form>
+      </div>
+
+      <!-- Grille des Liens Zegna Style -->
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h5>À VOTRE SERVICE</h5>
+          <ul>
+            <li><a href="https://wa.me/237699942024" target="_blank" rel="noopener">Nous Contacter (WhatsApp)</a></li>
+            <li><a href="#store-locator" onclick="scrollToLocatorSection(event)">Nos 2 Showrooms à Yaoundé</a></li>
+            <li><a href="#store-locator" onclick="openGpsRoute('falaise')">Itinéraire La Falaise (GPS)</a></li>
+            <li><a href="#store-locator" onclick="openGpsRoute('tougou')">Itinéraire Tougou (GPS)</a></li>
+            <li><a href="https://wa.me/237699942024" target="_blank" rel="noopener">Prendre Rendez-Vous Privé</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>MAISON L'ORÉAL CAPITOL</h5>
+          <ul>
+            <li><a href="#home" onclick="scrollToTopSection(event)">Notre Maison</a></li>
+            <li><a href="#catalog" onclick="filterByNavCategory(event, 'Costume')">Costumes d'Apparat</a></li>
+            <li><a href="#catalog" onclick="filterByNavCategory(event, 'Chaussure Homme')">Souliers Mack James</a></li>
+            <li><a href="#catalog" onclick="filterByNavCategory(event, 'Chaussure Homme')">Souliers Berwick</a></li>
+            <li><a href="#catalog" onclick="filterByNavCategory(event, 'Albacost')">Albacost & Cérémonie</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>SHOWROOMS YAOUNDÉ</h5>
+          <ul>
+            <li><a href="tel:+237699942024">La Falaise : (+237) 699 94 20 24</a></li>
+            <li><a href="tel:+237694389584">La Falaise 2 : (+237) 694 38 95 84</a></li>
+            <li><a href="tel:+237670371820">Tougou : (+237) 670 37 18 20</a></li>
+            <li><a href="mailto:lorealcapitol@gmail.com">lorealcapitol@gmail.com</a></li>
+            <li><a href="#store-locator" onclick="scrollToLocatorSection(event)">Horaires : 08h30 – 20h30</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <button class="footer-back-to-top" onclick="scrollToTopSection(event)" aria-label="Remonter en haut de page">
+          <span class="arrow">↑</span>
+          <span>REMONTER EN HAUT DE PAGE</span>
+        </button>
+        <p>© 2026 Maison L'Oréal Capitol — La Capitale du Prêt-à-Porter | Yaoundé, Cameroun. Tous droits réservés.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       BOUTON FLOTTANT DE REMONTÉE AUTOMATIQUE (BACK TO TOP ZEGNA NOIR & OR)
+       ========================================================================== -->
+  <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTopSection(event)" aria-label="Remonter automatiquement en haut de page" title="Remonter en haut">
+    <span class="scroll-top-icon">↑</span>
+    <span class="scroll-top-label">HAUT</span>
+  </button>
+
+  <script src="catalog-snapshot.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

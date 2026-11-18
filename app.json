@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "loreal-capitol-app",
+    "slug": "loreal-capitol-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.itzmarco237.lorealcapitol"
+    },
+    "android": {
+      "package": "com.itzmarco237.lorealcapitol",
+      "adaptiveIcon": {
+        "backgroundColor": "#121212",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "L'Oréal Capitol",
+      "shortName": "L'Oréal Capitol",
+      "themeColor": "#121212",
+      "backgroundColor": "#121212",
+      "display": "standalone",
+      "orientation": "portrait"
+    },
+    "plugins": [
+      "expo-sqlite",
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "64befa24-5dca-402a-8db8-58a7154f4d4f"
+      }
+    },
+    "owner": "itzmarco237"
+  }
+}
