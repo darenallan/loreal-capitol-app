@@ -5,6 +5,7 @@ import { ref, onValue } from 'firebase/database';
 import { Truck, MapPin, CheckCircle2, Clock, Navigation, ChevronRight, ChevronLeft, ShieldCheck, Sparkles, Radio, ExternalLink, Settings, XCircle, RotateCcw } from 'lucide-react-native';
 import { confirmTransferReceipt, isUserAdmin, updateTransferLocation, cancelTransfer, returnUnsoldTransfer } from '../db/database';
 import StoreLocationModal from './StoreLocationModal';
+import { colors, alpha } from '../theme';
 
 interface LiveTransferBannerProps {
   user: any;
@@ -279,20 +280,20 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
 
         {activeTransfers.length > 1 && (
           <View style={styles.pagination}>
-            <TouchableOpacity 
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Précédent" hitSlop={{ top: 8, bottom: 8 }} 
               disabled={currentIndex === 0} 
               onPress={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
               style={[styles.pageBtn, currentIndex === 0 && { opacity: 0.3 }]}
             >
-              <ChevronLeft color="#d4af37" size={16} />
+              <ChevronLeft color={colors.gold} size={16} />
             </TouchableOpacity>
             <Text style={styles.pageText}>{currentIndex + 1} / {activeTransfers.length}</Text>
-            <TouchableOpacity 
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Suivant" hitSlop={{ top: 8, bottom: 8 }} 
               disabled={currentIndex === activeTransfers.length - 1} 
               onPress={() => setCurrentIndex(prev => Math.min(activeTransfers.length - 1, prev + 1))}
               style={[styles.pageBtn, currentIndex === activeTransfers.length - 1 && { opacity: 0.3 }]}
             >
-              <ChevronRight color="#d4af37" size={16} />
+              <ChevronRight color={colors.gold} size={16} />
             </TouchableOpacity>
           </View>
         )}
@@ -315,19 +316,19 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
               {currentTransfer.color ? `Couleur: ${currentTransfer.color} • ` : ''}
               {currentTransfer.category ? `Catégorie: ${currentTransfer.category} • ` : ''}
               {currentTransfer.price ? `${Number(currentTransfer.price).toLocaleString()} FCFA • ` : ''}
-              Demandé par <Text style={{ color: '#d4af37', fontWeight: 'bold' }}>{currentTransfer.requested_by_name || currentTransfer.sender_name || currentTransfer.user_name || 'Vendeur'}</Text>
+              Demandé par <Text style={{ color: colors.gold, fontWeight: 'bold' }}>{currentTransfer.requested_by_name || currentTransfer.sender_name || currentTransfer.user_name || 'Vendeur'}</Text>
             </Text>
           </View>
 
           {/* Badge du rôle de la personne connectée */}
           {isSender && (
-            <View style={[styles.roleTag, { backgroundColor: '#332410', borderColor: '#FF9800' }]}>
-              <Text style={{ color: '#FF9800', fontSize: 10, fontWeight: 'bold' }}>📤 Vous avez envoyé</Text>
+            <View style={[styles.roleTag, { backgroundColor: '#332410', borderColor: colors.warning }]}>
+              <Text style={{ color: colors.warning, fontSize: 12, fontWeight: 'bold' }}>📤 Vous avez envoyé</Text>
             </View>
           )}
           {isAssignedCarrier && (
-            <View style={[styles.roleTag, { backgroundColor: '#103020', borderColor: '#4CAF50' }]}>
-              <Text style={{ color: '#4CAF50', fontSize: 10, fontWeight: 'bold' }}>🏍️ Vous êtes coursier</Text>
+            <View style={[styles.roleTag, { backgroundColor: '#103020', borderColor: colors.success }]}>
+              <Text style={{ color: colors.success, fontSize: 12, fontWeight: 'bold' }}>🏍️ Vous êtes coursier</Text>
             </View>
           )}
         </View>
@@ -343,8 +344,8 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
           </View>
 
           <View style={[styles.etaBadge, progressData.isArrived && styles.etaBadgeArrived]}>
-            <Clock color={progressData.isArrived ? '#4CAF50' : '#d4af37'} size={14} />
-            <Text style={[styles.etaText, progressData.isArrived && { color: '#4CAF50' }]}>
+            <Clock color={progressData.isArrived ? colors.success : colors.gold} size={14} />
+            <Text style={[styles.etaText, progressData.isArrived && { color: colors.success }]}>
               {progressData.timeLeftText}
             </Text>
           </View>
@@ -355,7 +356,7 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
           {/* Ligne des magasins Départ -> Arrivée avec Adresses */}
           <View style={styles.routeHeader}>
             <View style={styles.storePin}>
-              <View style={[styles.pinCircle, { backgroundColor: '#d4af37' }]} />
+              <View style={[styles.pinCircle, { backgroundColor: colors.gold }]} />
               <View>
                 <Text style={styles.storeName}>📍 {fromLabel}</Text>
                 {currentTransfer.from_address && (
@@ -377,7 +378,7 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
             </View>
 
             <View style={[styles.storePin, { alignItems: 'flex-end' }]}>
-              <View style={[styles.pinCircle, { backgroundColor: progressData.isArrived ? '#4CAF50' : '#ff9800' }]} />
+              <View style={[styles.pinCircle, { backgroundColor: progressData.isArrived ? colors.success : colors.warning }]} />
               <View style={{ alignItems: 'flex-end' }}>
                 <Text style={styles.storeName}>🏁 {toLabel}</Text>
                 {currentTransfer.to_address && (
@@ -412,10 +413,10 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
               onPress={handleConfirmReceipt}
             >
               {confirmingId === currentTransfer.id ? (
-                <ActivityIndicator size="small" color="#121212" />
+                <ActivityIndicator size="small" color={colors.onGold} />
               ) : (
                 <>
-                  <CheckCircle2 color="#121212" size={16} />
+                  <CheckCircle2 color={colors.onGold} size={16} />
                   <Text style={styles.validateBtnText}>Valider la Réception & Stock</Text>
                 </>
               )}
@@ -439,7 +440,7 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
               }
             }}
           >
-            <Navigation color="#2196F3" size={14} />
+            <Navigation color={colors.info} size={14} />
             <Text style={styles.gmapsBtnText}>🗺️ Voir le Chemin GPS</Text>
           </TouchableOpacity>
 
@@ -448,8 +449,8 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
               style={[styles.gpsBtn, gpsActive && styles.gpsBtnActive]} 
               onPress={toggleGpsTracking}
             >
-              <Radio color={gpsActive ? '#4CAF50' : '#aaa'} size={14} />
-              <Text style={[styles.gpsBtnText, gpsActive && { color: '#4CAF50' }]}>
+              <Radio color={gpsActive ? colors.success : '#aaa'} size={14} />
+              <Text style={[styles.gpsBtnText, gpsActive && { color: colors.success }]}>
                 {gpsActive ? 'GPS Actif 🟢' : 'Partager GPS'}
               </Text>
             </TouchableOpacity>
@@ -460,7 +461,7 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
             style={styles.settingsBtn} 
             onPress={() => setShowLocationModal(true)}
           >
-            <MapPin color="#d4af37" size={14} />
+            <MapPin color={colors.gold} size={14} />
             <Text style={styles.settingsBtnText}>Adresses GPS</Text>
           </TouchableOpacity>
 
@@ -469,7 +470,7 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
             style={styles.cancelBtn} 
             onPress={handleCancelTransfer}
           >
-            <XCircle color="#ff5252" size={14} />
+            <XCircle color={colors.danger} size={14} />
             <Text style={styles.cancelBtnText}>Annuler</Text>
           </TouchableOpacity>
 
@@ -478,7 +479,7 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
             style={styles.unsoldBtn} 
             onPress={handleReturnUnsold}
           >
-            <RotateCcw color="#FF9800" size={14} />
+            <RotateCcw color={colors.warning} size={14} />
             <Text style={styles.unsoldBtnText}>Pas Vendu (Retour)</Text>
           </TouchableOpacity>
 
@@ -492,7 +493,7 @@ export default function LiveTransferBanner({ user, currentStore, onOpenDetails, 
               }
             }}
           >
-            <Navigation color="#d4af37" size={14} />
+            <Navigation color={colors.gold} size={14} />
             <Text style={styles.detailsBtnText}>Voir le Suivi</Text>
           </TouchableOpacity>
         </View>
@@ -514,10 +515,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 16,
     overflow: 'hidden',
-    backgroundColor: '#181818',
+    backgroundColor: colors.surfaceSolid,
     borderWidth: 1.5,
-    borderColor: '#d4af37',
-    shadowColor: '#d4af37',
+    borderColor: colors.gold,
+    shadowColor: colors.gold,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 10,
@@ -542,23 +543,23 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#00e676',
-    shadowColor: '#00e676',
+    backgroundColor: colors.success,
+    shadowColor: colors.success,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.9,
     shadowRadius: 4,
     elevation: 4,
   },
   liveTitle: {
-    color: '#d4af37',
-    fontSize: 11,
+    color: colors.gold,
+    fontSize: 12,
     fontWeight: '900',
     letterSpacing: 0.8,
   },
   liveBadge: {
     backgroundColor: '#00e67622',
-    color: '#00e676',
-    fontSize: 9,
+    color: colors.success,
+    fontSize: 12,
     fontWeight: 'bold',
     paddingHorizontal: 6,
     paddingVertical: 2,
@@ -577,8 +578,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   pageText: {
-    color: '#d4af37',
-    fontSize: 11,
+    color: colors.gold,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   card: {
@@ -597,20 +598,20 @@ const styles = StyleSheet.create({
   },
   qtyBadge: {
     backgroundColor: '#d4af3722',
-    borderColor: '#d4af37',
+    borderColor: colors.gold,
     borderWidth: 1,
     borderRadius: 6,
     paddingHorizontal: 6,
     paddingVertical: 1,
   },
   qtyBadgeText: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 12,
     fontWeight: 'bold',
   },
   productSub: {
-    color: '#888',
-    fontSize: 11,
+    color: colors.textMuted,
+    fontSize: 12,
     marginTop: 3,
   },
   roleTag: {
@@ -638,11 +639,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   carrierLabel: {
-    color: '#888',
+    color: colors.textMuted,
     fontSize: 12,
   },
   carrierName: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 13,
     fontWeight: 'bold',
   },
@@ -651,7 +652,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 5,
     backgroundColor: '#2a2008',
-    borderColor: '#d4af3766',
+    borderColor: alpha(colors.gold, 0.4),
     borderWidth: 1,
     paddingHorizontal: 8,
     paddingVertical: 3,
@@ -662,17 +663,17 @@ const styles = StyleSheet.create({
     borderColor: '#4CAF5066',
   },
   etaText: {
-    color: '#d4af37',
-    fontSize: 11,
+    color: colors.gold,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   routeContainer: {
-    backgroundColor: '#121212',
+    backgroundColor: colors.bgElevated,
     padding: 12,
     borderRadius: 10,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#262626',
+    borderColor: colors.border,
   },
   routeHeader: {
     flexDirection: 'row',
@@ -691,7 +692,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   storeName: {
-    color: '#ddd',
+    color: colors.textSecondary,
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -701,19 +702,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   stageLabelText: {
-    color: '#d4af37',
-    fontSize: 11,
+    color: colors.gold,
+    fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   progressPercentText: {
-    color: '#777',
-    fontSize: 10,
+    color: colors.textMuted,
+    fontSize: 12,
     marginTop: 2,
   },
   routeTrack: {
     height: 6,
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.surfaceStrong,
     borderRadius: 3,
     position: 'relative',
     marginHorizontal: 4,
@@ -724,7 +725,7 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     borderRadius: 3,
   },
   movingVehicle: {
@@ -738,8 +739,8 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     padding: 3,
     borderWidth: 1.5,
-    borderColor: '#d4af37',
-    shadowColor: '#d4af37',
+    borderColor: colors.gold,
+    shadowColor: colors.gold,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.6,
     shadowRadius: 4,
@@ -753,7 +754,7 @@ const styles = StyleSheet.create({
     bottom: -2,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#d4af3766',
+    borderColor: alpha(colors.gold, 0.4),
   },
   actionRow: {
     flexDirection: 'row',
@@ -767,13 +768,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     paddingVertical: 9,
     paddingHorizontal: 12,
     borderRadius: 8,
   },
   validateBtnText: {
-    color: '#121212',
+    color: colors.onGold,
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -782,26 +783,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
     backgroundColor: '#202020',
-    borderColor: '#444',
+    borderColor: colors.borderStrong,
     borderWidth: 1,
     paddingVertical: 8,
     paddingHorizontal: 10,
     borderRadius: 8,
   },
   gpsBtnActive: {
-    borderColor: '#4CAF50',
+    borderColor: colors.success,
     backgroundColor: '#0a200a',
   },
   gpsBtnText: {
-    color: '#aaa',
-    fontSize: 11,
+    color: colors.textTertiary,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   detailsBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#252525',
+    backgroundColor: colors.surfaceStrong,
     borderColor: '#d4af3755',
     borderWidth: 1,
     paddingVertical: 8,
@@ -809,19 +810,19 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   detailsBtnText: {
-    color: '#d4af37',
-    fontSize: 11,
+    color: colors.gold,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   storeAddressText: {
-    color: '#777',
-    fontSize: 9,
+    color: colors.textMuted,
+    fontSize: 12,
     maxWidth: 120,
     marginTop: 1,
   },
   etaClockText: {
-    color: '#00e676',
-    fontSize: 10,
+    color: colors.success,
+    fontSize: 12,
     fontWeight: 'bold',
     marginTop: 2,
   },
@@ -830,15 +831,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
     backgroundColor: '#102030',
-    borderColor: '#2196F3',
+    borderColor: colors.info,
     borderWidth: 1,
     paddingVertical: 8,
     paddingHorizontal: 10,
     borderRadius: 8,
   },
   gmapsBtnText: {
-    color: '#2196F3',
-    fontSize: 11,
+    color: colors.info,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   settingsBtn: {
@@ -846,15 +847,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
     backgroundColor: '#241c08',
-    borderColor: '#d4af3766',
+    borderColor: alpha(colors.gold, 0.4),
     borderWidth: 1,
     paddingVertical: 8,
     paddingHorizontal: 10,
     borderRadius: 8,
   },
   settingsBtnText: {
-    color: '#d4af37',
-    fontSize: 11,
+    color: colors.gold,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   cancelBtn: {
@@ -869,8 +870,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   cancelBtnText: {
-    color: '#ff5252',
-    fontSize: 11,
+    color: colors.danger,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   unsoldBtn: {
@@ -885,8 +886,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   unsoldBtnText: {
-    color: '#FF9800',
-    fontSize: 11,
+    color: colors.warning,
+    fontSize: 12,
     fontWeight: 'bold',
   },
 });

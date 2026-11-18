@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { PlusCircle, ScanLine, Camera, ArrowRightLeft } from 'lucide-react-native';
 import { colors, fonts, radius } from '../../theme';
 import { GlassCard, PressableScale, useResponsive } from '../../ui';
+import { alpha } from '../../theme';
 
 export interface LedgerActionsGridProps {
   r: ReturnType<typeof useResponsive>;
@@ -27,7 +28,7 @@ export default function LedgerActionsGrid({
         onPress={openNewSaleModal}
       >
         <GlassCard style={styles.actionCard} glow="gold">
-          <View style={[styles.actionIconCircle, { backgroundColor: 'rgba(212, 175, 55, 0.15)', borderColor: colors.gold }]}>
+          <View style={[styles.actionIconCircle, { backgroundColor: alpha(colors.gold, 0.15), borderColor: colors.gold }]}>
             <PlusCircle color={colors.gold} size={22} />
           </View>
           <Text style={styles.actionCardTitle}>Vente Manuelle</Text>
@@ -40,7 +41,7 @@ export default function LedgerActionsGrid({
         onPress={() => { setScannerMode('sale'); setScannerVisible(true); }}
       >
         <GlassCard style={styles.actionCard}>
-          <View style={[styles.actionIconCircle, { backgroundColor: 'rgba(255, 255, 255, 0.05)', borderColor: colors.glassBorder }]}>
+          <View style={[styles.actionIconCircle, { backgroundColor: colors.surface, borderColor: colors.glassBorder }]}>
             <Camera color={colors.gold} size={22} />
           </View>
           <Text style={styles.actionCardTitle}>Scanner Article</Text>
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   },
   actionCardDesc: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
     fontFamily: fonts.sans,
   },

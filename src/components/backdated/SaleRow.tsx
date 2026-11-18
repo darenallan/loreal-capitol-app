@@ -79,6 +79,6 @@ const styles = StyleSheet.create({
   note: { fontFamily: fonts.displayItalic, fontSize: 13, color: colors.textSecondary, marginTop: 2 },
   right: { alignItems: 'flex-end', gap: 2 },
   amount: { fontFamily: fonts.extrabold, fontSize: 16, color: colors.textPrimary, fontVariant: ['tabular-nums'] },
-  currency: { fontFamily: fonts.semibold, fontSize: 10.5, color: colors.textMuted },
+  currency: { fontFamily: fonts.semibold, fontSize: 12, color: colors.textMuted },
   deleteBtn: { marginTop: 8 },
 });

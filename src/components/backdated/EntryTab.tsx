@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   switchLabel: { fontFamily: fonts.bold, fontSize: 14.5, color: colors.textPrimary },
   switchHint: { fontFamily: fonts.medium, fontSize: 12.5, color: colors.textMuted, marginTop: 2 },
   recap: { gap: 8 },
-  recapEyebrow: { fontFamily: fonts.bold, fontSize: 11, letterSpacing: 2, color: colors.gold, marginBottom: 2 },
+  recapEyebrow: { fontFamily: fonts.bold, fontSize: 12, letterSpacing: 2, color: colors.gold, marginBottom: 2 },
   recapRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 },
   recapKey: { fontFamily: fonts.medium, fontSize: 13.5, color: colors.textSecondary },
   recapValue: { flexShrink: 1, fontFamily: fonts.bold, fontSize: 14, color: colors.textPrimary, textAlign: 'right', textTransform: 'capitalize' },

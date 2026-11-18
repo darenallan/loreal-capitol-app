@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   insightText: { ...type.caption, color: colors.success, marginBottom: 15, fontStyle: 'italic' },
   chartArea: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-around', height: 160, paddingTop: 20 },
   barWrapper: { alignItems: 'center', flex: 1 },
-  barValue: { color: colors.textSecondary, fontSize: 9, marginBottom: 4 },
+  barValue: { color: colors.textSecondary, fontSize: 11, marginBottom: 4 },
   bar: { width: 16, borderRadius: 4, minWidth: 12 },
-  barLabel: { color: colors.textMuted, fontSize: 10, marginTop: 6, textAlign: 'center' },
+  barLabel: { color: colors.textMuted, fontSize: 11, marginTop: 6, textAlign: 'center' },
 });

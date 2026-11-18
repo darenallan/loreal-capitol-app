@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Modal, ActivityIndicator } from 'react-native';
 import { ShieldCheck, Radio, X } from 'lucide-react-native';
 import { theme } from '../theme';
 import { PressableScale, GoldButton } from '../ui';
+import { colors, alpha } from '../theme';
 
 interface NfcAuthModalProps {
   visible: boolean;
@@ -35,7 +36,7 @@ export default function NfcAuthModal({ visible, onClose, onSuccess, actionText }
               <Text style={styles.title}>Autorisation Superviseur</Text>
               <Text style={styles.subtitle}>Validation par badge NFC ou clé maître</Text>
             </View>
-            <PressableScale onPress={onClose} style={styles.closeBtn}>
+            <PressableScale accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={onClose} style={styles.closeBtn}>
               <X color={theme.colors.textMuted} size={18} />
             </PressableScale>
           </View>
@@ -57,7 +58,7 @@ export default function NfcAuthModal({ visible, onClose, onSuccess, actionText }
             ) : (
               <GoldButton
                 label="Simuler Badge NFC Boss"
-                icon={<Radio color="#07070A" size={18} />}
+                icon={<Radio color={colors.onGold} size={18} />}
                 onPress={simulateNfcScan}
                 style={{ width: '100%', marginTop: 8 }}
               />
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 420,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.35)',
+    borderColor: alpha(colors.gold, 0.35),
     ...theme.shadows.glowGold,
   },
   header: {
@@ -101,9 +102,9 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(212, 175, 55, 0.12)',
+    backgroundColor: alpha(colors.gold, 0.12),
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -116,28 +117,28 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: theme.colors.textMuted,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
   },
   closeBtn: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
   },
   infoBox: {
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     padding: 14,
     borderRadius: theme.radius.md,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: colors.border,
     marginBottom: 16,
   },
   infoText: {
     color: theme.colors.textSecondary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -154,15 +155,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(10, 10, 14, 0.8)',
     borderRadius: theme.radius.lg,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.2)',
+    borderColor: alpha(colors.gold, 0.2),
   },
   pulseRing: {
     width: 68,
     height: 68,
     borderRadius: 34,
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
+    backgroundColor: alpha(colors.gold, 0.08),
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.4)',
+    borderColor: alpha(colors.gold, 0.4),
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 12,
@@ -185,10 +186,10 @@ const styles = StyleSheet.create({
     marginTop: 14,
     paddingVertical: 12,
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     borderRadius: theme.radius.md,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: colors.border,
   },
   cancelBtnText: {
     color: theme.colors.textSecondary,

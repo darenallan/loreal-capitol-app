@@ -4,6 +4,7 @@ import { User, ArrowRightLeft, Store } from 'lucide-react-native';
 import { colors, fonts, radius } from '../../theme';
 import { GlassCard, GoldButton } from '../../ui';
 import { sharedStyles } from './ledgerStyles';
+import { alpha } from '../../theme';
 
 export interface TransferModalProps {
   storeId: any;
@@ -111,7 +112,7 @@ export default function TransferModal({
                 })}
               </View>
 
-              <Text style={[sharedStyles.fieldLabel, { fontSize: 11 }]}>Ou taxi / moto coursier externe :</Text>
+              <Text style={[sharedStyles.fieldLabel, { fontSize: 12 }]}>Ou taxi / moto coursier externe :</Text>
               <TextInput
                 style={[sharedStyles.input, { marginBottom: 15 }]}
                 placeholder="Ex: Roger Moto Douala..."
@@ -143,7 +144,7 @@ export default function TransferModal({
                   label="Lancer l'Expédition"
                   onPress={handleTransferSubmit}
                   size="lg"
-                  icon={<ArrowRightLeft color="#07070A" size={18} />}
+                  icon={<ArrowRightLeft color={colors.onGold} size={18} />}
                 />
                 <TouchableOpacity style={sharedStyles.modalCancelBtn} onPress={() => { setTransferProduct(null); setTransferQty('1'); }}>
                   <Text style={sharedStyles.modalCancelBtnText}>Changer d'article</Text>
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
   },
   transferProductMeta: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 3,
     fontFamily: fonts.sans,
   },
@@ -198,12 +199,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },
   destPillActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.12)',
+    backgroundColor: alpha(colors.gold, 0.12),
     borderColor: colors.gold,
   },
   destPillText: {
@@ -223,12 +224,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },
   carrierPillActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.12)',
+    backgroundColor: alpha(colors.gold, 0.12),
     borderColor: colors.gold,
   },
   carrierPillName: {
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
   },
   carrierPillRole: {
     color: colors.textTertiary,
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   minsPill: {
@@ -247,7 +248,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: radius.sm,
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sans,
   },
   minsPillTextActive: {
-    color: '#07070A',
+    color: colors.onGold,
     fontWeight: '800',
   },
 });

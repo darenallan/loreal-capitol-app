@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal, StyleSheet 
 import { Trash2, Edit3, Eye, EyeOff } from 'lucide-react-native';
 import { isUserAdmin } from '../../db/database';
 import { sharedStyles } from './dashboardStyles';
+import { colors } from '../../theme';
 
 export interface UserManagementModalProps {
   editingUser: any;
@@ -59,13 +60,13 @@ export default function UserManagementModal({
 
           {/* Toggle Afficher / Masquer mots de passe */}
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <Text style={{ color: '#aaa', fontSize: 13 }}>Équipe enregistrée ({systemUsers.length})</Text>
+            <Text style={{ color: colors.textTertiary, fontSize: 13 }}>Équipe enregistrée ({systemUsers.length})</Text>
             <TouchableOpacity 
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: '#2a2a2a', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 8 }}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: colors.surfaceStrong, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 8 }}
               onPress={() => setShowUserPasswords(!showUserPasswords)}
             >
-              {showUserPasswords ? <EyeOff color="#d4af37" size={16} /> : <Eye color="#d4af37" size={16} />}
-              <Text style={{ color: '#d4af37', fontSize: 12, fontWeight: '600' }}>
+              {showUserPasswords ? <EyeOff color={colors.gold} size={16} /> : <Eye color={colors.gold} size={16} />}
+              <Text style={{ color: colors.gold, fontSize: 12, fontWeight: '600' }}>
                 {showUserPasswords ? 'Masquer codes' : 'Voir codes/PIN'}
               </Text>
             </TouchableOpacity>
@@ -73,7 +74,7 @@ export default function UserManagementModal({
 
           <ScrollView style={{ maxHeight: 220, marginBottom: 15 }}>
             {systemUsers.map(u => (
-              <View key={u.id} style={[styles.userItem, editingUser?.id === u.id && { borderColor: '#d4af37', borderWidth: 1 }]}>
+              <View key={u.id} style={[styles.userItem, editingUser?.id === u.id && { borderColor: colors.gold, borderWidth: 1 }]}>
                 <View style={{ flex: 1 }}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                     <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 14 }}>{u.name}</Text>
@@ -83,18 +84,18 @@ export default function UserManagementModal({
                       </Text>
                     </View>
                   </View>
-                  <Text style={{ color: '#aaa', fontSize: 12, marginTop: 3 }}>
-                    Magasin: <Text style={{ color: '#d4af37' }}>{u.store === 'all' ? 'Tous les magasins' : u.store === 'tougou' ? 'Tougou' : 'La Falaise'}</Text>
+                  <Text style={{ color: colors.textTertiary, fontSize: 12, marginTop: 3 }}>
+                    Magasin: <Text style={{ color: colors.gold }}>{u.store === 'all' ? 'Tous les magasins' : u.store === 'tougou' ? 'Tougou' : 'La Falaise'}</Text>
                     {'  '}| Code/PIN: <Text style={{ color: '#fff', fontWeight: 'bold' }}>{showUserPasswords ? (u.pin || 'Non défini') : '••••••••'}</Text>
                   </Text>
                 </View>
                 <View style={{ flexDirection: 'row', gap: 8 }}>
-                  <TouchableOpacity onPress={() => startEditUser(u)} style={{ padding: 6, backgroundColor: '#333', borderRadius: 6 }}>
-                    <Edit3 color="#d4af37" size={16} />
+                  <TouchableOpacity accessibilityRole="button" accessibilityLabel="Modifier" hitSlop={{ top: 8, bottom: 8 }} onPress={() => startEditUser(u)} style={{ padding: 6, backgroundColor: colors.surfaceStrong, borderRadius: 6 }}>
+                    <Edit3 color={colors.gold} size={16} />
                   </TouchableOpacity>
                   {u.id !== 'boss' && u.name?.toLowerCase() !== 'boss' && (
-                    <TouchableOpacity onPress={() => handleDeleteUser(u.id, u.name)} style={{ padding: 6, backgroundColor: '#3a1a1a', borderRadius: 6 }}>
-                      <Trash2 color="#ff4444" size={16} />
+                    <TouchableOpacity accessibilityRole="button" accessibilityLabel="Supprimer" hitSlop={{ top: 8, bottom: 8 }} onPress={() => handleDeleteUser(u.id, u.name)} style={{ padding: 6, backgroundColor: '#3a1a1a', borderRadius: 6 }}>
+                      <Trash2 color={colors.danger} size={16} />
                     </TouchableOpacity>
                   )}
                 </View>
@@ -102,16 +103,16 @@ export default function UserManagementModal({
             ))}
           </ScrollView>
 
-          <View style={{ height: 1, backgroundColor: '#333', marginBottom: 15 }} />
+          <View style={{ height: 1, backgroundColor: colors.surfaceStrong, marginBottom: 15 }} />
 
           <ScrollView style={{ maxHeight: 320 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-              <Text style={{ color: '#d4af37', fontWeight: 'bold', fontSize: 15 }}>
+              <Text style={{ color: colors.gold, fontWeight: 'bold', fontSize: 15 }}>
                 {editingUser ? `✏️ Modifier : ${editingUser.name}` : '➕ Créer un nouveau profil'}
               </Text>
               {editingUser && (
                 <TouchableOpacity onPress={cancelEditUser}>
-                  <Text style={{ color: '#ff4444', fontSize: 12 }}>Annuler modif</Text>
+                  <Text style={{ color: colors.danger, fontSize: 12 }}>Annuler modif</Text>
                 </TouchableOpacity>
               )}
             </View>
@@ -120,7 +121,7 @@ export default function UserManagementModal({
             <TextInput 
               style={sharedStyles.input} 
               placeholder="Ex: Jean Dupont" 
-              placeholderTextColor="#666" 
+              placeholderTextColor={colors.inputPlaceholder} 
               value={newUserName} 
               onChangeText={setNewUserName} 
             />
@@ -129,7 +130,7 @@ export default function UserManagementModal({
             <TextInput 
               style={sharedStyles.input} 
               placeholder="Ex: B000000. (Majuscule, chiffres, point)" 
-              placeholderTextColor="#666" 
+              placeholderTextColor={colors.inputPlaceholder} 
               value={newUserPin} 
               onChangeText={setNewUserPin} 
               secureTextEntry={!showUserPasswords}
@@ -184,12 +185,12 @@ export default function UserManagementModal({
 }
 
 const styles = StyleSheet.create({
-  userItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, backgroundColor: '#2a2a2a', borderRadius: 8, marginBottom: 8 },
+  userItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, backgroundColor: colors.surfaceStrong, borderRadius: 8, marginBottom: 8 },
   pickerContainer: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 15 },
-  pickerItem: { backgroundColor: '#333', paddingVertical: 8, paddingHorizontal: 14, borderRadius: 8, borderWidth: 1, borderColor: '#444' },
-  pickerItemActive: { backgroundColor: '#d4af37', borderColor: '#d4af37' },
-  pickerItemText: { color: '#ccc', fontSize: 13 },
-  pickerItemTextActive: { color: '#121212', fontWeight: 'bold' },
+  pickerItem: { backgroundColor: colors.surfaceStrong, paddingVertical: 8, paddingHorizontal: 14, borderRadius: 8, borderWidth: 1, borderColor: colors.borderStrong },
+  pickerItemActive: { backgroundColor: colors.gold, borderColor: colors.gold },
+  pickerItemText: { color: colors.textSecondary, fontSize: 13 },
+  pickerItemTextActive: { color: colors.onGold, fontWeight: 'bold' },
   modalActions: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 },
   // Role Badges
   roleBadge: {
@@ -200,16 +201,16 @@ const styles = StyleSheet.create({
   roleBadgeAdmin: {
     backgroundColor: '#4a3b10',
     borderWidth: 1,
-    borderColor: '#d4af37',
+    borderColor: colors.gold,
   },
   roleBadgeStaff: {
     backgroundColor: '#2a3a4a',
     borderWidth: 1,
-    borderColor: '#2196F3',
+    borderColor: colors.info,
   },
   roleBadgeText: {
     color: '#fff',
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: 'bold',
   },
 });

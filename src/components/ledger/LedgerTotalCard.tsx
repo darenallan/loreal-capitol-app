@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   totalCardTagText: {
     color: colors.gold,
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: 1.5,
     fontWeight: '800',
     fontFamily: fonts.sans,
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   totalSalesPill: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
     paddingVertical: 3,
     paddingHorizontal: 8,
     borderRadius: radius.full,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   totalSalesText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
   },

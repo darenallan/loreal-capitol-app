@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Html5QrcodeScanner, Html5QrcodeScanType } from 'html5-qrcode';
+import { colors } from '../theme';
 
 export default function WebScanner({ onScan, onClose }: { onScan: (data: string) => void, onClose: () => void }) {
   const scannerRef = useRef<Html5QrcodeScanner | null>(null);
@@ -69,13 +70,13 @@ const styles = StyleSheet.create({
   btn: {
     marginTop: 20,
     padding: 15,
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     borderRadius: 10
   },
   closeBtn: {
     marginTop: 30,
     padding: 15,
-    backgroundColor: '#ff4444',
+    backgroundColor: colors.danger,
     borderRadius: 10,
     width: '100%',
     maxWidth: 400,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { LogOut, User, Users, Bell, RefreshCw } from 'lucide-react-native';
 import { isSuperBoss } from '../../db/database';
 import { PressableScale, colors, fonts, type, useResponsive } from '../../ui';
@@ -54,6 +54,8 @@ export default function DashboardHeader({
               style={[styles.headerIconBtn, (securityLogs.length + lowStockCount > 0) && styles.headerIconBtnActive]}
               onPress={() => { setShowSecurityAssistant(true); loadData(); }}
               haptic="selection"
+              accessibilityRole="button"
+              hitSlop={3}
               accessibilityLabel="Alertes"
             >
               <Bell color={colors.goldLight} size={20} />
@@ -67,6 +69,8 @@ export default function DashboardHeader({
               style={styles.headerIconBtn}
               onPress={openUsersModal}
               haptic="selection"
+              accessibilityRole="button"
+              hitSlop={3}
               accessibilityLabel="Utilisateurs"
             >
               <Users color={colors.textSecondary} size={20} />
@@ -78,6 +82,8 @@ export default function DashboardHeader({
           style={styles.headerIconBtn}
           onPress={handleRefresh}
           haptic="selection"
+          accessibilityRole="button"
+          hitSlop={3}
           accessibilityLabel="Actualiser"
         >
           <RefreshCw color={colors.gold} size={19} />
@@ -87,6 +93,8 @@ export default function DashboardHeader({
           style={styles.headerIconBtn}
           onPress={() => navigation.navigate('Profile', { user })}
           haptic="selection"
+          accessibilityRole="button"
+          hitSlop={3}
           accessibilityLabel="Profil"
         >
           <User color={colors.textSecondary} size={20} />
@@ -97,6 +105,8 @@ export default function DashboardHeader({
             style={[styles.headerIconBtn, { backgroundColor: colors.dangerSoft }]}
             onPress={handleLogout}
             haptic="warning"
+            accessibilityRole="button"
+            hitSlop={3}
             accessibilityLabel="Déconnexion"
           >
             <LogOut color={colors.danger} size={19} />
@@ -122,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerIconBtnActive: { borderColor: colors.gold, backgroundColor: colors.goldSoft },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20, paddingTop: 50, backgroundColor: colors.bgElevated, borderBottomWidth: 1, borderBottomColor: colors.border },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20, paddingTop: Platform.OS === 'web' ? 20 : 48, backgroundColor: colors.bgElevated, borderBottomWidth: 1, borderBottomColor: colors.border },
   badge: { position: 'absolute', top: -5, right: -5, backgroundColor: colors.danger, borderRadius: 10, width: 20, height: 20, justifyContent: 'center', alignItems: 'center' },
-  badgeText: { color: '#fff', fontSize: 10, fontFamily: fonts.bold },
+  badgeText: { color: colors.textPrimary, fontSize: 11, fontFamily: fonts.bold },
 });

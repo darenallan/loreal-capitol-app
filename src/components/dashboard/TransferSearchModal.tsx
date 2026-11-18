@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal } from 'react-native';
 import { sharedStyles } from './dashboardStyles';
+import { colors } from '../../theme';
 
 export interface TransferSearchModalProps {
   transferSearchModalVisible: boolean;
@@ -25,11 +26,11 @@ export default function TransferSearchModal({
       <View style={sharedStyles.modalOverlay}>
         <View style={[sharedStyles.modalContent, { maxHeight: '80%' }]}>
           <Text style={sharedStyles.modalTitle}>Recherche Article (Transfert)</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#2a2a2a', borderRadius: 10, paddingHorizontal: 15, borderWidth: 1, borderColor: '#444' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surfaceStrong, borderRadius: 10, paddingHorizontal: 15, borderWidth: 1, borderColor: colors.borderStrong }}>
             <TextInput
               style={{ flex: 1, height: 50, color: '#fff' }}
               placeholder="Rechercher par nom ou référence..."
-              placeholderTextColor="#888"
+              placeholderTextColor={colors.inputPlaceholder}
               value={transferSearchText}
               onChangeText={setTransferSearchText}
               autoFocus
@@ -41,9 +42,9 @@ export default function TransferSearchModal({
               if (searchTerms.length === 0) return true;
               return searchTerms.every(term => p.name.toLowerCase().includes(term) || (p.reference && p.reference.toLowerCase().includes(term)));
             }).slice(0, 15).map(p => (
-              <TouchableOpacity key={p.id} style={{ padding: 12, borderBottomWidth: 1, borderBottomColor: '#333' }} onPress={() => selectTransferProduct(p)}>
+              <TouchableOpacity key={p.id} style={{ padding: 12, borderBottomWidth: 1, borderBottomColor: colors.border }} onPress={() => selectTransferProduct(p)}>
                 <Text style={{ color: '#fff', fontWeight: 'bold' }}>{p.name}</Text>
-                <Text style={{ color: '#888', fontSize: 12, marginTop: 3 }}>
+                <Text style={{ color: colors.textMuted, fontSize: 12, marginTop: 3 }}>
                   {p.category} {p.size ? `| Taille: ${p.size}` : ''} {p.color ? `| Couleur: ${p.color}` : ''} — Stock: {p.stock}
                 </Text>
               </TouchableOpacity>

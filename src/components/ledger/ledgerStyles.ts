@@ -1,5 +1,6 @@
 import { colors, fonts, radius } from '../../theme';
 import { StyleSheet } from 'react-native';
+import { alpha } from '../../theme';
 
 /** Styles partagés entre LedgerScreen.tsx et ses composants extraits (valeurs inchangées). */
 export const sharedStyles = StyleSheet.create({
@@ -18,7 +19,7 @@ export const sharedStyles = StyleSheet.create({
     borderRadius: radius.lg,
   },
   modalEyebrow: {
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: 1.5,
     color: colors.gold,
     fontWeight: '800',
@@ -47,7 +48,7 @@ export const sharedStyles = StyleSheet.create({
     fontFamily: fonts.sans,
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     color: colors.textPrimary,
     height: 46,
     borderRadius: radius.sm,
@@ -60,11 +61,11 @@ export const sharedStyles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderRadius: radius.sm,
     paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
     height: 46,
     gap: 8,
   },
@@ -91,13 +92,13 @@ export const sharedStyles = StyleSheet.create({
   },
   searchResultInfo: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
     fontFamily: fonts.sans,
   },
   searchResultStock: {
     color: colors.textTertiary,
-    fontSize: 10,
+    fontSize: 12,
     marginTop: 2,
     fontFamily: fonts.sans,
   },
@@ -105,7 +106,7 @@ export const sharedStyles = StyleSheet.create({
     paddingVertical: 12,
     alignItems: 'center',
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },

@@ -4,6 +4,7 @@ import { Bell } from 'lucide-react-native';
 import { startAudioKeepAlive, requestDesktopNotificationPermission, playRingToneNow, stopRingtone } from '../../utils/ringtone';
 import { PressableScale } from '../../ui';
 import { useAppTheme } from '../../theme/ThemeContext';
+import { colors } from '../../theme';
 
 export interface SoundArmBannerProps {
   setAudioAndNotifArmed: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,11 +50,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2b2005',
     borderWidth: 1.5,
-    borderColor: '#d4af37',
+    borderColor: colors.gold,
     borderRadius: 14,
     padding: 12,
     marginBottom: 14,
-    shadowColor: '#d4af37',
+    shadowColor: colors.gold,
     shadowOpacity: 0.3,
     shadowRadius: 8,
   },
@@ -61,29 +62,29 @@ const styles = StyleSheet.create({
     width: 38,
     height: 38,
     borderRadius: 19,
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     alignItems: 'center',
     justifyContent: 'center',
   },
   soundArmTitle: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 12,
     fontWeight: 'bold',
   },
   soundArmSubtitle: {
-    color: '#bbb',
-    fontSize: 11,
+    color: colors.textTertiary,
+    fontSize: 12,
     marginTop: 2,
   },
   soundArmBadge: {
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
     marginLeft: 8,
   },
   soundArmBadgeText: {
-    color: '#121212',
+    color: colors.onGold,
     fontWeight: 'bold',
     fontSize: 12,
   },

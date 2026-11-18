@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Modal, Linking, StyleSheet } from 'react-native';
 import { Trash2, MapPin } from 'lucide-react-native';
+import { colors } from '../../theme';
 
 export interface SecurityAlertsModalProps {
   navigation: any;
@@ -46,18 +47,18 @@ export default function SecurityAlertsModal({
                     <Text style={styles.logDate}>{new Date(log.timestamp).toLocaleString('fr-FR')}</Text>
                     {log.location?.lat !== 0 && log.type !== 'chat_violation' && (
                       <TouchableOpacity style={styles.mapBtn} onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${log.location.lat},${log.location.lon}`)}>
-                        <MapPin color="#4CAF50" size={16} />
+                        <MapPin color={colors.success} size={16} />
                         <Text style={styles.mapBtnText}>Voir sur Google Maps ({log.location.city})</Text>
                       </TouchableOpacity>
                     )}
                   </View>
-                  <TouchableOpacity onPress={() => handleDeleteLog(log.id)} style={{ padding: 5 }}>
-                    <Trash2 color="#ff4444" size={20} />
+                  <TouchableOpacity accessibilityRole="button" accessibilityLabel="Supprimer" hitSlop={{ top: 8, bottom: 8 }} onPress={() => handleDeleteLog(log.id)} style={{ padding: 5 }}>
+                    <Trash2 color={colors.danger} size={20} />
                   </TouchableOpacity>
                 </View>
               </View>
             ))}
-            {securityLogs.length === 0 && <Text style={{ color: '#888' }}>Aucune alerte récente.</Text>}
+            {securityLogs.length === 0 && <Text style={{ color: colors.textMuted }}>Aucune alerte récente.</Text>}
 
             <Text style={[styles.assistantSectionTitle, { marginTop: 20 }]}>📦 Stock Faible ({lowStockCount})</Text>
             {lowStockCount > 0 ? (
@@ -65,7 +66,7 @@ export default function SecurityAlertsModal({
                 <Text style={styles.stockAlertBtnText}>Voir les articles en rupture</Text>
               </TouchableOpacity>
             ) : (
-              <Text style={{ color: '#888' }}>Le stock est bon !</Text>
+              <Text style={{ color: colors.textMuted }}>Le stock est bon !</Text>
             )}
           </ScrollView>
         </View>
@@ -77,15 +78,15 @@ export default function SecurityAlertsModal({
 const styles = StyleSheet.create({
   // Assistant
   assistantOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-start', alignItems: 'flex-end' },
-  assistantPanel: { width: 320, height: '100%', backgroundColor: '#1e1e1e', borderLeftWidth: 1, borderLeftColor: '#d4af37' },
-  assistantHeader: { padding: 20, paddingTop: 40, backgroundColor: '#121212', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#333' },
-  assistantTitle: { color: '#d4af37', fontSize: 18, fontWeight: 'bold' },
+  assistantPanel: { width: 320, maxWidth: '88%', height: '100%', backgroundColor: colors.surfaceSolidHi, borderLeftWidth: 1, borderLeftColor: colors.gold },
+  assistantHeader: { padding: 20, paddingTop: 40, backgroundColor: colors.bgElevated, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: colors.border },
+  assistantTitle: { color: colors.gold, fontSize: 18, fontWeight: 'bold' },
   assistantSectionTitle: { color: '#fff', fontSize: 16, fontWeight: 'bold', marginBottom: 10 },
-  securityLogCard: { backgroundColor: '#2a2a2a', padding: 12, borderRadius: 10, marginBottom: 10, borderWidth: 1, borderColor: '#444' },
+  securityLogCard: { backgroundColor: colors.surfaceStrong, padding: 12, borderRadius: 10, marginBottom: 10, borderWidth: 1, borderColor: colors.borderStrong },
   logText: { color: '#fff', fontWeight: 'bold' },
-  logDate: { color: '#aaa', fontSize: 12, marginTop: 4 },
+  logDate: { color: colors.textTertiary, fontSize: 12, marginTop: 4 },
   mapBtn: { flexDirection: 'row', alignItems: 'center', marginTop: 10, gap: 5 },
-  mapBtnText: { color: '#4CAF50', fontSize: 12 },
-  stockAlertBtn: { backgroundColor: '#333', padding: 15, borderRadius: 10, alignItems: 'center' },
-  stockAlertBtnText: { color: '#ff4444', fontWeight: 'bold' },
+  mapBtnText: { color: colors.success, fontSize: 12 },
+  stockAlertBtn: { backgroundColor: colors.surfaceStrong, padding: 15, borderRadius: 10, alignItems: 'center' },
+  stockAlertBtnText: { color: colors.danger, fontWeight: 'bold' },
 });

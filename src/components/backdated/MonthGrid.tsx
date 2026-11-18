@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     fontFamily: fonts.bold,
-    fontSize: 11,
+    fontSize: 12,
     letterSpacing: 0.6,
     color: colors.textMuted,
     paddingVertical: 4,
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   dayCellSelected: { backgroundColor: colors.gold, borderColor: colors.gold },
   dayNum: { fontFamily: fonts.bold, fontSize: 14, color: colors.textPrimary },
   dayNumSelected: { color: colors.onGold },
-  dayTotal: { fontFamily: fonts.semibold, fontSize: 10, color: colors.gold, marginTop: 2 },
+  dayTotal: { fontFamily: fonts.semibold, fontSize: 11, color: colors.gold, marginTop: 2 },
   dot: { width: 5, height: 5, borderRadius: 3, backgroundColor: colors.gold, marginTop: 3 },
   dotSelected: { backgroundColor: colors.onGold },
 });

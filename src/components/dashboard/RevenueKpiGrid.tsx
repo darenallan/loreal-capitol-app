@@ -3,6 +3,7 @@ import { TrendingUp, Wallet, CreditCard, Banknote } from 'lucide-react-native';
 import { isSuperBoss } from '../../db/database';
 import { GlassCard, TiltCard, AnimatedNumber, colors, fonts, radius, type, useResponsive } from '../../ui';
 import { useAppTheme } from '../../theme/ThemeContext';
+import { alpha } from '../../theme';
 
 export interface RevenueKpiGridProps {
   user: any;
@@ -135,18 +136,18 @@ const styles = StyleSheet.create({
   heroCardCol: { width: '100%' },
   heroCardColWide: { flex: 1.2 },
   heroCard: { padding: 24, borderRadius: radius.xxl, minHeight: 180, justifyContent: 'space-between' },
-  heroTopRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  heroEyebrowWrap: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  heroEyebrow: { ...type.eyebrow, color: colors.goldLight },
+  heroTopRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 },
+  heroEyebrowWrap: { flexDirection: 'row', alignItems: 'center', gap: 8, flexShrink: 1 },
+  heroEyebrow: { ...type.eyebrow, color: colors.goldLight, flexShrink: 1 },
   heroBadge: {
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: radius.pill,
-    backgroundColor: 'rgba(212,175,55,0.18)',
+    backgroundColor: alpha(colors.gold, 0.18),
     borderWidth: 1,
     borderColor: colors.borderGold,
   },
-  heroBadgeText: { fontFamily: fonts.bold, fontSize: 11, color: colors.goldLight },
+  heroBadgeText: { fontFamily: fonts.bold, fontSize: 12, color: colors.goldLight },
   heroAmountWrap: { marginVertical: 12 },
   heroAmount: { fontFamily: fonts.extrabold, fontSize: 34, color: colors.text, letterSpacing: -0.8 },
   heroSubText: { ...type.caption, color: colors.textMuted },
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
   paymentCardInner: { padding: 14, gap: 6 },
   paymentCardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   paymentIconWrap: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
-  paymentPercent: { fontFamily: fonts.bold, fontSize: 11.5 },
+  paymentPercent: { fontFamily: fonts.bold, fontSize: 12 },
   paymentValue: { fontFamily: fonts.bold, fontSize: 16, color: colors.text },
-  paymentLabel: { ...type.caption, fontSize: 11.5, color: colors.textMuted },
+  paymentLabel: { ...type.caption, fontSize: 12, color: colors.textMuted },
 });

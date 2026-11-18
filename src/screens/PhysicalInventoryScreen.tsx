@@ -9,6 +9,8 @@ import { downloadCSV } from '../utils/exportHelpers';
 import { todayKey } from '../utils/saleMath';
 import { colors, fonts, radius, shadow, formatMoney } from '../theme';
 import { useResponsive, GlassCard, TiltCard, GoldButton, PressableScale, Pill, SectionTitle, FadeIn } from '../ui';
+import { chrome } from '../ui/screenChrome';
+import { alpha } from '../theme';
 
 export default function PhysicalInventoryScreen({ navigation, route }: any) {
   const r = useResponsive();
@@ -211,7 +213,7 @@ export default function PhysicalInventoryScreen({ navigation, route }: any) {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Retour" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => navigation.goBack()} style={styles.backBtn}>
             <ArrowLeft color={colors.textPrimary} size={20} />
           </TouchableOpacity>
 
@@ -234,7 +236,7 @@ export default function PhysicalInventoryScreen({ navigation, route }: any) {
               onPress={handleApplyInventory}
               disabled={isSaving}
             >
-              <CheckCheck color="#07070A" size={16} />
+              <CheckCheck color={colors.onGold} size={16} />
               <Text style={styles.goldApplyBtnText}>Appliquer</Text>
             </TouchableOpacity>
           </View>
@@ -306,7 +308,7 @@ export default function PhysicalInventoryScreen({ navigation, route }: any) {
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statCol}>
-                <Text style={[styles.statVal, itemsWithDiff.length > 0 && { color: '#F59E0B' }]}>
+                <Text style={[styles.statVal, itemsWithDiff.length > 0 && { color: colors.warning }]}>
                   {itemsWithDiff.length}
                 </Text>
                 <Text style={styles.statLbl}>Écarts constatés</Text>
@@ -357,7 +359,7 @@ export default function PhysicalInventoryScreen({ navigation, route }: any) {
                   </View>
 
                   <View style={styles.stepperContainer}>
-                    <TouchableOpacity 
+                    <TouchableOpacity accessibilityRole="button" accessibilityLabel="Diminuer la quantité" hitSlop={{ top: 8, bottom: 8 }} 
                       style={styles.stepBtn}
                       onPress={() => updateCount(item.id, counted - 1)}
                     >
@@ -374,7 +376,7 @@ export default function PhysicalInventoryScreen({ navigation, route }: any) {
                       }}
                     />
 
-                    <TouchableOpacity 
+                    <TouchableOpacity accessibilityRole="button" accessibilityLabel="Augmenter la quantité" hitSlop={{ top: 8, bottom: 8 }} 
                       style={styles.stepBtn}
                       onPress={() => updateCount(item.id, counted + 1)}
                     >
@@ -383,7 +385,7 @@ export default function PhysicalInventoryScreen({ navigation, route }: any) {
                   </View>
 
                   <View style={[styles.diffBadge, diff === 0 ? styles.diffBadgeOk : diff < 0 ? styles.diffBadgeDeficit : styles.diffBadgeSurplus]}>
-                    <Text style={[styles.diffText, diff === 0 ? { color: '#4ADE80' } : diff < 0 ? { color: colors.danger } : { color: '#38BDF8' }]}>
+                    <Text style={[styles.diffText, diff === 0 ? { color: colors.success } : diff < 0 ? { color: colors.danger } : { color: colors.info }]}>
                       {diff === 0 ? 'Conforme' : diff > 0 ? `+${diff}` : `${diff}`}
                     </Text>
                   </View>
@@ -416,92 +418,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.obsidian,
   },
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'web' ? 20 : 48,
-    paddingBottom: 14,
-    backgroundColor: 'rgba(7, 7, 10, 0.95)',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.glassBorder,
-  },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  backBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    marginRight: 10,
-  },
-  headerTitleBox: {
-    flex: 1,
-    minWidth: 0,
-  },
-  screenEyebrow: {
-    fontSize: 10,
-    letterSpacing: 2,
-    color: colors.gold,
-    fontWeight: '800',
-    fontFamily: fonts.sans,
-    textTransform: 'uppercase',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    fontFamily: fonts.serif,
-  },
-  exportBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
-  },
-  goldApplyBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.gold,
-    paddingVertical: 7,
-    paddingHorizontal: 12,
-    borderRadius: radius.sm,
-    gap: 5,
-  },
-  goldApplyBtnText: {
-    color: '#07070A',
-    fontWeight: '700',
-    fontSize: 12,
-    fontFamily: fonts.sans,
-  },
+  header: { ...chrome.header },
+  headerRow: { ...chrome.headerRow },
+  backBtn: { ...chrome.backBtn, marginRight: 10 },
+  headerTitleBox: { ...chrome.headerTitleBox },
+  screenEyebrow: { ...chrome.screenEyebrow },
+  title: { ...chrome.title },
+  exportBtn: { ...chrome.iconBtn },
+  goldApplyBtn: { ...chrome.goldBtn },
+  goldApplyBtnText: { ...chrome.goldBtnText },
   storeSelector: {
     flexDirection: 'row',
     gap: 8,
     marginBottom: 10,
   },
-  storeBtn: {
-    flex: 1,
-    paddingVertical: 7,
-    borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    alignItems: 'center',
-  },
-  storeBtnActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
-    borderColor: colors.gold,
-  },
-  storeBtnText: {
-    color: colors.textTertiary,
-    fontSize: 11,
-    fontWeight: '600',
-    fontFamily: fonts.sans,
-  },
+  storeBtn: { ...chrome.storeBtn },
+  storeBtnActive: { ...chrome.storeBtnActive },
+  storeBtnText: { color: colors.textTertiary, fontSize: 13, fontWeight: '600', fontFamily: fonts.sans },
   storeBtnTextActive: {
     color: colors.gold,
     fontWeight: '700',
@@ -514,7 +447,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderRadius: radius.sm,
     paddingHorizontal: 12,
     borderWidth: 1,
@@ -532,18 +465,18 @@ const styles = StyleSheet.create({
   filterToggleBtn: {
     paddingHorizontal: 14,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
     justifyContent: 'center',
   },
   filterToggleBtnActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+    backgroundColor: alpha(colors.gold, 0.1),
     borderColor: colors.gold,
   },
   filterToggleText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
   },
@@ -578,7 +511,7 @@ const styles = StyleSheet.create({
   },
   statLbl: {
     color: colors.textTertiary,
-    fontSize: 10,
+    fontSize: 12,
     marginTop: 2,
     textAlign: 'center',
     fontFamily: fonts.sans,
@@ -600,12 +533,12 @@ const styles = StyleSheet.create({
   itemCardDeficit: {
     borderLeftWidth: 3,
     borderLeftColor: colors.danger,
-    backgroundColor: 'rgba(239, 68, 68, 0.03)',
+    backgroundColor: alpha(colors.danger, 0.03),
   },
   itemCardSurplus: {
     borderLeftWidth: 3,
-    borderLeftColor: '#38BDF8',
-    backgroundColor: 'rgba(56, 189, 248, 0.03)',
+    borderLeftColor: colors.info,
+    backgroundColor: alpha(colors.info, 0.03),
   },
   itemName: {
     color: colors.textPrimary,
@@ -615,7 +548,7 @@ const styles = StyleSheet.create({
   },
   itemMeta: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
     fontFamily: fonts.sans,
   },
@@ -633,14 +566,14 @@ const styles = StyleSheet.create({
   },
   theoryBox: {
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: radius.xs,
   },
   theoryLabel: {
     color: colors.textTertiary,
-    fontSize: 9,
+    fontSize: 12,
     fontWeight: '700',
     textTransform: 'uppercase',
   },
@@ -652,7 +585,7 @@ const styles = StyleSheet.create({
   stepperContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     borderRadius: radius.xs,
     borderWidth: 1,
     borderColor: colors.glassBorder,
@@ -678,16 +611,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   diffBadgeOk: {
-    backgroundColor: 'rgba(74, 222, 128, 0.1)',
+    backgroundColor: alpha(colors.success, 0.1),
   },
   diffBadgeDeficit: {
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    backgroundColor: alpha(colors.danger, 0.1),
   },
   diffBadgeSurplus: {
-    backgroundColor: 'rgba(56, 189, 248, 0.1)',
+    backgroundColor: alpha(colors.info, 0.1),
   },
   diffText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     fontFamily: fonts.sans,
   },

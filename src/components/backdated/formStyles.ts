@@ -5,7 +5,7 @@ import { colors, fonts, radius } from '../../theme';
 export const formStyles = StyleSheet.create({
   label: {
     fontFamily: fonts.bold,
-    fontSize: 11,
+    fontSize: 12,
     letterSpacing: 1.4,
     textTransform: 'uppercase',
     color: colors.textSecondary,

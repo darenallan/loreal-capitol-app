@@ -7,6 +7,8 @@ import { recordArrivage, getLocalCache } from '../db/database';
 import { subscribeResilient } from '../db/resilientSync';
 import { colors, fonts, radius, shadow, formatMoney } from '../theme';
 import { useResponsive, GlassCard, TiltCard, GoldButton, PressableScale, Pill, SectionTitle, FadeIn } from '../ui';
+import { chrome } from '../ui/screenChrome';
+import { alpha } from '../theme';
 
 export default function ArrivageHistoryScreen({ navigation, route }: any) {
   const r = useResponsive();
@@ -139,7 +141,7 @@ export default function ArrivageHistoryScreen({ navigation, route }: any) {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Retour" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => navigation.goBack()} style={styles.backBtn}>
             <ArrowLeft color={colors.textPrimary} size={20} />
           </TouchableOpacity>
 
@@ -149,7 +151,7 @@ export default function ArrivageHistoryScreen({ navigation, route }: any) {
           </View>
 
           <TouchableOpacity style={styles.goldAddBtn} onPress={() => setModalVisible(true)}>
-            <Plus color="#07070A" size={16} />
+            <Plus color={colors.onGold} size={16} />
             <Text style={styles.goldAddBtnText}>Arrivage</Text>
           </TouchableOpacity>
         </View>
@@ -188,7 +190,7 @@ export default function ArrivageHistoryScreen({ navigation, route }: any) {
             autoCorrect={false}
           />
           {historySearchQuery.length > 0 && (
-            <TouchableOpacity onPress={() => setHistorySearchQuery('')} style={{ padding: 4 }}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => setHistorySearchQuery('')} style={{ padding: 4 }}>
               <X color={colors.textTertiary} size={16} />
             </TouchableOpacity>
           )}
@@ -265,7 +267,7 @@ export default function ArrivageHistoryScreen({ navigation, route }: any) {
                   <Text style={styles.modalEyebrow}>RÉCEPTION EN MAGASIN</Text>
                   <Text style={styles.modalTitle}>Nouvel Arrivage</Text>
                 </View>
-                <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.modalCloseBtn}>
+                <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => setModalVisible(false)} style={styles.modalCloseBtn}>
                   <X color={colors.textSecondary} size={18} />
                 </TouchableOpacity>
               </View>
@@ -336,7 +338,7 @@ export default function ArrivageHistoryScreen({ navigation, route }: any) {
                   label="Enregistrer l'Arrivage"
                   onPress={handleRecordArrivage}
                   size="md"
-                  icon={<Check color="#07070A" size={16} />}
+                  icon={<Check color={colors.onGold} size={16} />}
                 />
                 <TouchableOpacity style={styles.modalCancelBtn} onPress={() => setModalVisible(false)}>
                   <Text style={styles.modalCancelBtnText}>Annuler</Text>
@@ -355,84 +357,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.obsidian,
   },
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'web' ? 20 : 48,
-    paddingBottom: 14,
-    backgroundColor: 'rgba(7, 7, 10, 0.95)',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.glassBorder,
-  },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  backBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    marginRight: 10,
-  },
-  headerTitleBox: {
-    flex: 1,
-  },
-  screenEyebrow: {
-    fontSize: 10,
-    letterSpacing: 2,
-    color: colors.gold,
-    fontWeight: '800',
-    fontFamily: fonts.sans,
-    textTransform: 'uppercase',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    fontFamily: fonts.serif,
-  },
-  goldAddBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.gold,
-    paddingVertical: 7,
-    paddingHorizontal: 12,
-    borderRadius: radius.sm,
-    gap: 5,
-  },
-  goldAddBtnText: {
-    color: '#07070A',
-    fontWeight: '700',
-    fontSize: 12,
-    fontFamily: fonts.sans,
-  },
+  header: { ...chrome.header },
+  headerRow: { ...chrome.headerRow },
+  backBtn: { ...chrome.backBtn, marginRight: 10 },
+  headerTitleBox: { ...chrome.headerTitleBox },
+  screenEyebrow: { ...chrome.screenEyebrow },
+  title: { ...chrome.title },
+  goldAddBtn: { ...chrome.goldBtn },
+  goldAddBtnText: { ...chrome.goldBtnText },
   storeSelector: {
     flexDirection: 'row',
     gap: 8,
     marginBottom: 10,
   },
-  storeBtn: {
-    flex: 1,
-    paddingVertical: 7,
-    borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    alignItems: 'center',
-  },
-  storeBtnActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
-    borderColor: colors.gold,
-  },
-  storeBtnText: {
-    color: colors.textTertiary,
-    fontSize: 11,
-    fontWeight: '600',
-    fontFamily: fonts.sans,
-  },
+  storeBtn: { ...chrome.storeBtn },
+  storeBtnActive: { ...chrome.storeBtnActive },
+  storeBtnText: { color: colors.textTertiary, fontSize: 13, fontWeight: '600', fontFamily: fonts.sans },
   storeBtnTextActive: {
     color: colors.gold,
     fontWeight: '700',
@@ -440,7 +380,7 @@ const styles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderRadius: radius.sm,
     paddingHorizontal: 12,
     borderWidth: 1,
@@ -493,20 +433,20 @@ const styles = StyleSheet.create({
   },
   userText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
     fontFamily: fonts.sans,
   },
   qtyBadge: {
-    backgroundColor: 'rgba(74, 222, 128, 0.12)',
+    backgroundColor: alpha(colors.success, 0.12),
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(74, 222, 128, 0.3)',
+    borderColor: alpha(colors.success, 0.3),
   },
   qtyBadgeText: {
-    color: '#4ADE80',
+    color: colors.success,
     fontSize: 13,
     fontWeight: '800',
     fontFamily: fonts.sans,
@@ -525,18 +465,18 @@ const styles = StyleSheet.create({
   },
   dateText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   storeBadge: {
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
+    backgroundColor: alpha(colors.gold, 0.08),
     paddingHorizontal: 7,
     paddingVertical: 2,
     borderRadius: radius.xs,
   },
   storeBadgeText: {
     color: colors.gold,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -599,7 +539,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   modalEyebrow: {
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: 1.5,
     color: colors.gold,
     fontWeight: '800',
@@ -615,7 +555,7 @@ const styles = StyleSheet.create({
   modalCloseBtn: {
     padding: 6,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
   },
   fieldLabel: {
     color: colors.textSecondary,
@@ -630,11 +570,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
+    backgroundColor: alpha(colors.gold, 0.08),
     padding: 12,
     borderRadius: radius.sm,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
   },
   selectedProductName: {
     color: colors.textPrimary,
@@ -644,26 +584,26 @@ const styles = StyleSheet.create({
   },
   selectedProductInfo: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
     fontFamily: fonts.sans,
   },
   changeProductBtn: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: radius.xs,
   },
   changeProductText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
   modalSearchBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderRadius: radius.sm,
     paddingHorizontal: 10,
     borderWidth: 1,
@@ -681,7 +621,7 @@ const styles = StyleSheet.create({
   dropdownList: {
     backgroundColor: '#121217',
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
     borderRadius: radius.sm,
     marginTop: 4,
     overflow: 'hidden',
@@ -700,7 +640,7 @@ const styles = StyleSheet.create({
   },
   dropdownStock: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
   },
   dropdownEmpty: {
@@ -710,7 +650,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     color: colors.textPrimary,
     height: 44,
     borderRadius: radius.sm,
@@ -724,7 +664,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     alignItems: 'center',
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },

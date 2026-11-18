@@ -140,7 +140,7 @@ export default function DashboardSidebar({
         />
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={[styles.brandTitle, { color: colors.textPrimary }]}>L'ORÉAL</Text>
-          <Text numberOfLines={1} style={[styles.brandSub, { color: colors.gold }]}>
+          <Text numberOfLines={2} style={[styles.brandSub, { color: colors.gold }]}>
             LA CAPITALE DU PRÊT À PORTER
           </Text>
         </View>
@@ -204,7 +204,7 @@ export default function DashboardSidebar({
 
       {/* Theme Switcher Segment */}
       <View style={{ marginTop: 'auto', paddingTop: 16 }}>
-        <Text style={[styles.sectionHeading, { color: colors.textTertiary, marginBottom: 8 }]}>Thème Visuel</Text>
+        {/* Intitulé « Thème Visuel » masqué : le sélecteur de thème est désactivé (mode sombre imposé), le titre restait orphelin. */}
         <ThemeToggleButton style={{ marginBottom: 12 }} />
       </View>
 
@@ -296,7 +296,9 @@ const styles = StyleSheet.create({
   },
   brandSub: {
     ...type.eyebrow,
-    fontSize: 9,
+    fontSize: 11,
+    letterSpacing: 1.2,
+    lineHeight: 15,
     marginTop: 2,
   },
   navSection: {
@@ -305,7 +307,7 @@ const styles = StyleSheet.create({
   },
   sectionHeading: {
     ...type.eyebrow,
-    fontSize: 9.5,
+    fontSize: 12,
     paddingHorizontal: 12,
     marginBottom: 6,
   },
@@ -357,7 +359,7 @@ const styles = StyleSheet.create({
   },
   userRole: {
     fontFamily: fonts.medium,
-    fontSize: 11,
+    fontSize: 12,
   },
   logoutIconBtn: {
     width: 32,

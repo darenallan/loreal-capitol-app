@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import { Wallet, Edit3 } from 'lucide-react-native';
-import { colors } from '../../theme';
 import { GlassCard, GoldButton } from '../../ui';
 import { sharedStyles } from './ledgerStyles';
+import { colors } from '../../theme';
 
 export interface EditSaleOptionsModalProps {
   editOptionsVisible: boolean;
@@ -37,7 +37,7 @@ export default function EditSaleOptionsModal({
                 if (target) handleDeleteSale(target);
               }}
               size="md"
-              icon={<Edit3 color="#07070A" size={16} />}
+              icon={<Edit3 color={colors.onGold} size={16} />}
             />
 
             <GoldButton 

@@ -4,6 +4,8 @@ import { ArrowLeft, Send, Sparkles, Bot, User } from 'lucide-react-native';
 import { logIntrusion, isUserAdmin } from '../db/database';
 import { colors, fonts, radius, shadow } from '../theme';
 import { useResponsive, GlassCard, TiltCard, GoldButton, PressableScale, Pill, FadeIn } from '../ui';
+import { chrome } from '../ui/screenChrome';
+import { alpha } from '../theme';
 
 export default function HelpScreen({ navigation, route }: any) {
   const r = useResponsive();
@@ -123,7 +125,7 @@ export default function HelpScreen({ navigation, route }: any) {
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Retour" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => navigation.goBack()} style={styles.backBtn}>
           <ArrowLeft color={colors.textPrimary} size={20} />
         </TouchableOpacity>
         
@@ -185,8 +187,8 @@ export default function HelpScreen({ navigation, route }: any) {
             onChangeText={setInputText}
             onSubmitEditing={() => handleSend(inputText)}
           />
-          <TouchableOpacity style={styles.sendBtn} onPress={() => handleSend(inputText)}>
-            <Send color="#07070A" size={16} />
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Envoyer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} style={styles.sendBtn} onPress={() => handleSend(inputText)}>
+            <Send color={colors.onGold} size={16} />
           </TouchableOpacity>
         </View>
       </View>
@@ -199,24 +201,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.obsidian,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'web' ? 20 : 48,
-    paddingBottom: 14,
-    backgroundColor: 'rgba(7, 7, 10, 0.95)',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.glassBorder,
-  },
-  backBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-  },
+  header: { ...chrome.header, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  backBtn: { ...chrome.backBtn },
   headerCenter: {
     alignItems: 'center',
   },
@@ -224,30 +210,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  screenEyebrow: {
-    fontSize: 10,
-    letterSpacing: 2,
-    color: colors.gold,
-    fontWeight: '800',
-    fontFamily: fonts.sans,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    fontFamily: fonts.serif,
-  },
+  screenEyebrow: { ...chrome.screenEyebrow },
+  title: { ...chrome.title },
   roleTag: {
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+    backgroundColor: alpha(colors.gold, 0.1),
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
   },
   roleTagText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -277,7 +252,7 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+    backgroundColor: alpha(colors.gold, 0.15),
     borderWidth: 1,
     borderColor: colors.gold,
     alignItems: 'center',
@@ -291,10 +266,10 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
   },
   botBubble: {
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     borderBottomLeftRadius: 4,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.25)',
+    borderColor: alpha(colors.gold, 0.25),
   },
   userBubble: {
     backgroundColor: colors.gold,
@@ -309,11 +284,11 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
   },
   userText: {
-    color: '#07070A',
+    color: colors.onGold,
     fontWeight: '600',
   },
   inputArea: {
-    backgroundColor: 'rgba(7, 7, 10, 0.95)',
+    backgroundColor: colors.chromeBg,
     paddingHorizontal: 16,
     paddingTop: 10,
     paddingBottom: Platform.OS === 'web' ? 16 : 28,
@@ -328,17 +303,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   suggestionBtn: {
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
+    backgroundColor: alpha(colors.gold, 0.08),
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: radius.full,
     marginRight: 8,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.25)',
+    borderColor: alpha(colors.gold, 0.25),
   },
   suggestionText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
   },
@@ -349,7 +324,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     color: colors.textPrimary,
     borderRadius: radius.full,
     paddingHorizontal: 18,

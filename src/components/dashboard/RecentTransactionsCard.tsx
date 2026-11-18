@@ -74,7 +74,7 @@ export default function RecentTransactionsCard({
                 {new Date(sale.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
                 {sale.seller_name ? ` · ${sale.seller_name}` : ''}
               </Text>
-              <Text style={{ color: colors.gold, fontSize: 10.5, marginTop: 2, fontFamily: fonts.semibold }}>
+              <Text style={{ color: colors.gold, fontSize: 12, marginTop: 2, fontFamily: fonts.semibold }}>
                 👁️ Voir l'intégralité de l'achat
               </Text>
             </View>
@@ -88,7 +88,7 @@ export default function RecentTransactionsCard({
                     sale.payment_method === 'Espèces' && { color: colors.success },
                     sale.payment_method === 'MoMo' && { color: colors.warning },
                     sale.payment_method === 'OM' && { color: '#FF5722' },
-                    sale.payment_method === 'Avance' && { color: '#FF9800' },
+                    sale.payment_method === 'Avance' && { color: colors.warning },
                   ]}
                 >
                   {sale.payment_method}
@@ -97,7 +97,7 @@ export default function RecentTransactionsCard({
               <View style={{ padding: 4, justifyContent: 'center' }}>
                 <Eye color={colors.goldLight} size={18} />
               </View>
-              <TouchableOpacity 
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Supprimer" hitSlop={{ top: 8, bottom: 8 }} 
                 onPress={(e) => {
                   if (e && e.stopPropagation) e.stopPropagation();
                   handleDeleteSale(sale, 'dashboard');
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   historyItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: colors.border },
   historyItemName: { color: colors.text, fontSize: 14, fontFamily: fonts.semibold },
-  historyItemDate: { color: colors.textMuted, fontSize: 11, marginTop: 3 },
+  historyItemDate: { color: colors.textMuted, fontSize: 12, marginTop: 3 },
   historyItemTotal: { color: colors.gold, fontSize: 15, fontFamily: fonts.bold },
-  historyItemMethod: { color: colors.info, fontSize: 11, marginTop: 2 },
+  historyItemMethod: { color: colors.info, fontSize: 12, marginTop: 2 },
 });

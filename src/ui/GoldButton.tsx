@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import PressableScale from './PressableScale';
-import { colors, fonts, gradients, radius, shadow } from '../theme';
+import { alpha, colors, fonts, gradients, radius, shadow } from '../theme';
 import { HapticKind } from './haptics';
 
 type Props = {
@@ -54,6 +54,8 @@ export default function GoldButton({
       nativeID={nativeID}
       accessibilityRole="button"
       accessibilityLabel={label}
+      accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
+      hitSlop={h < 44 ? { top: (44 - h) / 2, bottom: (44 - h) / 2 } : undefined}
       style={[
         styles.base,
         { borderRadius: radius.pill, minHeight: h },
@@ -62,7 +64,7 @@ export default function GoldButton({
         variant === 'outline' && { borderWidth: 1, borderColor: colors.borderGold, backgroundColor: colors.goldSofter },
         variant === 'ghost' && { borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface },
         variant === 'glass' && { borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceStrong },
-        variant === 'danger' && { borderWidth: 1, borderColor: 'rgba(235,111,94,0.35)', backgroundColor: colors.dangerSoft },
+        variant === 'danger' && { borderWidth: 1, borderColor: alpha(colors.danger, 0.35), backgroundColor: colors.dangerSoft },
         style,
       ]}
     >

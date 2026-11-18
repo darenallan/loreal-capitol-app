@@ -4,6 +4,7 @@ import { Wifi, Radio, Database, RefreshCw, CheckCircle2, AlertTriangle, XCircle,
 import { runNetworkDiagnostics, NetworkDiagnosticResult, fetchViaRest, saveFastCache } from '../db/resilientSync';
 import { colors, fonts, radius } from '../theme';
 import { GlassCard, GoldButton } from '../ui';
+import { alpha } from '../theme';
 
 interface Props {
   visible: boolean;
@@ -86,7 +87,7 @@ Remarque: ${diag.operatorNote}`;
               <Text style={styles.title}>Docteur Réseau & Données</Text>
               <Text style={styles.subtitle}>Optimisé pour MTN & Orange Cameroun</Text>
             </View>
-            <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={onClose} style={styles.closeBtn}>
               <X color={colors.textSecondary} size={18} />
             </TouchableOpacity>
           </View>
@@ -100,9 +101,9 @@ Remarque: ${diag.operatorNote}`;
             ) : diag ? (
               <View style={styles.content}>
                 {/* Statut Global */}
-                <View style={[styles.statusBanner, { backgroundColor: diag.restOk ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)' }]}>
-                  {diag.restOk ? <CheckCircle2 color="#22C55E" size={20} /> : <AlertTriangle color="#EF4444" size={20} />}
-                  <Text style={[styles.statusBannerText, { color: diag.restOk ? '#22C55E' : '#EF4444' }]}>
+                <View style={[styles.statusBanner, { backgroundColor: diag.restOk ? alpha(colors.success, 0.1) : alpha(colors.danger, 0.1) }]}>
+                  {diag.restOk ? <CheckCircle2 color={colors.success} size={20} /> : <AlertTriangle color={colors.danger} size={20} />}
+                  <Text style={[styles.statusBannerText, { color: diag.restOk ? colors.success : colors.danger }]}>
                     {diag.operatorNote}
                   </Text>
                 </View>
@@ -115,7 +116,7 @@ Remarque: ${diag.operatorNote}`;
                       <Radio color={colors.gold} size={16} />
                       <Text style={styles.testCardTitle}>Protocole HTTPS</Text>
                     </View>
-                    <Text style={[styles.testResult, { color: diag.restOk ? '#22C55E' : '#EF4444' }]}>
+                    <Text style={[styles.testResult, { color: diag.restOk ? colors.success : colors.danger }]}>
                       {diag.restOk ? `Opérationnel (${diag.restPingMs}ms)` : 'Non disponible'}
                     </Text>
                     <Text style={styles.testNote}>Standard web universel (jamais filtré par MTN/Orange).</Text>
@@ -127,7 +128,7 @@ Remarque: ${diag.operatorNote}`;
                       <Wifi color={colors.gold} size={16} />
                       <Text style={styles.testCardTitle}>WebSockets Firebase</Text>
                     </View>
-                    <Text style={[styles.testResult, { color: diag.socketOk ? '#22C55E' : '#F59E0B' }]}>
+                    <Text style={[styles.testResult, { color: diag.socketOk ? colors.success : colors.warning }]}>
                       {diag.socketOk ? `Connecté (${diag.socketPingMs}ms)` : 'Filtré par le réseau mobile'}
                     </Text>
                     <Text style={styles.testNote}>Souvent bloqué sur données mobiles au Cameroun (bascule REST active).</Text>
@@ -153,7 +154,7 @@ Remarque: ${diag.operatorNote}`;
                     onPress={handleForceRefresh}
                     disabled={syncingAll}
                     size="md"
-                    icon={<DownloadCloud color="#07070A" size={16} />}
+                    icon={<DownloadCloud color={colors.onGold} size={16} />}
                   />
 
                   <TouchableOpacity style={styles.secondaryBtn} onPress={handleCopyReport}>
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     padding: 20,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
     backgroundColor: '#0E0E12',
   },
   header: {
@@ -199,11 +200,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.08)',
+    borderBottomColor: colors.border,
     paddingBottom: 14,
   },
   eyebrow: {
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: 1.5,
     color: colors.gold,
     fontWeight: '800',
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: radius.full,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: radius.sm,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: colors.border,
   },
   statusBannerText: {
     flex: 1,
@@ -264,7 +265,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   testCard: {
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderRadius: radius.sm,
     padding: 12,
     borderWidth: 1,
@@ -290,7 +291,7 @@ const styles = StyleSheet.create({
   },
   testNote: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
     lineHeight: 15,
   },
@@ -306,9 +307,9 @@ const styles = StyleSheet.create({
     gap: 8,
     paddingVertical: 10,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
+    backgroundColor: alpha(colors.gold, 0.08),
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.25)',
+    borderColor: alpha(colors.gold, 0.25),
   },
   secondaryBtnText: {
     color: colors.gold,
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
   },
   retestBtnText: {
     color: colors.textSecondary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
 });

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, TextInput, Alert, ActivityIndicator, Linking, ScrollView } from 'react-native';
 import { MapPin, Navigation, Compass, Check, X, ExternalLink, RefreshCw } from 'lucide-react-native';
 import { getStoreLocations, updateStoreLocation, calculateDistanceKm, calculateTravelMinutes, StoreLocation } from '../db/database';
+import { colors, alpha } from '../theme';
 
 interface StoreLocationModalProps {
   visible: boolean;
@@ -137,21 +138,21 @@ export default function StoreLocationModal({ visible, onClose, user }: StoreLoca
           {/* Header */}
           <View style={styles.header}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1 }}>
-              <Compass color="#d4af37" size={24} />
+              <Compass color={colors.gold} size={24} />
               <View>
                 <Text style={styles.title}>Adresses & GPS des Boutiques</Text>
                 <Text style={styles.subtitle}>Calcul automatique du trajet et de l'heure d'arrivée</Text>
               </View>
             </View>
-            <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
-              <X color="#aaa" size={20} />
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={onClose} style={styles.closeBtn}>
+              <X color={colors.textTertiary} size={20} />
             </TouchableOpacity>
           </View>
 
           {loading ? (
             <View style={{ padding: 40, alignItems: 'center' }}>
-              <ActivityIndicator size="large" color="#d4af37" />
-              <Text style={{ color: '#aaa', marginTop: 10 }}>Chargement des adresses...</Text>
+              <ActivityIndicator size="large" color={colors.gold} />
+              <Text style={{ color: colors.textTertiary, marginTop: 10 }}>Chargement des adresses...</Text>
             </View>
           ) : (
             <ScrollView showsVerticalScrollIndicator={false} style={{ maxHeight: 520 }}>
@@ -160,7 +161,7 @@ export default function StoreLocationModal({ visible, onClose, user }: StoreLoca
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                   <Text style={styles.summaryTitle}>🗺️ Trajet La Falaise ⟷ Tougou</Text>
                   <TouchableOpacity onPress={openInGoogleMaps} style={styles.gmapsBtn}>
-                    <ExternalLink color="#2196F3" size={14} />
+                    <ExternalLink color={colors.info} size={14} />
                     <Text style={styles.gmapsBtnText}>Ouvrir Google Maps</Text>
                   </TouchableOpacity>
                 </View>
@@ -171,7 +172,7 @@ export default function StoreLocationModal({ visible, onClose, user }: StoreLoca
                   </View>
                   <View style={styles.metricItem}>
                     <Text style={styles.metricLabel}>Durée estimée (Moto/Taxi)</Text>
-                    <Text style={[styles.metricVal, { color: '#4CAF50' }]}>~{currentDuration} min</Text>
+                    <Text style={[styles.metricVal, { color: colors.success }]}>~{currentDuration} min</Text>
                   </View>
                 </View>
                 <Text style={styles.metricSub}>
@@ -182,7 +183,7 @@ export default function StoreLocationModal({ visible, onClose, user }: StoreLoca
               {/* Section 1 : Boutique La Falaise */}
               <View style={styles.storeCard}>
                 <View style={styles.storeCardHeader}>
-                  <View style={[styles.storeDot, { backgroundColor: '#d4af37' }]} />
+                  <View style={[styles.storeDot, { backgroundColor: colors.gold }]} />
                   <Text style={styles.storeCardTitle}>1. Boutique La Falaise</Text>
                 </View>
 
@@ -190,7 +191,7 @@ export default function StoreLocationModal({ visible, onClose, user }: StoreLoca
                 <TextInput
                   style={styles.input}
                   placeholder="Ex: Carrefour La Falaise, Douala"
-                  placeholderTextColor="#666"
+                  placeholderTextColor={colors.inputPlaceholder}
                   value={falaiseAddress}
                   onChangeText={setFalaiseAddress}
                 />
@@ -223,10 +224,10 @@ export default function StoreLocationModal({ visible, onClose, user }: StoreLoca
                     onPress={() => captureCurrentGps('falaise')}
                   >
                     {capturingStore === 'falaise' ? (
-                      <ActivityIndicator size="small" color="#d4af37" />
+                      <ActivityIndicator size="small" color={colors.gold} />
                     ) : (
                       <>
-                        <MapPin color="#d4af37" size={16} />
+                        <MapPin color={colors.gold} size={16} />
                         <Text style={styles.gpsCaptureBtnText}>Prendre ma position actuelle</Text>
                       </>
                     )}
@@ -238,10 +239,10 @@ export default function StoreLocationModal({ visible, onClose, user }: StoreLoca
                     onPress={() => handleSaveStore('falaise')}
                   >
                     {savingStore === 'falaise' ? (
-                      <ActivityIndicator size="small" color="#121212" />
+                      <ActivityIndicator size="small" color={colors.onGold} />
                     ) : (
                       <>
-                        <Check color="#121212" size={16} />
+                        <Check color={colors.onGold} size={16} />
                         <Text style={styles.saveStoreBtnText}>Sauvegarder</Text>
                       </>
                     )}
@@ -252,7 +253,7 @@ export default function StoreLocationModal({ visible, onClose, user }: StoreLoca
               {/* Section 2 : Boutique Tougou */}
               <View style={styles.storeCard}>
                 <View style={styles.storeCardHeader}>
-                  <View style={[styles.storeDot, { backgroundColor: '#9C27B0' }]} />
+                  <View style={[styles.storeDot, { backgroundColor: colors.violet }]} />
                   <Text style={styles.storeCardTitle}>2. Boutique Tougou</Text>
                 </View>
 
@@ -260,7 +261,7 @@ export default function StoreLocationModal({ visible, onClose, user }: StoreLoca
                 <TextInput
                   style={styles.input}
                   placeholder="Ex: Marché Tougou, Douala"
-                  placeholderTextColor="#666"
+                  placeholderTextColor={colors.inputPlaceholder}
                   value={tougouAddress}
                   onChangeText={setTougouAddress}
                 />
@@ -293,17 +294,17 @@ export default function StoreLocationModal({ visible, onClose, user }: StoreLoca
                     onPress={() => captureCurrentGps('tougou')}
                   >
                     {capturingStore === 'tougou' ? (
-                      <ActivityIndicator size="small" color="#9C27B0" />
+                      <ActivityIndicator size="small" color={colors.violet} />
                     ) : (
                       <>
-                        <MapPin color="#9C27B0" size={16} />
-                        <Text style={[styles.gpsCaptureBtnText, { color: '#9C27B0' }]}>Prendre ma position actuelle</Text>
+                        <MapPin color={colors.violet} size={16} />
+                        <Text style={[styles.gpsCaptureBtnText, { color: colors.violet }]}>Prendre ma position actuelle</Text>
                       </>
                     )}
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={[styles.saveStoreBtn, { backgroundColor: '#9C27B0' }, savingStore === 'tougou' && { opacity: 0.6 }]}
+                    style={[styles.saveStoreBtn, { backgroundColor: colors.violet }, savingStore === 'tougou' && { opacity: 0.6 }]}
                     disabled={savingStore === 'tougou'}
                     onPress={() => handleSaveStore('tougou')}
                   >
@@ -339,13 +340,13 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   modalContent: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: colors.surfaceSolidHi,
     borderRadius: 20,
     width: '100%',
     maxWidth: 500,
     padding: 20,
     borderWidth: 1.5,
-    borderColor: '#d4af37',
+    borderColor: colors.gold,
   },
   header: {
     flexDirection: 'row',
@@ -354,21 +355,21 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    borderBottomColor: colors.border,
   },
   title: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 17,
     fontWeight: 'bold',
   },
   subtitle: {
-    color: '#888',
-    fontSize: 11,
+    color: colors.textMuted,
+    fontSize: 12,
     marginTop: 2,
   },
   closeBtn: {
     padding: 6,
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.surfaceStrong,
     borderRadius: 8,
   },
   summaryCard: {
@@ -377,10 +378,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#d4af3766',
+    borderColor: alpha(colors.gold, 0.4),
   },
   summaryTitle: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 14,
     fontWeight: 'bold',
   },
@@ -393,11 +394,11 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#2196F3',
+    borderColor: colors.info,
   },
   gmapsBtnText: {
-    color: '#2196F3',
-    fontSize: 11,
+    color: colors.info,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   metricsRow: {
@@ -408,13 +409,13 @@ const styles = StyleSheet.create({
   },
   metricItem: {
     flex: 1,
-    backgroundColor: '#181818',
+    backgroundColor: colors.surfaceSolid,
     padding: 10,
     borderRadius: 8,
   },
   metricLabel: {
-    color: '#888',
-    fontSize: 11,
+    color: colors.textMuted,
+    fontSize: 12,
   },
   metricVal: {
     color: '#fff',
@@ -423,17 +424,17 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   metricSub: {
-    color: '#aaa',
-    fontSize: 10,
+    color: colors.textTertiary,
+    fontSize: 12,
     fontStyle: 'italic',
   },
   storeCard: {
-    backgroundColor: '#222',
+    backgroundColor: colors.surfaceSolidHi,
     padding: 14,
     borderRadius: 12,
     marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: colors.border,
   },
   storeCardHeader: {
     flexDirection: 'row',
@@ -452,13 +453,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   inputLabel: {
-    color: '#aaa',
-    fontSize: 11,
+    color: colors.textTertiary,
+    fontSize: 12,
     marginBottom: 4,
   },
   input: {
-    backgroundColor: '#181818',
-    borderColor: '#444',
+    backgroundColor: colors.surfaceSolid,
+    borderColor: colors.borderStrong,
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 12,
@@ -473,15 +474,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.surfaceStrong,
     borderWidth: 1,
-    borderColor: '#444',
+    borderColor: colors.borderStrong,
     paddingVertical: 10,
     borderRadius: 8,
   },
   gpsCaptureBtnText: {
-    color: '#d4af37',
-    fontSize: 11,
+    color: colors.gold,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   saveStoreBtn: {
@@ -489,25 +490,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 8,
   },
   saveStoreBtnText: {
-    color: '#121212',
+    color: colors.onGold,
     fontSize: 12,
     fontWeight: 'bold',
   },
   closeModalBtn: {
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.surfaceStrong,
     paddingVertical: 12,
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 10,
   },
   closeModalBtnText: {
-    color: '#aaa',
+    color: colors.textTertiary,
     fontSize: 13,
     fontWeight: 'bold',
   },

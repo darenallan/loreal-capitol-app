@@ -727,11 +727,11 @@ export default function LedgerScreen({ navigation, route }: any) {
       </ScrollView>
 
       {/* Floating Sparkles AI Button */}
-      <PressableScale 
+      <PressableScale accessibilityRole="button" accessibilityLabel="Assistant IA" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} 
         style={styles.fab} 
         onPress={() => setShowAIAssistant(true)}
       >
-        <Sparkles color="#07070A" size={24} />
+        <Sparkles color={colors.onGold} size={24} />
       </PressableScale>
 
       {/* Modal Nouvelle Vente */}

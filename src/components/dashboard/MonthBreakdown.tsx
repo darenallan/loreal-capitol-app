@@ -118,11 +118,11 @@ export default function MonthBreakdown({
 const styles = StyleSheet.create({
   // Week Card (Month view)
   weekCard: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.surfaceStrong,
     borderRadius: 12,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#3a3a3a',
+    borderColor: colors.borderStrong,
     overflow: 'hidden',
   },
   weekCardHeader: {
@@ -137,33 +137,33 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   weekCardRange: {
-    color: '#aaa',
+    color: colors.textTertiary,
     fontSize: 12,
     fontWeight: 'normal',
   },
   weekCardSub: {
-    color: '#888',
-    fontSize: 11,
+    color: colors.textMuted,
+    fontSize: 12,
     marginTop: 3,
   },
   weekCardTotal: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 16,
     fontWeight: 'bold',
   },
   weekCardDaysContainer: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: colors.surfaceSolidHi,
     padding: 10,
     borderTopWidth: 1,
-    borderTopColor: '#333',
+    borderTopColor: colors.border,
     gap: 8,
   },
   // Nested Day Card inside Month view
   nestedDayCard: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.surfaceStrong,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: colors.border,
     overflow: 'hidden',
   },
   nestedDayHeader: {
@@ -178,12 +178,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   nestedDaySub: {
-    color: '#777',
-    fontSize: 10,
+    color: colors.textMuted,
+    fontSize: 12,
     marginTop: 2,
   },
   nestedDayTotal: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 13,
     fontWeight: 'bold',
   },

@@ -5,6 +5,8 @@ import { changeUserPin, updateUserProfile, isUserAdmin } from '../db/database';
 import * as ImagePicker from 'expo-image-picker';
 import { colors, fonts, radius, shadow } from '../theme';
 import { useResponsive, GlassCard, TiltCard, GoldButton, PressableScale, Pill, SectionTitle, FadeIn } from '../ui';
+import { chrome } from '../ui/screenChrome';
+import { alpha } from '../theme';
 
 export default function ProfileScreen({ navigation, route }: any) {
   const r = useResponsive();
@@ -97,7 +99,7 @@ export default function ProfileScreen({ navigation, route }: any) {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Retour" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => navigation.goBack()} style={styles.backBtn}>
           <ArrowLeft color={colors.textPrimary} size={20} />
         </TouchableOpacity>
         <View style={styles.headerTitleBox}>
@@ -123,7 +125,7 @@ export default function ProfileScreen({ navigation, route }: any) {
                   </View>
                 )}
                 <View style={styles.cameraIconBadge}>
-                  <Camera color="#07070A" size={14} />
+                  <Camera color={colors.onGold} size={14} />
                 </View>
               </TouchableOpacity>
 
@@ -135,10 +137,10 @@ export default function ProfileScreen({ navigation, route }: any) {
                     onChangeText={setUserName}
                     autoFocus
                   />
-                  <TouchableOpacity style={styles.nameConfirmBtn} onPress={handleUpdateName}>
-                    <Check color="#07070A" size={16} />
+                  <TouchableOpacity accessibilityRole="button" accessibilityLabel="Valider" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} style={styles.nameConfirmBtn} onPress={handleUpdateName}>
+                    <Check color={colors.onGold} size={16} />
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.nameCancelBtn} onPress={() => { setIsEditingName(false); setUserName(user?.name || ''); }}>
+                  <TouchableOpacity accessibilityRole="button" accessibilityLabel="Annuler la modification du nom" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} style={styles.nameCancelBtn} onPress={() => { setIsEditingName(false); setUserName(user?.name || ''); }}>
                     <X color={colors.textSecondary} size={16} />
                   </TouchableOpacity>
                 </View>
@@ -209,7 +211,7 @@ export default function ProfileScreen({ navigation, route }: any) {
                 label="Mettre à jour le code PIN"
                 onPress={handleUpdatePin}
                 size="md"
-                icon={<Check color="#07070A" size={16} />}
+                icon={<Check color={colors.onGold} size={16} />}
               />
             </View>
           </GlassCard>
@@ -224,41 +226,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.obsidian,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'web' ? 20 : 48,
-    paddingBottom: 14,
-    backgroundColor: 'rgba(7, 7, 10, 0.95)',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.glassBorder,
-  },
-  backBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-  },
+  header: { ...chrome.header, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  backBtn: { ...chrome.backBtn },
   headerTitleBox: {
     alignItems: 'center',
   },
-  screenEyebrow: {
-    fontSize: 10,
-    letterSpacing: 2,
-    color: colors.gold,
-    fontWeight: '800',
-    fontFamily: fonts.sans,
-    textTransform: 'uppercase',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    fontFamily: fonts.serif,
-  },
+  screenEyebrow: { ...chrome.screenEyebrow },
+  title: { ...chrome.title },
   contentScroll: {
     paddingHorizontal: 16,
     paddingTop: 20,
@@ -290,7 +264,7 @@ const styles = StyleSheet.create({
     width: 90,
     height: 90,
     borderRadius: 45,
-    backgroundColor: 'rgba(212, 175, 55, 0.12)',
+    backgroundColor: alpha(colors.gold, 0.12),
     borderWidth: 2,
     borderColor: colors.gold,
     justifyContent: 'center',
@@ -332,7 +306,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   nameInput: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.gold,
     borderRadius: radius.sm,
@@ -349,7 +323,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.xs,
   },
   nameCancelBtn: {
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    backgroundColor: colors.surfaceStrong,
     padding: 8,
     borderRadius: radius.xs,
   },
@@ -362,23 +336,23 @@ const styles = StyleSheet.create({
   roleBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+    backgroundColor: alpha(colors.gold, 0.1),
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: radius.full,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
   },
   roleBadgeText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
   storeBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: radius.full,
@@ -387,7 +361,7 @@ const styles = StyleSheet.create({
   },
   storeBadgeText: {
     color: colors.textSecondary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
   },
@@ -416,7 +390,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sans,
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     color: colors.textPrimary,
     height: 44,
     borderRadius: radius.sm,

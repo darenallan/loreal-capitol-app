@@ -5,6 +5,7 @@ import { cleanWhatsAppNumber } from '../../utils/receiptShare';
 import { colors, fonts, radius, formatMoney, shadow } from '../../theme';
 import { GlassCard, GoldButton } from '../../ui';
 import { sharedStyles } from './ledgerStyles';
+import { alpha } from '../../theme';
 
 export interface NewSaleModalProps {
   storeId: any;
@@ -99,7 +100,7 @@ export default function NewSaleModal({
                 <Text style={sharedStyles.modalTitle}>Nouvelle Vente</Text>
                 <Text style={sharedStyles.modalDate}>{todayFormatted} — Vente N°{String(todaySales.length + 1).padStart(3, '0')}</Text>
               </View>
-              <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.modalCloseBtn}>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => setModalVisible(false)} style={styles.modalCloseBtn}>
                 <X color={colors.textSecondary} size={20} />
               </TouchableOpacity>
             </View>
@@ -137,7 +138,7 @@ export default function NewSaleModal({
                     autoFocus
                   />
                   {searchText.length > 0 && (
-                    <TouchableOpacity onPress={() => setSearchText('')}>
+                    <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => setSearchText('')}>
                       <X color={colors.textTertiary} size={16} />
                     </TouchableOpacity>
                   )}
@@ -177,12 +178,12 @@ export default function NewSaleModal({
                                 Aucun article correspondant en stock à {storeId === 'falaise' ? 'La Falaise' : 'Tougou'}
                               </Text>
                               {otherStoreProducts.length > 0 && (
-                                <View style={{ marginTop: 12, padding: 10, backgroundColor: 'rgba(212, 175, 55, 0.1)', borderRadius: radius.sm, borderWidth: 1, borderColor: 'rgba(212, 175, 55, 0.3)' }}>
+                                <View style={{ marginTop: 12, padding: 10, backgroundColor: alpha(colors.gold, 0.1), borderRadius: radius.sm, borderWidth: 1, borderColor: alpha(colors.gold, 0.3) }}>
                                   <Text style={{ color: colors.gold, fontSize: 12, fontWeight: '700', marginBottom: 4 }}>
                                     📍 Disponible à {storeId === 'falaise' ? 'Tougou' : 'La Falaise'} ({otherStoreProducts.reduce((s, p) => s + p.stock, 0)} unité{otherStoreProducts.reduce((s, p) => s + p.stock, 0) > 1 ? 's' : ''}) :
                                   </Text>
                                   {otherStoreProducts.slice(0, 3).map(op => (
-                                    <Text key={op.id} style={{ color: colors.textSecondary, fontSize: 11, marginVertical: 1 }}>
+                                    <Text key={op.id} style={{ color: colors.textSecondary, fontSize: 12, marginVertical: 1 }}>
                                       • {op.name} {op.color ? `(${op.color})` : ''} {op.size ? `T.${op.size}` : ''} — Stock: {op.stock}
                                     </Text>
                                   ))}
@@ -193,7 +194,7 @@ export default function NewSaleModal({
                                       setTransferRequestModalVisible(true);
                                     }}
                                   >
-                                    <Text style={{ color: '#07070A', fontSize: 11, fontWeight: '700' }}>
+                                    <Text style={{ color: colors.onGold, fontSize: 12, fontWeight: '700' }}>
                                       Demander un coursier express ➔
                                     </Text>
                                   </TouchableOpacity>
@@ -358,7 +359,7 @@ export default function NewSaleModal({
               </View>
             ) : (
               /* Envoi Facture Client (WhatsApp / Mail) pour Vente Standard */
-              <View style={{ marginTop: 14, backgroundColor: 'rgba(212, 175, 55, 0.05)', padding: 14, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(212, 175, 55, 0.25)', gap: 10 }}>
+              <View style={{ marginTop: 14, backgroundColor: alpha(colors.gold, 0.05), padding: 14, borderRadius: 12, borderWidth: 1, borderColor: alpha(colors.gold, 0.25), gap: 10 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                     <MessageCircle color={colors.gold} size={16} />
@@ -368,7 +369,7 @@ export default function NewSaleModal({
                   </View>
                   {cleanWhatsAppNumber(clientPhone) ? (
                     <View style={{ backgroundColor: 'rgba(37, 211, 102, 0.15)', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6, borderWidth: 1, borderColor: '#25D366' }}>
-                      <Text style={{ color: '#25D366', fontSize: 11, fontWeight: '700' }}>✓ WhatsApp Direct</Text>
+                      <Text style={{ color: '#25D366', fontSize: 12, fontWeight: '700' }}>✓ WhatsApp Direct</Text>
                     </View>
                   ) : null}
                 </View>
@@ -437,7 +438,7 @@ export default function NewSaleModal({
                         {item.quantity} × {formatMoney(item.price)} FCFA = {formatMoney(item.quantity * item.price)} FCFA
                       </Text>
                     </View>
-                    <TouchableOpacity onPress={() => removeFromCart(index)} style={styles.cartRemoveBtn}>
+                    <TouchableOpacity accessibilityRole="button" accessibilityLabel="Supprimer" hitSlop={{ top: 8, bottom: 8 }} onPress={() => removeFromCart(index)} style={styles.cartRemoveBtn}>
                       <Trash2 color={colors.danger} size={16} />
                     </TouchableOpacity>
                   </View>
@@ -459,7 +460,7 @@ export default function NewSaleModal({
                   onPress={handleInitiateSale}
                   disabled={cart.length === 0}
                   size="lg"
-                  icon={<Check color="#07070A" size={18} />}
+                  icon={<Check color={colors.onGold} size={18} />}
                 />
               </View>
               <TouchableOpacity style={sharedStyles.modalCancelBtn} onPress={() => setModalVisible(false)}>
@@ -490,7 +491,7 @@ const styles = StyleSheet.create({
   modalCloseBtn: {
     padding: 6,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
   },
   row: {
     flexDirection: 'row',
@@ -503,7 +504,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     backgroundColor: '#121217',
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.4)',
+    borderColor: alpha(colors.gold, 0.4),
     borderRadius: radius.sm,
     overflow: 'hidden',
     ...shadow.lg,
@@ -525,11 +526,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'rgba(212, 175, 55, 0.06)',
+    backgroundColor: alpha(colors.gold, 0.06),
     padding: 14,
     borderRadius: radius.sm,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.35)',
+    borderColor: alpha(colors.gold, 0.35),
   },
   selectedProductName: {
     color: colors.textPrimary,
@@ -545,7 +546,7 @@ const styles = StyleSheet.create({
   },
   selectedProductStock: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     marginTop: 4,
     fontFamily: fonts.sans,
@@ -553,14 +554,14 @@ const styles = StyleSheet.create({
   changeProductBtn: {
     paddingVertical: 5,
     paddingHorizontal: 10,
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    backgroundColor: alpha(colors.danger, 0.1),
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    borderColor: alpha(colors.danger, 0.3),
   },
   changeProductText: {
     color: colors.danger,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -573,12 +574,12 @@ const styles = StyleSheet.create({
     paddingVertical: 9,
     paddingHorizontal: 12,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },
   paymentPillActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+    backgroundColor: alpha(colors.gold, 0.15),
     borderColor: colors.gold,
   },
   paymentPillText: {
@@ -592,15 +593,15 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   advanceCard: {
-    backgroundColor: 'rgba(245, 158, 11, 0.05)',
+    backgroundColor: alpha(colors.warning, 0.05),
     borderWidth: 1,
-    borderColor: 'rgba(245, 158, 11, 0.3)',
+    borderColor: alpha(colors.warning, 0.3),
     borderRadius: radius.sm,
     padding: 14,
     marginTop: 12,
   },
   advanceCardTitle: {
-    color: '#F59E0B',
+    color: colors.warning,
     fontSize: 13,
     fontWeight: '700',
     letterSpacing: 0.5,
@@ -640,7 +641,7 @@ const styles = StyleSheet.create({
   },
   cartItemSubtitle: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
     fontFamily: fonts.sans,
   },

@@ -17,6 +17,8 @@ import NetworkDoctorModal from '../components/NetworkDoctorModal';
 import { colors, fonts, radius, shadow, formatMoney } from '../theme';
 import { useAppTheme } from '../theme/ThemeContext';
 import { useResponsive, GlassCard, TiltCard, GoldButton, PressableScale, Pill, SectionTitle, FadeIn, ThemeToggleButton } from '../ui';
+import { chrome } from '../ui/screenChrome';
+import { alpha } from '../theme';
 
 const CLOTHING_SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
 const SHOE_SIZES = Array.from({length: 50 - 34 + 1}, (_, i) => (34 + i).toString());
@@ -531,7 +533,7 @@ export default function InventoryScreen({ navigation, route }: any) {
       <View style={[styles.header, { backgroundColor: colors.bgElevated, borderBottomColor: colors.border }]}>
         {/* Ligne 1 : Navigation Retour + Titre Principal (Largeur complète) */}
         <View style={styles.headerTopBar}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.backBtn, { borderColor: colors.border }]}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Retour" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => navigation.goBack()} style={[styles.backBtn, { borderColor: colors.border }]}>
             <ArrowLeft color={colors.textPrimary} size={18} />
           </TouchableOpacity>
 
@@ -590,12 +592,12 @@ export default function InventoryScreen({ navigation, route }: any) {
           </TouchableOpacity>
 
           <TouchableOpacity 
-            style={[styles.headerActionPill, { borderColor: 'rgba(56, 189, 248, 0.3)', backgroundColor: 'rgba(56, 189, 248, 0.08)' }]} 
+            style={[styles.headerActionPill, { borderColor: alpha(colors.info, 0.3), backgroundColor: alpha(colors.info, 0.08) }]} 
             onPress={() => setDoctorModalVisible(true)}
             accessibilityLabel="Docteur Réseau Cameroun"
           >
-            <RefreshCw color="#38BDF8" size={14} />
-            <Text style={[styles.headerActionPillText, { color: '#38BDF8' }]}>Réseau</Text>
+            <RefreshCw color={colors.info} size={14} />
+            <Text style={[styles.headerActionPillText, { color: colors.info }]}>Réseau</Text>
           </TouchableOpacity>
         </ScrollView>
 
@@ -716,7 +718,7 @@ export default function InventoryScreen({ navigation, route }: any) {
             onChangeText={setInventorySearchText}
           />
           {inventorySearchText.length > 0 && (
-            <TouchableOpacity onPress={() => setInventorySearchText('')} style={{ padding: 4 }}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => setInventorySearchText('')} style={{ padding: 4 }}>
               <X color={colors.textSecondary} size={16} />
             </TouchableOpacity>
           )}
@@ -727,22 +729,24 @@ export default function InventoryScreen({ navigation, route }: any) {
           <View style={{ flexDirection: 'row', gap: 8 }}>
             <TouchableOpacity 
               onPress={expandAllSections}
+              hitSlop={{ top: 9, bottom: 9 }}
               style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.goldSoft, borderColor: colors.borderGold, borderWidth: 1, paddingVertical: 4, paddingHorizontal: 8, borderRadius: 6 }}
             >
               <ChevronDown color={colors.gold} size={14} style={{ marginRight: 4 }} />
-              <Text style={{ color: colors.gold, fontSize: 11, fontWeight: '700' }}>Tout Dérouler</Text>
+              <Text style={{ color: colors.gold, fontSize: 12, fontWeight: '700' }}>Tout Dérouler</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
               onPress={collapseAllSections}
-              style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.04)', borderColor: colors.border, borderWidth: 1, paddingVertical: 4, paddingHorizontal: 8, borderRadius: 6 }}
+              hitSlop={{ top: 9, bottom: 9 }}
+              style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1, paddingVertical: 4, paddingHorizontal: 8, borderRadius: 6 }}
             >
               <ChevronRight color={colors.textSecondary} size={14} style={{ marginRight: 4 }} />
-              <Text style={{ color: colors.textSecondary, fontSize: 11, fontWeight: '600' }}>Tout Réduire</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: 12, fontWeight: '600' }}>Tout Réduire</Text>
             </TouchableOpacity>
           </View>
 
-          <Text style={{ color: colors.textTertiary, fontSize: 11 }}>
+          <Text style={{ color: colors.textTertiary, fontSize: 12 }}>
             {products.length} réf · {products.reduce((s, p) => s + (p.stock || 0), 0)} pcs
           </Text>
         </View>
@@ -789,7 +793,7 @@ export default function InventoryScreen({ navigation, route }: any) {
               styles.productCard,
               {
                 backgroundColor: isDark ? '#14141E' : '#FFFFFF',
-                borderColor: isCritical ? colors.danger : (isDark ? 'rgba(212,175,55,0.18)' : 'rgba(0,0,0,0.08)'),
+                borderColor: isCritical ? colors.danger : (isDark ? alpha(colors.gold, 0.18) : 'rgba(0,0,0,0.08)'),
                 borderWidth: 1,
               },
               isCritical && styles.productCardCritical
@@ -862,7 +866,7 @@ export default function InventoryScreen({ navigation, route }: any) {
                 )}
 
                 {isUserAdmin(user) && (
-                  <TouchableOpacity onPress={() => handleDelete(item.id)} style={[styles.cardActionBtn, styles.cardDeleteBtn]}>
+                  <TouchableOpacity accessibilityRole="button" accessibilityLabel="Supprimer" hitSlop={{ top: 8, bottom: 8 }} onPress={() => handleDelete(item.id)} style={[styles.cardActionBtn, styles.cardDeleteBtn]}>
                     <Trash2 color={colors.danger} size={15} />
                   </TouchableOpacity>
                 )}
@@ -911,7 +915,7 @@ export default function InventoryScreen({ navigation, route }: any) {
                 label="Valider l'Arrivage"
                 onPress={handleArrivage}
                 size="md"
-                icon={<PackagePlus color="#07070A" size={16} />}
+                icon={<PackagePlus color={colors.onGold} size={16} />}
               />
               <TouchableOpacity style={styles.modalCancelBtn} onPress={() => setArrivageModal(false)}>
                 <Text style={styles.modalCancelBtnText}>Annuler</Text>
@@ -943,11 +947,11 @@ export default function InventoryScreen({ navigation, route }: any) {
                     level="M"
                   />
                   {/* @ts-ignore */}
-                  <p className="qr-label-name" style={{ margin: '8px 0 2px', textAlign: 'center', fontWeight: 'bold', fontSize: 13, color: '#000' }}>
+                  <p className="qr-label-name" style={{ margin: '8px 0 2px', textAlign: 'center', fontWeight: 'bold', fontSize: 13, color: colors.onGold }}>
                     {selectedQrProduct.name}
                   </p>
                   {/* @ts-ignore */}
-                  <p className="qr-label-price" style={{ margin: 0, textAlign: 'center', fontSize: 11, color: '#333' }}>
+                  <p className="qr-label-price" style={{ margin: 0, textAlign: 'center', fontSize: 12, color: '#333' }}>
                     {formatMoney(selectedQrProduct.price)} FCFA
                     {selectedQrProduct.size ? ` | T.${selectedQrProduct.size}` : ''}
                   </p>
@@ -1009,7 +1013,7 @@ export default function InventoryScreen({ navigation, route }: any) {
                   }
                 }}
                 size="md"
-                icon={<Printer color="#07070A" size={16} />}
+                icon={<Printer color={colors.onGold} size={16} />}
               />
               <TouchableOpacity style={styles.modalCancelBtn} onPress={() => setQrModalVisible(false)}>
                 <Text style={styles.modalCancelBtnText}>Fermer</Text>
@@ -1033,7 +1037,7 @@ export default function InventoryScreen({ navigation, route }: any) {
                   <Text style={styles.modalEyebrow}>NOUVELLE ENTRÉE CATALOGUE</Text>
                   <Text style={styles.modalTitle}>Créer un Article</Text>
                 </View>
-                <TouchableOpacity onPress={() => { setModalVisible(false); resetForm(); }} style={styles.modalCloseBtn}>
+                <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => { setModalVisible(false); resetForm(); }} style={styles.modalCloseBtn}>
                   <X color={colors.textSecondary} size={18} />
                 </TouchableOpacity>
               </View>
@@ -1145,7 +1149,7 @@ export default function InventoryScreen({ navigation, route }: any) {
                     />
                   </View>
                   {index > 0 && (
-                    <TouchableOpacity 
+                    <TouchableOpacity accessibilityRole="button" accessibilityLabel="Supprimer" hitSlop={{ top: 8, bottom: 8 }} 
                       style={styles.variantRemoveBtn} 
                       onPress={() => {
                         const newV = [...variants];
@@ -1182,7 +1186,7 @@ export default function InventoryScreen({ navigation, route }: any) {
                   onPress={handleAddProduct}
                   disabled={isAddingProduct}
                   size="lg"
-                  icon={isAddingProduct ? <ActivityIndicator size="small" color="#07070A" /> : <Check color="#07070A" size={18} />}
+                  icon={isAddingProduct ? <ActivityIndicator size="small" color={colors.onGold} /> : <Check color={colors.onGold} size={18} />}
                 />
                 <TouchableOpacity style={styles.modalCancelBtn} onPress={() => { setModalVisible(false); resetForm(); }}>
                   <Text style={styles.modalCancelBtnText}>Annuler</Text>
@@ -1207,16 +1211,16 @@ export default function InventoryScreen({ navigation, route }: any) {
                   <Text style={styles.modalEyebrow}>ADMINISTRATION</Text>
                   <Text style={styles.modalTitle}>Modifier le Produit</Text>
                 </View>
-                <TouchableOpacity onPress={() => setEditModalVisible(false)} style={styles.modalCloseBtn}>
+                <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => setEditModalVisible(false)} style={styles.modalCloseBtn}>
                   <X color={colors.textSecondary} size={18} />
                 </TouchableOpacity>
               </View>
 
-              <View style={{ backgroundColor: 'rgba(212, 175, 55, 0.08)', padding: 12, borderRadius: radius.sm, marginBottom: 14, borderWidth: 1, borderColor: 'rgba(212, 175, 55, 0.25)' }}>
+              <View style={{ backgroundColor: alpha(colors.gold, 0.08), padding: 12, borderRadius: radius.sm, marginBottom: 14, borderWidth: 1, borderColor: alpha(colors.gold, 0.25) }}>
                 <Text style={{ color: colors.gold, fontWeight: '700', fontSize: 13, marginBottom: 4 }}>
                   MODIFIER CETTE DÉCLINAISON
                 </Text>
-                <Text style={{ color: colors.textSecondary, fontSize: 11 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: 12 }}>
                   Modifiez directement le nom de la couleur, la taille, la référence ou les unités de stock.
                 </Text>
               </View>
@@ -1301,19 +1305,19 @@ export default function InventoryScreen({ navigation, route }: any) {
                   label="Enregistrer les Modifications"
                   onPress={handleEditProduct}
                   size="md"
-                  icon={<Check color="#07070A" size={16} />}
+                  icon={<Check color={colors.onGold} size={16} />}
                 />
               </View>
 
               {/* SECTION AJOUT NOUVELLE DÉCLINAISON (COULEUR / TAILLE / UNITÉS) */}
-              <View style={{ marginTop: 8, paddingTop: 16, borderTopWidth: 1, borderTopColor: 'rgba(212, 175, 55, 0.3)' }}>
+              <View style={{ marginTop: 8, paddingTop: 16, borderTopWidth: 1, borderTopColor: alpha(colors.gold, 0.3) }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 }}>
                   <Layers color={colors.gold} size={16} />
                   <Text style={{ color: colors.gold, fontWeight: '700', fontSize: 13 }}>
                     AJOUTER UNE NOUVELLE COULEUR OU TAILLE
                   </Text>
                 </View>
-                <Text style={{ color: colors.textSecondary, fontSize: 11, marginBottom: 12 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: 12, marginBottom: 12 }}>
                   Créez instantanément une nouvelle variante pour "{editName}" avec ses propres unités de stock.
                 </Text>
 
@@ -1354,7 +1358,7 @@ export default function InventoryScreen({ navigation, route }: any) {
                 <TouchableOpacity 
                   style={[
                     styles.addVariantBtn, 
-                    { marginTop: 10, borderColor: colors.borderGold, backgroundColor: 'rgba(212, 175, 55, 0.12)', paddingVertical: 10 }
+                    { marginTop: 10, borderColor: colors.borderGold, backgroundColor: alpha(colors.gold, 0.12), paddingVertical: 10 }
                   ]}
                   onPress={handleAddNewVariantToProduct}
                   disabled={addingVariantLoading}
@@ -1418,41 +1422,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     gap: 12,
   },
-  backBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  backBtn: { ...chrome.backBtn },
   headerTitleBox: {
     flex: 1,
     minWidth: 0,
   },
-  screenEyebrow: {
-    fontSize: 11,
-    letterSpacing: 2,
-    color: colors.gold,
-    fontWeight: '800',
-    fontFamily: fonts.sans,
-    textTransform: 'uppercase',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    fontFamily: fonts.serif,
-  },
-  goldAddBtnHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 7,
-    paddingHorizontal: 12,
-    borderRadius: radius.pill,
-    gap: 5,
-    flexShrink: 0,
-  },
+  screenEyebrow: { ...chrome.screenEyebrow },
+  title: { ...chrome.title },
+  goldAddBtnHeader: { ...chrome.goldBtn, flexShrink: 0 },
   headerActionsToolbarScroll: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1460,21 +1437,8 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     marginBottom: 12,
   },
-  headerActionPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 7,
-    paddingHorizontal: 12,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    gap: 6,
-    flexShrink: 0,
-  },
-  headerActionPillText: {
-    fontSize: 12,
-    fontFamily: fonts.sans,
-    fontWeight: '700',
-  },
+  headerActionPill: { flexDirection: 'row', alignItems: 'center', minHeight: 44, paddingHorizontal: 14, borderRadius: radius.pill, borderWidth: 1, gap: 6, flexShrink: 0 },
+  headerActionPillText: { fontSize: 13, fontFamily: fonts.sans, fontWeight: '700' },
   goldAddBtn: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1485,12 +1449,7 @@ const styles = StyleSheet.create({
     gap: 6,
     marginLeft: 'auto',
   },
-  goldAddBtnText: {
-    color: '#07070A',
-    fontWeight: '700',
-    fontSize: 12.5,
-    fontFamily: fonts.sans,
-  },
+  goldAddBtnText: { ...chrome.goldBtnText },
   storeSelector: {
     flexDirection: 'row',
     gap: 8,
@@ -1515,8 +1474,8 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   storePillActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
-    borderColor: 'rgba(212, 175, 55, 0.4)',
+    backgroundColor: alpha(colors.gold, 0.1),
+    borderColor: alpha(colors.gold, 0.4),
   },
   storePillText: {
     color: colors.textTertiary,
@@ -1529,18 +1488,18 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   storeCountBadge: {
-    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+    backgroundColor: colors.surface,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: radius.full,
     marginLeft: 6,
   },
   storeCountBadgeActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+    backgroundColor: alpha(colors.gold, 0.2),
   },
   storeCountText: {
     color: colors.textTertiary,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
   },
   storeCountTextActive: {
@@ -1549,12 +1508,12 @@ const styles = StyleSheet.create({
   storeSingleBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
+    backgroundColor: alpha(colors.gold, 0.08),
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: radius.sm,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.25)',
+    borderColor: alpha(colors.gold, 0.25),
     alignSelf: 'flex-start',
     marginBottom: 12,
   },
@@ -1567,7 +1526,7 @@ const styles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderRadius: radius.sm,
     paddingHorizontal: 12,
     borderWidth: 1,
@@ -1601,7 +1560,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: radius.sm,
@@ -1620,14 +1579,14 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sans,
   },
   sectionStatsBadge: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: radius.xs,
   },
   sectionStatsText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
   },
@@ -1639,7 +1598,7 @@ const styles = StyleSheet.create({
   productCardCritical: {
     borderLeftWidth: 3,
     borderLeftColor: colors.danger,
-    backgroundColor: 'rgba(239, 68, 68, 0.04)',
+    backgroundColor: alpha(colors.danger, 0.04),
   },
   productTopRow: {
     flexDirection: 'row',
@@ -1659,7 +1618,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   tagPill: {
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     paddingHorizontal: 7,
     paddingVertical: 2,
     borderRadius: radius.xs,
@@ -1668,7 +1627,7 @@ const styles = StyleSheet.create({
   },
   tagPillText: {
     color: colors.textSecondary,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
   },
@@ -1684,7 +1643,7 @@ const styles = StyleSheet.create({
   stockPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: radius.xs,
@@ -1693,12 +1652,12 @@ const styles = StyleSheet.create({
     borderColor: colors.glassBorder,
   },
   stockPillCritical: {
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    backgroundColor: alpha(colors.danger, 0.1),
+    borderColor: alpha(colors.danger, 0.3),
   },
   stockPillText: {
     color: colors.textPrimary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -1718,24 +1677,24 @@ const styles = StyleSheet.create({
     gap: 4,
     paddingHorizontal: 10,
     paddingVertical: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderRadius: radius.xs,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },
   cardActionBtnGold: {
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    backgroundColor: alpha(colors.gold, 0.08),
+    borderColor: alpha(colors.gold, 0.3),
   },
   cardActionBtnText: {
     color: colors.textSecondary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
   },
   cardDeleteBtn: {
-    backgroundColor: 'rgba(239, 68, 68, 0.08)',
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    backgroundColor: alpha(colors.danger, 0.08),
+    borderColor: alpha(colors.danger, 0.3),
   },
   loadingBox: {
     padding: 40,
@@ -1802,7 +1761,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   modalEyebrow: {
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: 1.5,
     color: colors.gold,
     fontWeight: '800',
@@ -1832,7 +1791,7 @@ const styles = StyleSheet.create({
   modalCloseBtn: {
     padding: 6,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
   },
   fieldLabel: {
     color: colors.textSecondary,
@@ -1844,7 +1803,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sans,
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     color: colors.textPrimary,
     height: 46,
     borderRadius: radius.sm,
@@ -1858,7 +1817,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#121217',
     borderRadius: radius.sm,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
     marginTop: 4,
     overflow: 'hidden',
   },
@@ -1887,17 +1846,17 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: radius.xs,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },
   pickerItemActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+    backgroundColor: alpha(colors.gold, 0.15),
     borderColor: colors.gold,
   },
   pickerItemText: {
     color: colors.textSecondary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   pickerItemTextActive: {
@@ -1910,7 +1869,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   variantInput: {
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     color: colors.textPrimary,
     height: 42,
     borderRadius: radius.sm,
@@ -1928,10 +1887,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 10,
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
+    backgroundColor: alpha(colors.gold, 0.08),
     borderRadius: radius.sm,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.25)',
+    borderColor: alpha(colors.gold, 0.25),
     marginVertical: 10,
   },
   addVariantBtnText: {
@@ -1944,7 +1903,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     alignItems: 'center',
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },

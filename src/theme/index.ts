@@ -121,6 +121,23 @@ export function createStyles<T extends Record<string, any>>(styles: T): T {
   return StyleSheet.create(out) as T;
 }
 
+/**
+ * Applique une opacité à une couleur de token (#RRGGBB ou rgba()).
+ * Ex. alpha(colors.gold, 0.3) → 'rgba(229,193,88,0.3)'. Évite les rgba codés en dur.
+ */
+export function alpha(color: string, a: number): string {
+  const m = color.match(/^#([0-9a-f]{6})$/i);
+  if (m) {
+    const n = parseInt(m[1], 16);
+    return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+  }
+  const r = color.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+  return r ? `rgba(${r[1]},${r[2]},${r[3]},${a})` : color;
+}
+
+/** Taille de texte minimale pour une information lisible sur téléphone */
+export const MIN_TEXT = 12;
+
 /** Format monétaire FCFA lisible : 1 245 000 */
 export const formatMoney = (n: number | undefined | null) =>
   Math.round(Number(n) || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');

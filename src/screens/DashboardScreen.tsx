@@ -50,6 +50,7 @@ import DeleteSaleModal from '../components/dashboard/DeleteSaleModal';
 import { sharedStyles } from '../components/dashboard/dashboardStyles';
 import { getEffectiveTotal, isAnyAdvance, localDayKey, todayKey, ymdLocal } from '../utils/saleMath';
 
+
 export default function DashboardScreen({ navigation, route }: any) {
   const user = route.params?.user;
   const r = useResponsive();
@@ -1060,7 +1061,7 @@ export default function DashboardScreen({ navigation, route }: any) {
 
         <ScrollView
           style={styles.content}
-          contentContainerStyle={[styles.contentInner, { paddingHorizontal: r.gutter }]}
+          contentContainerStyle={[styles.contentInner, { paddingHorizontal: r.gutter, maxWidth: r.maxContent, width: '100%', alignSelf: 'center' }]}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor={colors.gold} colors={[colors.gold]} />
@@ -1194,7 +1195,7 @@ export default function DashboardScreen({ navigation, route }: any) {
       {/* Auto-Toast Alert */}
       {toastVisible && (
         <Animated.View style={[styles.toast, { transform: [{ translateY: toastAnim }] }]}>
-          <AlertTriangle color="#ff4444" size={24} />
+          <AlertTriangle color={colors.danger} size={24} />
           <Text style={styles.toastText}>{currentToast}</Text>
         </Animated.View>
       )}
@@ -1363,7 +1364,7 @@ const styles = StyleSheet.create({
   dashboardMain: { flex: 1, minWidth: 0, height: '100%' as any },
   contentInner: { paddingVertical: 20, gap: 18 },
   container: { flex: 1, backgroundColor: colors.bg },
-  content: { padding: 15 },
+  content: { flex: 1 },
   toast: { position: 'absolute', top: 0, left: 20, right: 20, backgroundColor: colors.bgElevated, padding: 15, borderRadius: radius.md, flexDirection: 'row', alignItems: 'center', gap: 10, zIndex: 100, borderWidth: 1, borderColor: colors.danger },
   toastText: { color: colors.text, fontSize: 16, fontFamily: fonts.bold },
   fab: {

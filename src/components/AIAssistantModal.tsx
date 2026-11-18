@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, ScrollView,
 import { Sparkles, X, Send } from 'lucide-react-native';
 import { colors, fonts, radius, shadow } from '../theme';
 import { GlassCard, PressableScale, FadeIn } from '../ui';
+import { alpha } from '../theme';
 
 const GROQ_API_KEY = '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';
 
@@ -95,7 +96,7 @@ RÈGLES STRICTES DE SÉCURITÉ ET DE COMPORTEMENT :
               </View>
             </View>
 
-            <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={onClose} style={styles.closeBtn}>
               <X color={colors.textSecondary} size={18} />
             </TouchableOpacity>
           </View>
@@ -143,12 +144,12 @@ RÈGLES STRICTES DE SÉCURITÉ ET DE COMPORTEMENT :
               onSubmitEditing={handleSend}
               returnKeyType="send"
             />
-            <TouchableOpacity 
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Envoyer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} 
               style={[styles.sendBtn, !inputText.trim() && styles.sendBtnDisabled]} 
               onPress={handleSend}
               disabled={!inputText.trim() || isLoading}
             >
-              <Send color="#07070A" size={16} />
+              <Send color={colors.onGold} size={16} />
             </TouchableOpacity>
           </View>
         </GlassCard>
@@ -191,14 +192,14 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+    backgroundColor: alpha(colors.gold, 0.15),
     borderWidth: 1,
     borderColor: colors.gold,
     alignItems: 'center',
     justifyContent: 'center',
   },
   eyebrow: {
-    fontSize: 9,
+    fontSize: 12,
     letterSpacing: 1.5,
     color: colors.gold,
     fontWeight: '800',
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
   closeBtn: {
     padding: 6,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
   },
   chatArea: {
     flex: 1,
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+    backgroundColor: alpha(colors.gold, 0.15),
     borderWidth: 1,
     borderColor: colors.gold,
     alignItems: 'center',
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
   },
   botBubble: {
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     borderBottomLeftRadius: 4,
     borderWidth: 1,
     borderColor: colors.glassBorder,
@@ -269,7 +270,7 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
   },
   userText: {
-    color: '#07070A',
+    color: colors.onGold,
     fontWeight: '600',
   },
   loadingRow: {
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   inputArea: {
@@ -295,7 +296,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     color: colors.textPrimary,
     borderRadius: radius.full,
     paddingHorizontal: 16,

@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, ScrollView, Platform, StyleSheet } from '
 import { LogOut, Package, FileText, Wallet, User, ArrowRightLeft, ArrowLeft, Sparkles, Store } from 'lucide-react-native';
 import { isUserAdmin } from '../../db/database';
 import { colors, fonts, radius } from '../../theme';
+import { alpha } from '../../theme';
+import { chrome } from '../../ui/screenChrome';
 
 export interface LedgerHeaderProps {
   navigation: any;
@@ -59,16 +61,18 @@ export default function LedgerHeader({
             </Text>
           </View>
 
-          <TouchableOpacity style={styles.headerIconBtn} onPress={() => navigation.navigate('Profile', { user })}>
+          <TouchableOpacity style={styles.headerIconBtn} onPress={() => navigation.navigate('Profile', { user })} accessibilityRole="button" accessibilityLabel="Mon profil">
             <User color={colors.textSecondary} size={17} />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.headerIconBtn} onPress={() => setShowAIAssistant(true)}>
+          <TouchableOpacity style={styles.headerIconBtn} onPress={() => setShowAIAssistant(true)} accessibilityRole="button" accessibilityLabel="Assistant IA" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
             <Sparkles color={colors.gold} size={17} />
           </TouchableOpacity>
 
           <TouchableOpacity 
             style={[styles.headerIconBtn, styles.logoutBtn]} 
+            accessibilityRole="button"
+            accessibilityLabel="Se déconnecter"
             onPress={() => {
               if (typeof window !== 'undefined' && window.localStorage) {
                 window.localStorage.removeItem('savedUserId');
@@ -120,8 +124,8 @@ export default function LedgerHeader({
           style={[styles.navBtn, pendingAdvancesCount > 0 && styles.navBtnAmber]} 
           onPress={() => navigation.navigate('Advances', { user, storeId })}
         >
-          <Wallet color={pendingAdvancesCount > 0 ? '#F59E0B' : colors.textSecondary} size={14} />
-          <Text style={[styles.navBtnText, pendingAdvancesCount > 0 && { color: '#F59E0B', fontWeight: '700' }]}>
+          <Wallet color={pendingAdvancesCount > 0 ? colors.warning : colors.textSecondary} size={14} />
+          <Text style={[styles.navBtnText, pendingAdvancesCount > 0 && { color: colors.warning, fontWeight: '700' }]}>
             Avances{pendingAdvancesCount > 0 ? ` (${pendingAdvancesCount})` : ''}
           </Text>
         </TouchableOpacity>
@@ -141,14 +145,7 @@ export default function LedgerHeader({
 }
 
 const styles = StyleSheet.create({
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'web' ? 20 : 48,
-    paddingBottom: 16,
-    backgroundColor: 'rgba(7, 7, 10, 0.95)',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.glassBorder,
-  },
+  header: { ...chrome.header, paddingBottom: 16 },
   headerTopBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -167,12 +164,12 @@ const styles = StyleSheet.create({
   storeMiniBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(212, 175, 55, 0.12)',
+    backgroundColor: alpha(colors.gold, 0.12),
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: radius.full,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.35)',
+    borderColor: alpha(colors.gold, 0.35),
   },
   storeMiniBadgeText: {
     color: colors.gold,
@@ -183,7 +180,7 @@ const styles = StyleSheet.create({
   sellerChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+    backgroundColor: colors.surface,
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: radius.full,
@@ -202,61 +199,24 @@ const styles = StyleSheet.create({
     gap: 8,
     flexShrink: 0,
   },
-  bossPillBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(212, 175, 55, 0.16)',
-    borderColor: colors.gold,
-    borderWidth: 1.2,
-    paddingVertical: 7,
-    paddingHorizontal: 12,
-    borderRadius: radius.md,
-  },
+  bossPillBtn: { flexDirection: 'row', alignItems: 'center', minHeight: 44, backgroundColor: colors.goldSoft, borderColor: colors.gold, borderWidth: 1.2, paddingHorizontal: 14, borderRadius: radius.pill },
   bossPillBtnText: {
     color: colors.gold,
     fontSize: 13,
     fontWeight: '800',
     fontFamily: fonts.sans,
   },
-  headerIconBtn: {
-    padding: 9,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  headerIconBtn: { ...chrome.backBtn },
   logoutBtn: {
-    backgroundColor: 'rgba(239, 68, 68, 0.12)',
-    borderColor: 'rgba(239, 68, 68, 0.4)',
+    backgroundColor: alpha(colors.danger, 0.12),
+    borderColor: alpha(colors.danger, 0.4),
   },
   headerTitleBox: {
     marginBottom: 8,
   },
-  screenEyebrow: {
-    fontSize: 11,
-    letterSpacing: 2,
-    color: colors.gold,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    marginBottom: 2,
-    fontFamily: fonts.sans,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    fontFamily: fonts.serif,
-    letterSpacing: 0.2,
-  },
-  subtitle: {
-    color: colors.textTertiary,
-    fontSize: 12,
-    marginTop: 2,
-    fontFamily: fonts.sans,
-    textTransform: 'capitalize',
-  },
+  screenEyebrow: { ...chrome.screenEyebrow, marginBottom: 2 },
+  title: { ...chrome.title, fontSize: 26, lineHeight: 32 },
+  subtitle: { ...chrome.subtitle, textTransform: 'capitalize' },
   quickNavWrapper: {
     marginTop: 10,
   },
@@ -266,33 +226,18 @@ const styles = StyleSheet.create({
     gap: 8,
     paddingRight: 10,
   },
-  navBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    gap: 6,
-  },
+  navBtn: { flexDirection: 'row', alignItems: 'center', minHeight: 44, backgroundColor: colors.surface, paddingHorizontal: 14, borderRadius: radius.pill, borderWidth: 1, borderColor: colors.glassBorder, gap: 6 },
   navBtnActive: {
-    borderColor: 'rgba(212, 175, 55, 0.5)',
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
+    borderColor: alpha(colors.gold, 0.5),
+    backgroundColor: alpha(colors.gold, 0.08),
   },
   navBtnGoldHighlight: {
-    borderColor: 'rgba(212, 175, 55, 0.4)',
-    backgroundColor: 'rgba(212, 175, 55, 0.06)',
+    borderColor: alpha(colors.gold, 0.4),
+    backgroundColor: alpha(colors.gold, 0.06),
   },
   navBtnAmber: {
-    borderColor: 'rgba(245, 158, 11, 0.4)',
-    backgroundColor: 'rgba(245, 158, 11, 0.08)',
+    borderColor: alpha(colors.warning, 0.4),
+    backgroundColor: alpha(colors.warning, 0.08),
   },
-  navBtnText: {
-    color: colors.textSecondary,
-    fontSize: 12,
-    fontWeight: '600',
-    fontFamily: fonts.sans,
-  },
+  navBtnText: { color: colors.textSecondary, fontSize: 13, fontWeight: '600', fontFamily: fonts.sans },
 });

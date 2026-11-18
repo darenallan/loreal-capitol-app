@@ -4,6 +4,7 @@ import { Sparkles, FileText, Download, ArrowRightLeft, ClipboardCheck, Wallet, S
 import { LOREAL_LOGO_BASE64 } from '../assets/logoBase64';
 import { colors, fonts, radius, shadow } from '../theme';
 import { GlassCard, GoldButton } from '../ui';
+import { alpha } from '../theme';
 
 const UPDATE_VERSION_KEY = 'loreal_capitol_update_v2_1_seen';
 
@@ -69,7 +70,7 @@ export default function UpdateNotificationModal() {
 
             {/* 2. Sauvegardes Excel */}
             <View style={styles.featureItem}>
-              <View style={[styles.iconBox, { backgroundColor: 'rgba(212, 175, 55, 0.1)', borderColor: colors.gold }]}>
+              <View style={[styles.iconBox, { backgroundColor: alpha(colors.gold, 0.1), borderColor: colors.gold }]}>
                 <Download color={colors.gold} size={18} />
               </View>
               <View style={{ flex: 1 }}>
@@ -95,8 +96,8 @@ export default function UpdateNotificationModal() {
 
             {/* 4. Inventaire Physique */}
             <View style={styles.featureItem}>
-              <View style={[styles.iconBox, { backgroundColor: 'rgba(56, 189, 248, 0.1)', borderColor: '#38BDF8' }]}>
-                <ClipboardCheck color="#38BDF8" size={18} />
+              <View style={[styles.iconBox, { backgroundColor: alpha(colors.info, 0.1), borderColor: colors.info }]}>
+                <ClipboardCheck color={colors.info} size={18} />
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.featureTitle}>Inventaire Physique & Écarts</Text>
@@ -108,8 +109,8 @@ export default function UpdateNotificationModal() {
 
             {/* 5. Avances Clients */}
             <View style={styles.featureItem}>
-              <View style={[styles.iconBox, { backgroundColor: 'rgba(245, 158, 11, 0.1)', borderColor: '#F59E0B' }]}>
-                <Wallet color="#F59E0B" size={18} />
+              <View style={[styles.iconBox, { backgroundColor: alpha(colors.warning, 0.1), borderColor: colors.warning }]}>
+                <Wallet color={colors.warning} size={18} />
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.featureTitle}>Avances & Acomptes par Tranches</Text>
@@ -126,7 +127,7 @@ export default function UpdateNotificationModal() {
               label="Accéder à l'application"
               onPress={handleDismiss}
               size="lg"
-              icon={<Check color="#07070A" size={18} />}
+              icon={<Check color={colors.onGold} size={18} />}
             />
           </View>
         </GlassCard>
@@ -162,17 +163,17 @@ const styles = StyleSheet.create({
   badge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+    backgroundColor: alpha(colors.gold, 0.1),
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: radius.full,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
     marginBottom: 8,
   },
   badgeText: {
     color: colors.gold,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1.5,
     fontFamily: fonts.sans,

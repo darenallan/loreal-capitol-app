@@ -4,6 +4,7 @@ import { Trash2, Edit3, Check } from 'lucide-react-native';
 import { colors, radius, formatMoney } from '../../theme';
 import { GlassCard } from '../../ui';
 import { sharedStyles } from './ledgerStyles';
+import { alpha } from '../../theme';
 
 export interface DeleteSaleModalProps {
   deleteSaleModalVisible: boolean;
@@ -36,8 +37,8 @@ export default function DeleteSaleModal({
           {saleToDelete && (
             <>
               <View style={{
-                backgroundColor: 'rgba(239, 68, 68, 0.06)',
-                borderColor: 'rgba(239, 68, 68, 0.3)',
+                backgroundColor: alpha(colors.danger, 0.06),
+                borderColor: alpha(colors.danger, 0.3),
                 borderWidth: 1,
                 borderRadius: radius.sm,
                 padding: 12,
@@ -78,15 +79,15 @@ export default function DeleteSaleModal({
                   disabled={isDeletingSale}
                 >
                   {isDeletingSale ? (
-                    <ActivityIndicator size="small" color="#07070A" />
+                    <ActivityIndicator size="small" color={colors.onGold} />
                   ) : (
-                    <Edit3 color="#07070A" size={18} />
+                    <Edit3 color={colors.onGold} size={18} />
                   )}
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: '#07070A', fontWeight: '800', fontSize: 13.5 }}>
+                    <Text style={{ color: colors.onGold, fontWeight: '800', fontSize: 13.5 }}>
                       ✏️ Supprimer & Corriger l'erreur de suite
                     </Text>
-                    <Text style={{ color: 'rgba(7,7,10,0.8)', fontSize: 11, marginTop: 2 }}>
+                    <Text style={{ color: 'rgba(7,7,10,0.8)', fontSize: 12, marginTop: 2 }}>
                       Remet en stock et rouvre la vente avec ces articles pour corriger immédiatement
                     </Text>
                   </View>
@@ -97,7 +98,7 @@ export default function DeleteSaleModal({
                   style={{
                     backgroundColor: '#16A34A',
                     borderWidth: 1,
-                    borderColor: '#4ADE80',
+                    borderColor: colors.success,
                     paddingVertical: 13,
                     paddingHorizontal: 14,
                     borderRadius: radius.sm,
@@ -119,7 +120,7 @@ export default function DeleteSaleModal({
                     <Text style={{ color: '#FFFFFF', fontWeight: '800', fontSize: 13.5 }}>
                       1. Entrer dans le stock & Supprimer
                     </Text>
-                    <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: 11, marginTop: 2 }}>
+                    <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: 12, marginTop: 2 }}>
                       Annule la vente et réintègre les articles dans le stock disponible
                     </Text>
                   </View>
@@ -130,7 +131,7 @@ export default function DeleteSaleModal({
                   style={{
                     backgroundColor: colors.danger,
                     borderWidth: 1,
-                    borderColor: 'rgba(255,255,255,0.2)',
+                    borderColor: colors.borderStrong,
                     paddingVertical: 13,
                     paddingHorizontal: 14,
                     borderRadius: radius.sm,
@@ -152,7 +153,7 @@ export default function DeleteSaleModal({
                     <Text style={{ color: '#FFFFFF', fontWeight: '800', fontSize: 13.5 }}>
                       2. Supprimer définitivement (sans stock)
                     </Text>
-                    <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: 11, marginTop: 2 }}>
+                    <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: 12, marginTop: 2 }}>
                       Supprime définitivement la vente sans modifier les quantités en stock
                     </Text>
                   </View>

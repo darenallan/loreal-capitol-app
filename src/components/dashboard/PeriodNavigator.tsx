@@ -66,5 +66,5 @@ const styles = StyleSheet.create({
   periodBtnText: { fontFamily: fonts.bold, fontSize: 12, color: colors.goldLight },
   periodCenter: { alignItems: 'center', flex: 1 },
   periodTitle: { fontFamily: fonts.bold, fontSize: 13, color: colors.text },
-  periodReset: { ...type.caption, fontSize: 10.5, color: colors.gold, marginTop: 2 },
+  periodReset: { ...type.caption, fontSize: 12, color: colors.gold, marginTop: 2 },
 });

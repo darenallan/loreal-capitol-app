@@ -572,7 +572,7 @@ export default function ReceiptModal({ visible, onClose, sale, storeName }: Rece
                 <Text style={styles.islandQuickBtnMailText}>Mail</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.islandQuickBtnClose} onPress={onClose} activeOpacity={0.7}>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} style={styles.islandQuickBtnClose} onPress={onClose} activeOpacity={0.7}>
                 <X color="#999" size={15} />
               </TouchableOpacity>
             </View>

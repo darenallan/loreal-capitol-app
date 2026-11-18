@@ -284,7 +284,7 @@ export default function ActionsBentoGrid({
 const styles = StyleSheet.create({
   // Actions Bento Grid
   actionsSection: { marginTop: 6, gap: 14 },
-  actionsSectionTitle: { ...type.eyebrow, color: colors.gold, fontSize: 11 },
+  actionsSectionTitle: { ...type.eyebrow, color: colors.gold, fontSize: 12 },
   actionsBentoGrid: { gap: 12 },
   actionsBentoGridWide: { flexDirection: 'row', flexWrap: 'wrap' },
   actionTile: { width: '100%' },
@@ -297,5 +297,5 @@ const styles = StyleSheet.create({
   actionTileTitleGold: { fontFamily: fonts.bold, fontSize: 15, color: colors.text },
   actionTileSubGold: { ...type.caption, color: colors.goldLight, marginTop: 2 },
   actionBadgePill: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: radius.pill, backgroundColor: colors.danger, marginLeft: 8 },
-  actionBadgeText: { fontFamily: fonts.bold, fontSize: 10.5, color: '#fff' },
+  actionBadgeText: { fontFamily: fonts.bold, fontSize: 11, color: '#fff' },
 });

@@ -51,6 +51,7 @@ import {
   type,
   haptic,
 } from '../ui';
+import { alpha } from '../theme';
 
 function getInitials(name: string): string {
   if (!name) return '??';
@@ -216,8 +217,8 @@ export default function LoginScreen({ navigation }: any) {
               : 'rgba(0,0,0,0.1)',
           },
           admin && !isSelected && {
-            borderColor: isDark ? 'rgba(212,175,55,0.35)' : 'rgba(166,124,30,0.35)',
-            backgroundColor: isDark ? 'rgba(212,175,55,0.06)' : 'rgba(166,124,30,0.05)',
+            borderColor: isDark ? alpha(colors.gold, 0.35) : 'rgba(166,124,30,0.35)',
+            backgroundColor: isDark ? alpha(colors.gold, 0.06) : 'rgba(166,124,30,0.05)',
           },
           isSelected && shadow.gold,
         ]}
@@ -227,12 +228,12 @@ export default function LoginScreen({ navigation }: any) {
             styles.avatar,
             {
               backgroundColor: isSelected
-                ? (isDark ? '#07070A' : '#14120E')
+                ? (isDark ? colors.onGold : '#14120E')
                 : isDark
                 ? '#1C1C2C'
                 : 'rgba(166,124,30,0.12)',
               borderColor: isSelected
-                ? (isDark ? '#07070A' : '#14120E')
+                ? (isDark ? colors.onGold : '#14120E')
                 : isDark
                 ? 'rgba(255,255,255,0.15)'
                 : 'rgba(166,124,30,0.3)',
@@ -261,7 +262,7 @@ export default function LoginScreen({ navigation }: any) {
               styles.chipName,
               {
                 color: isSelected
-                  ? (isDark ? '#07070A' : '#FFFFFF')
+                  ? (isDark ? colors.onGold : '#FFFFFF')
                   : themeColors.textPrimary,
                 fontFamily: isSelected ? fonts.bold : fonts.semibold,
               },
@@ -285,7 +286,7 @@ export default function LoginScreen({ navigation }: any) {
         </View>
         {isSelected && (
           <View style={styles.chipCheck}>
-            <CheckCircle2 color={isDark ? '#07070A' : '#FFFFFF'} size={15} />
+            <CheckCircle2 color={isDark ? colors.onGold : '#FFFFFF'} size={15} />
           </View>
         )}
       </PressableScale>
@@ -454,6 +455,9 @@ export default function LoginScreen({ navigation }: any) {
                         haptic="light"
                         scaleTo={0.9}
                         style={styles.eyeBtn}
+                        accessibilityRole="button"
+                        accessibilityLabel={showPassword ? 'Masquer le code PIN' : 'Afficher le code PIN'}
+                        hitSlop={6}
                       >
                         {showPassword ? (
                           <EyeOff color={themeColors.gold} size={18} />
@@ -625,7 +629,7 @@ const styles = StyleSheet.create({
   },
   sectionBadgeText: {
     fontFamily: fonts.bold,
-    fontSize: 10,
+    fontSize: 12,
     color: colors.textMuted,
   },
   chipsGrid: {
@@ -639,14 +643,14 @@ const styles = StyleSheet.create({
     paddingVertical: 9,
     paddingHorizontal: 12,
     borderRadius: radius.md,
-    backgroundColor: 'rgba(255,255,255,0.03)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
     gap: 12,
   },
   chipAdmin: {
-    borderColor: 'rgba(212,175,55,0.22)',
-    backgroundColor: 'rgba(212,175,55,0.03)',
+    borderColor: alpha(colors.gold, 0.22),
+    backgroundColor: alpha(colors.gold, 0.03),
   },
   chipSelected: {
     backgroundColor: colors.gold,
@@ -690,7 +694,7 @@ const styles = StyleSheet.create({
   },
   chipRole: {
     fontFamily: fonts.medium,
-    fontSize: 11,
+    fontSize: 12,
     color: colors.textMuted,
   },
   chipCheck: {
@@ -734,7 +738,7 @@ const styles = StyleSheet.create({
   },
   activeUserLabel: {
     ...type.eyebrow,
-    fontSize: 9.5,
+    fontSize: 12,
     color: colors.goldLight,
   },
   activeUserName: {
@@ -752,7 +756,7 @@ const styles = StyleSheet.create({
   },
   activeStoreBadgeText: {
     fontFamily: fonts.bold,
-    fontSize: 10.5,
+    fontSize: 12,
     color: colors.goldLight,
   },
 
@@ -796,7 +800,7 @@ const styles = StyleSheet.create({
   },
   hintText: {
     ...type.caption,
-    fontSize: 11,
+    fontSize: 12,
     color: colors.textMuted,
     lineHeight: 15,
   },
@@ -841,7 +845,7 @@ const styles = StyleSheet.create({
   pwaTipText: {
     flex: 1,
     fontFamily: fonts.regular,
-    fontSize: 11.5,
+    fontSize: 12,
     color: colors.textMuted,
     lineHeight: 17,
   },

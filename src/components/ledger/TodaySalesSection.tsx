@@ -3,17 +3,18 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Trash2, Edit3, Printer, Clock, ShoppingBag } from 'lucide-react-native';
 import { colors, formatMoney, fonts, radius } from '../../theme';
 import { GlassCard, PressableScale, Pill, FadeIn } from '../../ui';
+import { alpha } from '../../theme';
 
 const paymentBadgeColor = (method: string) => {
   switch (method) {
-    case 'Carte Bancaire': return { bg: 'rgba(56, 189, 248, 0.12)', border: 'rgba(56, 189, 248, 0.4)', text: '#38BDF8' };
+    case 'Carte Bancaire': return { bg: alpha(colors.info, 0.12), border: alpha(colors.info, 0.4), text: colors.info };
     case 'MoMo':
     case 'MoMo Boss': return { bg: 'rgba(234, 179, 8, 0.12)', border: 'rgba(234, 179, 8, 0.4)', text: '#EAB308' };
     case 'OM':
     case 'OM Boss': return { bg: 'rgba(249, 115, 22, 0.12)', border: 'rgba(249, 115, 22, 0.4)', text: '#F97316' };
-    case 'Avance': return { bg: 'rgba(245, 158, 11, 0.15)', border: 'rgba(245, 158, 11, 0.4)', text: '#F59E0B' };
+    case 'Avance': return { bg: alpha(colors.warning, 0.15), border: alpha(colors.warning, 0.4), text: colors.warning };
     case 'Ami / Don': return { bg: 'rgba(168, 85, 247, 0.12)', border: 'rgba(168, 85, 247, 0.4)', text: '#C084FC' };
-    default: return { bg: 'rgba(34, 197, 94, 0.12)', border: 'rgba(34, 197, 94, 0.4)', text: '#4ADE80' };
+    default: return { bg: alpha(colors.success, 0.12), border: alpha(colors.success, 0.4), text: colors.success };
   }
 };
 
@@ -94,7 +95,7 @@ export default function TodaySalesSection({
                     </View>
 
                     <View style={styles.saleActionsRow}>
-                      <PressableScale 
+                      <PressableScale accessibilityRole="button" accessibilityLabel="Imprimer le reçu" hitSlop={{ top: 8, bottom: 8 }} 
                         onPress={() => {
                           setSelectedReceiptSale({
                             ...item,
@@ -108,14 +109,14 @@ export default function TodaySalesSection({
                         <Printer color={colors.gold} size={16} />
                       </PressableScale>
 
-                      <PressableScale 
+                      <PressableScale accessibilityRole="button" accessibilityLabel="Modifier" hitSlop={{ top: 8, bottom: 8 }} 
                         onPress={() => openEditOptions(item)} 
                         style={styles.saleActionBtn}
                       >
                         <Edit3 color={colors.textSecondary} size={16} />
                       </PressableScale>
 
-                      <PressableScale 
+                      <PressableScale accessibilityRole="button" accessibilityLabel="Supprimer" hitSlop={{ top: 8, bottom: 8 }} 
                         onPress={() => handleDeleteSale(item)} 
                         style={[styles.saleActionBtn, styles.saleDeleteBtn]}
                       >
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   salesSectionEyebrow: {
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: 1.5,
     color: colors.gold,
     fontWeight: '800',
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
   },
   saleCardAdvance: {
     borderLeftWidth: 3,
-    borderLeftColor: '#F59E0B',
+    borderLeftColor: colors.warning,
   },
   saleHeaderRow: {
     flexDirection: 'row',
@@ -175,16 +176,16 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   saleIndexBadge: {
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+    backgroundColor: alpha(colors.gold, 0.1),
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.25)',
+    borderColor: alpha(colors.gold, 0.25),
   },
   saleIndexText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
   },
   saleTimeText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   saleBody: {
@@ -209,13 +210,13 @@ const styles = StyleSheet.create({
   },
   saleItemMeta: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 3,
     fontFamily: fonts.sans,
   },
   saleSellerText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 3,
     fontFamily: fonts.sans,
   },
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   methodBadgeText: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -251,15 +252,18 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   saleActionBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.surface,
     borderRadius: radius.sm,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },
   saleDeleteBtn: {
-    backgroundColor: 'rgba(239, 68, 68, 0.08)',
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    backgroundColor: alpha(colors.danger, 0.08),
+    borderColor: alpha(colors.danger, 0.3),
   },
   emptyCard: {
     padding: 40,

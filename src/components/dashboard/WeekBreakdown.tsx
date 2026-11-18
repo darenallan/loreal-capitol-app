@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, Calendar, Eye } from 'lucide-react-native';
 import { GlassCard, PressableScale, formatMoney } from '../../ui';
 import { useAppTheme } from '../../theme/ThemeContext';
 import { sharedStyles } from './dashboardStyles';
+import { colors } from '../../theme';
 
 export interface WeekBreakdownProps {
   weekDaysBreakdown: any[];
@@ -90,7 +91,7 @@ export default function WeekBreakdown({ weekDaysBreakdown, expandedDayKeys, setE
                           <Text style={sharedStyles.subSaleItems} numberOfLines={1}>
                             {typeof sale.items === 'string' ? sale.items : (Array.isArray(sale.items) ? sale.items.map((i: any) => `${i.name} (x${i.quantity})`).join(', ') : 'Article')}
                           </Text>
-                          <Text style={{ color: colors.goldLight, fontSize: 10, marginTop: 2 }}>
+                          <Text style={{ color: colors.goldLight, fontSize: 12, marginTop: 2 }}>
                             👁️ Toucher pour voir le reçu complet
                           </Text>
                         </View>
@@ -114,11 +115,11 @@ export default function WeekBreakdown({ weekDaysBreakdown, expandedDayKeys, setE
 const styles = StyleSheet.create({
   // Day Card (Monday to Saturday)
   dayCard: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.surfaceStrong,
     borderRadius: 12,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: colors.border,
     overflow: 'hidden',
   },
   dayCardHeader: {
@@ -133,28 +134,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dayCardDate: {
-    color: '#aaa',
+    color: colors.textTertiary,
     fontSize: 13,
     fontWeight: 'normal',
   },
   dayCardSub: {
-    color: '#888',
-    fontSize: 11,
+    color: colors.textMuted,
+    fontSize: 12,
     marginTop: 3,
   },
   dayCardTotal: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 16,
     fontWeight: 'bold',
   },
   dayCardContent: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: colors.surfaceSolidHi,
     padding: 14,
     borderTopWidth: 1,
-    borderTopColor: '#333',
+    borderTopColor: colors.border,
   },
   articlesSoldTitle: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 13,
     fontWeight: 'bold',
     marginBottom: 8,
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 5,
     borderBottomWidth: 1,
-    borderBottomColor: '#2a2a2a',
+    borderBottomColor: colors.border,
   },
   itemSummaryName: {
     color: '#fff',
@@ -173,13 +174,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemSummaryQty: {
-    color: '#4CAF50',
+    color: colors.success,
     fontSize: 12,
     fontWeight: 'bold',
     marginHorizontal: 10,
   },
   itemSummaryPrice: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 13,
     fontWeight: 'bold',
   },

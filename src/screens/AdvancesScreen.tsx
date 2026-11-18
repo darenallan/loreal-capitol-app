@@ -14,6 +14,8 @@ import { cleanWhatsAppNumber, buildReceiptMessage, buildWhatsAppUrl, openExterna
 import ReceiptModal from '../components/ReceiptModal';
 import { colors, fonts, radius, shadow, formatMoney } from '../theme';
 import { useResponsive, GlassCard, TiltCard, GoldButton, PressableScale, Pill, SectionTitle, FadeIn } from '../ui';
+import { chrome } from '../ui/screenChrome';
+import { alpha } from '../theme';
 
 export default function AdvancesScreen({ navigation, route }: any) {
   const r = useResponsive();
@@ -299,14 +301,14 @@ export default function AdvancesScreen({ navigation, route }: any) {
       return { 
         isDueToday: true, 
         label: `Échéance aujourd'hui`, 
-        color: '#F59E0B',
+        color: colors.warning,
         tone: 'warning'
       };
     } else if (Math.abs(diffDays) <= 3) {
       return { 
         isDueSoon: true, 
         label: `Reste ${Math.abs(diffDays)} jour${Math.abs(diffDays) > 1 ? 's' : ''}`, 
-        color: '#F59E0B',
+        color: colors.warning,
         tone: 'warning'
       };
     }
@@ -350,7 +352,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Retour" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => navigation.goBack()} style={styles.backBtn}>
             <ArrowLeft color={colors.textPrimary} size={20} />
           </TouchableOpacity>
 
@@ -418,8 +420,8 @@ export default function AdvancesScreen({ navigation, route }: any) {
             style={[styles.statusTabBtn, statusFilter === 'pending' && styles.statusTabBtnActiveAmber]} 
             onPress={() => setStatusFilter('pending')}
           >
-            <Clock color={statusFilter === 'pending' ? '#F59E0B' : colors.textTertiary} size={14} />
-            <Text style={[styles.statusTabText, statusFilter === 'pending' && { color: '#F59E0B', fontWeight: '700' }]}>
+            <Clock color={statusFilter === 'pending' ? colors.warning : colors.textTertiary} size={14} />
+            <Text style={[styles.statusTabText, statusFilter === 'pending' && { color: colors.warning, fontWeight: '700' }]}>
               En cours ({pendingCount})
             </Text>
           </TouchableOpacity>
@@ -428,8 +430,8 @@ export default function AdvancesScreen({ navigation, route }: any) {
             style={[styles.statusTabBtn, statusFilter === 'completed' && styles.statusTabBtnActiveGreen]} 
             onPress={() => setStatusFilter('completed')}
           >
-            <CheckCheck color={statusFilter === 'completed' ? '#4ADE80' : colors.textTertiary} size={14} />
-            <Text style={[styles.statusTabText, statusFilter === 'completed' && { color: '#4ADE80', fontWeight: '700' }]}>
+            <CheckCheck color={statusFilter === 'completed' ? colors.success : colors.textTertiary} size={14} />
+            <Text style={[styles.statusTabText, statusFilter === 'completed' && { color: colors.success, fontWeight: '700' }]}>
               Soldées ({completedCount})
             </Text>
           </TouchableOpacity>
@@ -456,7 +458,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
             autoCorrect={false}
           />
           {searchQuery.length > 0 && (
-            <TouchableOpacity onPress={() => setSearchQuery('')} style={{ padding: 4 }}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => setSearchQuery('')} style={{ padding: 4 }}>
               <X color={colors.textTertiary} size={16} />
             </TouchableOpacity>
           )}
@@ -471,7 +473,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
         renderItem={({ item }) => {
           const isCompleted = item.status === 'completed';
           const status: any = isCompleted 
-            ? { isCompleted: true, isOverdue: false, label: 'Entièrement Soldée', color: '#4ADE80' }
+            ? { isCompleted: true, isOverdue: false, label: 'Entièrement Soldée', color: colors.success }
             : getDueStatus(item.due_date);
           const totalVal = (item.amount_paid || 0) + (item.amount_remaining || 0);
 
@@ -500,9 +502,9 @@ export default function AdvancesScreen({ navigation, route }: any) {
                     </View>
                   </View>
 
-                  <View style={[styles.storeTag, isCompleted && { borderColor: 'rgba(74, 222, 128, 0.4)' }]}>
-                    <Store color={isCompleted ? '#4ADE80' : colors.gold} size={12} style={{ marginRight: 4 }} />
-                    <Text style={[styles.storeTagText, isCompleted && { color: '#4ADE80' }]}>
+                  <View style={[styles.storeTag, isCompleted && { borderColor: alpha(colors.success, 0.4) }]}>
+                    <Store color={isCompleted ? colors.success : colors.gold} size={12} style={{ marginRight: 4 }} />
+                    <Text style={[styles.storeTagText, isCompleted && { color: colors.success }]}>
                       {item.store === 'falaise' ? 'La Falaise' : 'Tougou'}
                     </Text>
                   </View>
@@ -545,7 +547,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
                   <View style={styles.amountsRow}>
                     <View style={styles.amountCol}>
                       <Text style={styles.amountLabel}>Déjà versé</Text>
-                      <Text style={[styles.amountPaid, isCompleted && { color: '#4ADE80' }]}>
+                      <Text style={[styles.amountPaid, isCompleted && { color: colors.success }]}>
                         {formatMoney(item.amount_paid || 0)} F
                       </Text>
                     </View>
@@ -555,7 +557,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
                     </View>
                     <View style={styles.amountCol}>
                       <Text style={styles.amountLabel}>{isCompleted ? 'Statut' : 'Reste dû'}</Text>
-                      <Text style={[styles.amountRemaining, isCompleted && { color: '#4ADE80' }]}>
+                      <Text style={[styles.amountRemaining, isCompleted && { color: colors.success }]}>
                         {isCompleted ? 'Soldé' : `${formatMoney(item.amount_remaining || 0)} F`}
                       </Text>
                     </View>
@@ -582,6 +584,8 @@ export default function AdvancesScreen({ navigation, route }: any) {
                               <Text style={styles.historyAmount}>+{formatMoney(p.amount || 0)} F</Text>
                               <TouchableOpacity 
                                 style={styles.historyReceiptBtn}
+                                hitSlop={{ top: 11, bottom: 11, left: 4, right: 4 }}
+                                accessibilityRole="button"
                                 onPress={() => openAdvanceReceipt(item, p, idx + 1)}
                                 activeOpacity={0.7}
                               >
@@ -597,7 +601,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
 
                   {isCompleted && item.completed_at && (
                     <View style={styles.completedNoticeBox}>
-                      <CheckCheck color="#4ADE80" size={15} style={{ marginRight: 6 }} />
+                      <CheckCheck color={colors.success} size={15} style={{ marginRight: 6 }} />
                       <Text style={styles.completedNoticeText}>
                         Soldé le {new Date(item.completed_at).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
                       </Text>
@@ -620,15 +624,15 @@ export default function AdvancesScreen({ navigation, route }: any) {
                   <TouchableOpacity 
                     style={[
                       styles.receiptActionBtn,
-                      isCompleted && { borderColor: '#4ADE80', backgroundColor: 'rgba(74, 222, 128, 0.1)' }
+                      isCompleted && { borderColor: colors.success, backgroundColor: alpha(colors.success, 0.1) }
                     ]}
                     onPress={() => openAdvanceReceipt(item)}
                     activeOpacity={0.7}
                   >
-                    <Printer color={isCompleted ? '#4ADE80' : colors.gold} size={15} />
+                    <Printer color={isCompleted ? colors.success : colors.gold} size={15} />
                     <Text style={[
                       styles.receiptActionBtnText,
-                      isCompleted && { color: '#4ADE80' }
+                      isCompleted && { color: colors.success }
                     ]}>
                       {isCompleted ? 'Reçu Soldé' : 'Reçu Avance'}
                     </Text>
@@ -649,7 +653,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
                       label="Payer Tranche"
                       onPress={() => openPaymentModal(item)}
                       size="sm"
-                      icon={<CheckCircle color="#07070A" size={15} />}
+                      icon={<CheckCircle color={colors.onGold} size={15} />}
                     />
                   )}
                 </View>
@@ -726,8 +730,8 @@ export default function AdvancesScreen({ navigation, route }: any) {
                       }}
                       onPress={() => handlePaymentSubmit('whatsapp')}
                     >
-                      <MessageCircle color="#07070A" size={18} />
-                      <Text style={{ color: '#07070A', fontWeight: '800', fontSize: 13 }}>
+                      <MessageCircle color={colors.onGold} size={18} />
+                      <Text style={{ color: colors.onGold, fontWeight: '800', fontSize: 13 }}>
                         Valider & Envoyer Reçu WhatsApp (+{cleanWhatsAppNumber(selectedAdvance.client_phone || selectedAdvance.phone)})
                       </Text>
                     </TouchableOpacity>
@@ -737,7 +741,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
                     label="Valider l'Encaissement (Ticket seul)"
                     onPress={() => handlePaymentSubmit('none')}
                     size="md"
-                    icon={<Check color="#07070A" size={16} />}
+                    icon={<Check color={colors.onGold} size={16} />}
                   />
                   <TouchableOpacity style={styles.modalCancelBtn} onPress={() => setPaymentModalVisible(false)}>
                     <Text style={styles.modalCancelBtnText}>Annuler</Text>
@@ -761,7 +765,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
             
             {advanceToDelete && (
               <>
-                <View style={[styles.paymentSummaryBox, { borderColor: 'rgba(239, 68, 68, 0.3)', backgroundColor: 'rgba(239, 68, 68, 0.06)' }]}>
+                <View style={[styles.paymentSummaryBox, { borderColor: alpha(colors.danger, 0.3), backgroundColor: alpha(colors.danger, 0.06) }]}>
                   <Text style={styles.paymentClientName}>{advanceToDelete.client_name}</Text>
                   {advanceToDelete.client_phone ? (
                     <Text style={{ color: colors.textSecondary, fontSize: 12, marginTop: 2 }}>
@@ -774,7 +778,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
                 </View>
 
                 <View style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                  backgroundColor: colors.surface,
                   borderColor: colors.glassBorder,
                   borderWidth: 1,
                   borderRadius: radius.sm,
@@ -802,7 +806,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
                     style={{
                       backgroundColor: '#16A34A',
                       borderWidth: 1,
-                      borderColor: '#4ADE80',
+                      borderColor: colors.success,
                       paddingVertical: 13,
                       paddingHorizontal: 14,
                       borderRadius: radius.sm,
@@ -824,7 +828,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
                       <Text style={{ color: '#FFFFFF', fontWeight: '800', fontSize: 13.5 }}>
                         1. Entrer dans le stock & Supprimer
                       </Text>
-                      <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: 11, marginTop: 2 }}>
+                      <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: 12, marginTop: 2 }}>
                         Remet automatiquement les articles réservés dans le stock disponible
                       </Text>
                     </View>
@@ -835,7 +839,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
                     style={{
                       backgroundColor: colors.danger,
                       borderWidth: 1,
-                      borderColor: 'rgba(255,255,255,0.2)',
+                      borderColor: colors.borderStrong,
                       paddingVertical: 13,
                       paddingHorizontal: 14,
                       borderRadius: radius.sm,
@@ -857,7 +861,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
                       <Text style={{ color: '#FFFFFF', fontWeight: '800', fontSize: 13.5 }}>
                         2. Supprimer définitivement (sans stock)
                       </Text>
-                      <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: 11, marginTop: 2 }}>
+                      <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: 12, marginTop: 2 }}>
                         Efface définitivement l'avance sans modifier les quantités en stock
                       </Text>
                     </View>
@@ -899,74 +903,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.obsidian,
   },
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'web' ? 20 : 48,
-    paddingBottom: 14,
-    backgroundColor: 'rgba(7, 7, 10, 0.95)',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.glassBorder,
-  },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  backBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    marginRight: 10,
-  },
-  headerTitleBox: {
-    flex: 1,
-    minWidth: 0,
-  },
-  screenEyebrow: {
-    fontSize: 10,
-    letterSpacing: 2,
-    color: colors.gold,
-    fontWeight: '800',
-    fontFamily: fonts.sans,
-    textTransform: 'uppercase',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    fontFamily: fonts.serif,
-  },
-  subtitle: {
-    color: colors.textTertiary,
-    fontSize: 11,
-    marginTop: 2,
-    fontFamily: fonts.sans,
-  },
-  exportBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
-  },
+  header: { ...chrome.header },
+  headerRow: { ...chrome.headerRow },
+  backBtn: { ...chrome.backBtn, marginRight: 10 },
+  headerTitleBox: { ...chrome.headerTitleBox },
+  screenEyebrow: { ...chrome.screenEyebrow },
+  title: { ...chrome.title },
+  subtitle: { ...chrome.subtitle },
+  exportBtn: { ...chrome.iconBtn },
   overdueAlertBanner: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    backgroundColor: alpha(colors.danger, 0.1),
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    borderColor: alpha(colors.danger, 0.3),
     marginBottom: 10,
   },
   overdueAlertText: {
     color: colors.danger,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
     flex: 1,
@@ -976,25 +935,9 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 10,
   },
-  storeBtn: {
-    flex: 1,
-    paddingVertical: 7,
-    borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    alignItems: 'center',
-  },
-  storeBtnActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
-    borderColor: colors.gold,
-  },
-  storeBtnText: {
-    color: colors.textTertiary,
-    fontSize: 11,
-    fontWeight: '600',
-    fontFamily: fonts.sans,
-  },
+  storeBtn: { ...chrome.storeBtn },
+  storeBtnActive: { ...chrome.storeBtnActive },
+  storeBtnText: { color: colors.textTertiary, fontSize: 13, fontWeight: '600', fontFamily: fonts.sans },
   storeBtnTextActive: {
     color: colors.gold,
     fontWeight: '700',
@@ -1005,6 +948,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   statusTabBtn: {
+    minHeight: 44,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -1012,32 +956,32 @@ const styles = StyleSheet.create({
     gap: 5,
     paddingVertical: 8,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },
   statusTabBtnActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+    backgroundColor: alpha(colors.gold, 0.1),
     borderColor: colors.gold,
   },
   statusTabBtnActiveAmber: {
-    backgroundColor: 'rgba(245, 158, 11, 0.12)',
-    borderColor: '#F59E0B',
+    backgroundColor: alpha(colors.warning, 0.12),
+    borderColor: colors.warning,
   },
   statusTabBtnActiveGreen: {
-    backgroundColor: 'rgba(34, 197, 94, 0.1)',
-    borderColor: '#4ADE80',
+    backgroundColor: alpha(colors.success, 0.1),
+    borderColor: colors.success,
   },
   statusTabText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderRadius: radius.sm,
     paddingHorizontal: 12,
     borderWidth: 1,
@@ -1071,11 +1015,11 @@ const styles = StyleSheet.create({
   cardOverdue: {
     borderLeftWidth: 3,
     borderLeftColor: colors.danger,
-    backgroundColor: 'rgba(239, 68, 68, 0.04)',
+    backgroundColor: alpha(colors.danger, 0.04),
   },
   cardCompleted: {
     borderLeftWidth: 3,
-    borderLeftColor: '#4ADE80',
+    borderLeftColor: colors.success,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -1098,23 +1042,23 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   dueDateBadgeText: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
   storeTag: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
+    backgroundColor: alpha(colors.gold, 0.08),
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.25)',
+    borderColor: alpha(colors.gold, 0.25),
   },
   storeTagText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -1135,7 +1079,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   specBadge: {
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     paddingHorizontal: 7,
     paddingVertical: 2,
     borderRadius: radius.xs,
@@ -1144,7 +1088,7 @@ const styles = StyleSheet.create({
   },
   specBadgeText: {
     color: colors.textSecondary,
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   initialDateRow: {
@@ -1154,7 +1098,7 @@ const styles = StyleSheet.create({
   },
   initialDateText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   amountsRow: {
@@ -1172,14 +1116,14 @@ const styles = StyleSheet.create({
   },
   amountLabel: {
     color: colors.textTertiary,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
     letterSpacing: 0.5,
     marginBottom: 2,
     fontFamily: fonts.sans,
   },
   amountPaid: {
-    color: '#4ADE80',
+    color: colors.success,
     fontSize: 13,
     fontWeight: '700',
     fontFamily: fonts.sans,
@@ -1207,7 +1151,7 @@ const styles = StyleSheet.create({
   },
   historyTitle: {
     color: colors.gold,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1,
     textTransform: 'uppercase',
@@ -1221,27 +1165,27 @@ const styles = StyleSheet.create({
   },
   historyDate: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   historyAmount: {
-    color: '#4ADE80',
-    fontSize: 11,
+    color: colors.success,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
   completedNoticeBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(34, 197, 94, 0.08)',
+    backgroundColor: alpha(colors.success, 0.08),
     padding: 8,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(34, 197, 94, 0.3)',
+    borderColor: alpha(colors.success, 0.3),
   },
   completedNoticeText: {
-    color: '#4ADE80',
-    fontSize: 11,
+    color: colors.success,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
   },
@@ -1255,6 +1199,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   whatsAppReminderBtn: {
+    minHeight: 44,
+    justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
@@ -1267,15 +1213,17 @@ const styles = StyleSheet.create({
   },
   whatsAppReminderBtnText: {
     color: '#25D366',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
   receiptActionBtn: {
+    minHeight: 44,
+    justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+    backgroundColor: alpha(colors.gold, 0.1),
     borderWidth: 1,
     borderColor: colors.gold,
     paddingVertical: 7,
@@ -1284,7 +1232,7 @@ const styles = StyleSheet.create({
   },
   receiptActionBtnText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -1292,16 +1240,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 3,
-    backgroundColor: 'rgba(212, 175, 55, 0.12)',
+    backgroundColor: alpha(colors.gold, 0.12),
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: radius.xs,
     borderWidth: 0.8,
-    borderColor: 'rgba(212, 175, 55, 0.4)',
+    borderColor: alpha(colors.gold, 0.4),
   },
   historyReceiptBtnText: {
     color: colors.gold,
-    fontSize: 9.5,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -1318,7 +1266,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
   },
   modalEyebrow: {
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: 1.5,
     color: colors.gold,
     fontWeight: '800',
@@ -1333,9 +1281,9 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   paymentSummaryBox: {
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
+    backgroundColor: alpha(colors.gold, 0.08),
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
     padding: 12,
     borderRadius: radius.sm,
     marginBottom: 14,
@@ -1362,7 +1310,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sans,
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     color: colors.textPrimary,
     height: 44,
     borderRadius: radius.sm,
@@ -1383,12 +1331,12 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },
   methodPillActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+    backgroundColor: alpha(colors.gold, 0.15),
     borderColor: colors.gold,
   },
   methodPillText: {
@@ -1402,19 +1350,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   deleteActionBtn: {
+    minHeight: 44,
+    justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
     paddingVertical: 7,
     paddingHorizontal: 10,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(239, 68, 68, 0.08)',
+    backgroundColor: alpha(colors.danger, 0.08),
     borderWidth: 1,
-    borderColor: 'rgba(239, 68, 68, 0.35)',
+    borderColor: alpha(colors.danger, 0.35),
   },
   deleteActionBtnText: {
     color: colors.danger,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -1422,7 +1372,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     alignItems: 'center',
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },

@@ -15,6 +15,8 @@ import TransferRequestModal from '../components/TransferRequestModal';
 import IncomingTransferAlertModal from '../components/IncomingTransferAlertModal';
 import { colors, fonts, radius, shadow, formatMoney } from '../theme';
 import { useResponsive, GlassCard, TiltCard, GoldButton, PressableScale, Pill, SectionTitle, FadeIn } from '../ui';
+import { chrome } from '../ui/screenChrome';
+import { alpha } from '../theme';
 
 // ====== TRACKING STEP CONFIG ======
 const TRACKING_STEPS = [
@@ -59,11 +61,11 @@ function ETACountdown({ estimatedArrival, status }: { estimatedArrival: string; 
       isLate && etaStyles.containerLate, 
       status === 'received' && etaStyles.containerDone
     ]}>
-      <Timer color={status === 'received' ? '#4ADE80' : isLate ? colors.danger : colors.gold} size={12} />
+      <Timer color={status === 'received' ? colors.success : isLate ? colors.danger : colors.gold} size={12} />
       <Text style={[
         etaStyles.text,
         isLate && { color: colors.danger },
-        status === 'received' && { color: '#4ADE80' }
+        status === 'received' && { color: colors.success }
       ]}>
         {status === 'received' ? 'Livré' : timeLeft}
       </Text>
@@ -75,25 +77,25 @@ const etaStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+    backgroundColor: alpha(colors.gold, 0.1),
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: radius.full,
     gap: 4,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
   },
   containerLate: {
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    backgroundColor: alpha(colors.danger, 0.1),
+    borderColor: alpha(colors.danger, 0.3),
   },
   containerDone: {
-    backgroundColor: 'rgba(34, 197, 94, 0.1)',
-    borderColor: 'rgba(34, 197, 94, 0.3)',
+    backgroundColor: alpha(colors.success, 0.1),
+    borderColor: alpha(colors.success, 0.3),
   },
   text: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontVariant: ['tabular-nums'],
     fontFamily: fonts.sans,
@@ -148,7 +150,7 @@ const progressStyles = StyleSheet.create({
   container: { marginVertical: 10, paddingHorizontal: 4 },
   track: {
     height: 3,
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    backgroundColor: colors.surfaceStrong,
     borderRadius: 2,
     overflow: 'hidden',
   },
@@ -168,7 +170,7 @@ const progressStyles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: '#1E1E24',
     borderWidth: 1.5,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: colors.borderStrong,
   },
   dotDone: {
     backgroundColor: colors.gold,
@@ -190,7 +192,7 @@ const progressStyles = StyleSheet.create({
     bottom: -3,
     borderRadius: 8,
     borderWidth: 1.5,
-    borderColor: 'rgba(212, 175, 55, 0.5)',
+    borderColor: alpha(colors.gold, 0.5),
   },
 });
 
@@ -232,7 +234,7 @@ function TrackingDetailModal({ visible, transfer, onClose, user, onCancel, onRet
               <Text style={modalStyles.headerTitle}>Suivi en Direct</Text>
               <Text style={modalStyles.headerSubtitle}>{transfer.product_name}</Text>
             </View>
-            <TouchableOpacity onPress={onClose} style={modalStyles.closeBtn}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={onClose} style={modalStyles.closeBtn}>
               <X color={colors.textSecondary} size={18} />
             </TouchableOpacity>
           </View>
@@ -260,13 +262,13 @@ function TrackingDetailModal({ visible, transfer, onClose, user, onCancel, onRet
               </View>
 
               <View style={modalStyles.routePoint}>
-                <View style={[modalStyles.routeDot, { backgroundColor: isPending ? 'rgba(255, 255, 255, 0.2)' : '#4ADE80' }]} />
+                <View style={[modalStyles.routeDot, { backgroundColor: isPending ? 'rgba(255, 255, 255, 0.2)' : colors.success }]} />
                 <Text style={modalStyles.routePointLabel}>{toName}</Text>
                 {transfer.estimated_arrival && isPending && (
                   <ETACountdown estimatedArrival={transfer.estimated_arrival} status={transfer.status} />
                 )}
                 {!isPending && (
-                  <Text style={[modalStyles.routePointTime, { color: '#4ADE80' }]}>
+                  <Text style={[modalStyles.routePointTime, { color: colors.success }]}>
                     {transfer.received_at ? new Date(transfer.received_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : 'Livré'}
                   </Text>
                 )}
@@ -285,7 +287,7 @@ function TrackingDetailModal({ visible, transfer, onClose, user, onCancel, onRet
                 Linking.openURL(url);
               }}
             >
-              <ExternalLink color="#38BDF8" size={14} />
+              <ExternalLink color={colors.info} size={14} />
               <Text style={modalStyles.gmapsBtnText}>
                 Ouvrir l'Itinéraire dans Google Maps
               </Text>
@@ -356,7 +358,7 @@ function TrackingDetailModal({ visible, transfer, onClose, user, onCancel, onRet
                       isCurrent && modalStyles.timelineDotCurrent,
                     ]}>
                       {isDone ? (
-                        <Check color="#07070A" size={12} />
+                        <Check color={colors.onGold} size={12} />
                       ) : (
                         <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: isCurrent ? colors.gold : colors.textTertiary }} />
                       )}
@@ -399,7 +401,7 @@ function TrackingDetailModal({ visible, transfer, onClose, user, onCancel, onRet
                   label={`Confirmer la Réception (+${transfer.quantity} à ${toName})`}
                   onPress={() => onConfirm(transfer)}
                   size="md"
-                  icon={<PackageCheck color="#07070A" size={16} />}
+                  icon={<PackageCheck color={colors.onGold} size={16} />}
                 />
               )}
 
@@ -420,7 +422,7 @@ function TrackingDetailModal({ visible, transfer, onClose, user, onCancel, onRet
                   style={modalStyles.unsoldBtn}
                   onPress={() => onReturnUnsold(transfer)}
                 >
-                  <RotateCcw color="#F59E0B" size={15} />
+                  <RotateCcw color={colors.warning} size={15} />
                   <Text style={modalStyles.unsoldBtnText}>
                     Article Non Vendu (Retourner à {fromName})
                   </Text>
@@ -458,7 +460,7 @@ const modalStyles = StyleSheet.create({
     paddingBottom: 12,
   },
   headerEyebrow: {
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: 1.5,
     color: colors.gold,
     fontWeight: '800',
@@ -479,7 +481,7 @@ const modalStyles = StyleSheet.create({
   },
   closeBtn: {
     padding: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
     borderRadius: radius.sm,
   },
   routeVisual: {
@@ -509,13 +511,13 @@ const modalStyles = StyleSheet.create({
   },
   routePointTime: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   routeLine: {
     marginLeft: 4,
     borderLeftWidth: 1.5,
-    borderLeftColor: 'rgba(212, 175, 55, 0.4)',
+    borderLeftColor: alpha(colors.gold, 0.4),
     borderStyle: 'dashed',
     paddingVertical: 10,
     paddingLeft: 14,
@@ -525,17 +527,17 @@ const modalStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+    backgroundColor: alpha(colors.gold, 0.1),
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: radius.full,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
+    borderColor: alpha(colors.gold, 0.3),
     alignSelf: 'flex-start',
   },
   driverName: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -544,15 +546,15 @@ const modalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: 'rgba(56, 189, 248, 0.08)',
-    borderColor: 'rgba(56, 189, 248, 0.3)',
+    backgroundColor: alpha(colors.info, 0.08),
+    borderColor: alpha(colors.info, 0.3),
     borderWidth: 1,
     paddingVertical: 10,
     borderRadius: radius.sm,
     marginBottom: 12,
   },
   gmapsBtnText: {
-    color: '#38BDF8',
+    color: colors.info,
     fontWeight: '700',
     fontSize: 12,
     fontFamily: fonts.sans,
@@ -617,7 +619,7 @@ const modalStyles = StyleSheet.create({
     width: 22,
     height: 22,
     borderRadius: 11,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1.5,
@@ -629,7 +631,7 @@ const modalStyles = StyleSheet.create({
     borderColor: colors.gold,
   },
   timelineDotCurrent: {
-    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+    backgroundColor: alpha(colors.gold, 0.2),
     borderColor: colors.gold,
   },
   timelineLabel: {
@@ -640,13 +642,13 @@ const modalStyles = StyleSheet.create({
   },
   timelineDesc: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
     fontFamily: fonts.sans,
   },
   timelineTime: {
-    color: '#4ADE80',
-    fontSize: 10,
+    color: colors.success,
+    fontSize: 12,
     marginTop: 3,
     fontWeight: '600',
     fontFamily: fonts.sans,
@@ -660,8 +662,8 @@ const modalStyles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   updateStepBtnText: {
-    color: '#07070A',
-    fontSize: 11,
+    color: colors.onGold,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
@@ -670,9 +672,9 @@ const modalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: 'rgba(239, 68, 68, 0.08)',
+    backgroundColor: alpha(colors.danger, 0.08),
     borderWidth: 1,
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    borderColor: alpha(colors.danger, 0.3),
     paddingVertical: 10,
     borderRadius: radius.sm,
   },
@@ -687,14 +689,14 @@ const modalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: 'rgba(245, 158, 11, 0.08)',
+    backgroundColor: alpha(colors.warning, 0.08),
     borderWidth: 1,
-    borderColor: 'rgba(245, 158, 11, 0.3)',
+    borderColor: alpha(colors.warning, 0.3),
     paddingVertical: 10,
     borderRadius: radius.sm,
   },
   unsoldBtnText: {
-    color: '#F59E0B',
+    color: colors.warning,
     fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
@@ -884,7 +886,7 @@ export default function TransfersScreen({ navigation, route }: any) {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Retour" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => navigation.goBack()} style={styles.backBtn}>
             <ArrowLeft color={colors.textPrimary} size={20} />
           </TouchableOpacity>
 
@@ -899,8 +901,9 @@ export default function TransfersScreen({ navigation, route }: any) {
               onPress={() => setShowRequestModal(true)}
               accessibilityLabel="Nouvelle Demande"
             >
-              <Plus color="#07070A" size={16} />
-              <Text style={styles.goldNewBtnText}>Demander</Text>
+              <Plus color={colors.onGold} size={16} />
+              {/* Sur téléphone étroit : icône seule pour laisser la place au titre */}
+              {r.width >= 480 && <Text style={styles.goldNewBtnText}>Demander</Text>}
             </TouchableOpacity>
 
             <TouchableOpacity 
@@ -941,7 +944,7 @@ export default function TransfersScreen({ navigation, route }: any) {
               style={[styles.tabItem, tab === 'requested' && styles.tabItemActiveAmber]}
               onPress={() => setTab('requested')}
             >
-              <Text style={[styles.tabText, { color: '#F59E0B' }]}>
+              <Text style={[styles.tabText, { color: colors.warning }]}>
                 Demandes ({requestedCount})
               </Text>
             </TouchableOpacity>
@@ -1070,7 +1073,7 @@ export default function TransfersScreen({ navigation, route }: any) {
                             }
                           }}
                           size="sm"
-                          icon={<Check color="#07070A" size={15} />}
+                          icon={<Check color={colors.onGold} size={15} />}
                         />
                         <TouchableOpacity 
                           style={styles.refuseBtn}
@@ -1150,7 +1153,7 @@ export default function TransfersScreen({ navigation, route }: any) {
                       </View>
 
                       <View style={styles.routeEndpoint}>
-                        <View style={[styles.routeCircle, { backgroundColor: isPending ? 'rgba(255, 255, 255, 0.2)' : '#4ADE80' }]} />
+                        <View style={[styles.routeCircle, { backgroundColor: isPending ? 'rgba(255, 255, 255, 0.2)' : colors.success }]} />
                         <Text style={styles.routeStoreName}>{toName}</Text>
                       </View>
                       
@@ -1205,7 +1208,7 @@ export default function TransfersScreen({ navigation, route }: any) {
                         {!isPending && item.received_by_name && (
                           <View style={styles.expandedRow}>
                             <Text style={styles.expandedLabel}>Réceptionné par</Text>
-                            <Text style={[styles.expandedValue, { color: '#4ADE80' }]}>
+                            <Text style={[styles.expandedValue, { color: colors.success }]}>
                               {item.received_by_name}
                             </Text>
                           </View>
@@ -1220,7 +1223,7 @@ export default function TransfersScreen({ navigation, route }: any) {
                           label={`Confirmer Réception (+${item.quantity} au stock)`}
                           onPress={() => handleConfirm(item)}
                           size="sm"
-                          icon={<PackageCheck color="#07070A" size={15} />}
+                          icon={<PackageCheck color={colors.onGold} size={15} />}
                         />
                       )}
 
@@ -1238,7 +1241,7 @@ export default function TransfersScreen({ navigation, route }: any) {
                             style={styles.unsoldActionBtn}
                             onPress={() => handleReturnUnsold(item)}
                           >
-                            <RotateCcw color="#F59E0B" size={14} />
+                            <RotateCcw color={colors.warning} size={14} />
                             <Text style={styles.unsoldActionText}>Pas Vendu</Text>
                           </TouchableOpacity>
                         </View>
@@ -1249,7 +1252,7 @@ export default function TransfersScreen({ navigation, route }: any) {
                           style={styles.unsoldActionBtn}
                           onPress={() => handleReturnUnsold(item)}
                         >
-                          <RotateCcw color="#F59E0B" size={14} />
+                          <RotateCcw color={colors.warning} size={14} />
                           <Text style={styles.unsoldActionText}>Retourner (Non vendu)</Text>
                         </TouchableOpacity>
                       )}
@@ -1309,83 +1312,30 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.obsidian,
   },
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'web' ? 20 : 48,
-    paddingBottom: 14,
-    backgroundColor: 'rgba(7, 7, 10, 0.95)',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.glassBorder,
-  },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  backBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    marginRight: 10,
-  },
-  headerTitleBox: {
-    flex: 1,
-    minWidth: 0,
-  },
-  screenEyebrow: {
-    fontSize: 10,
-    letterSpacing: 2,
-    color: colors.gold,
-    fontWeight: '800',
-    fontFamily: fonts.sans,
-    textTransform: 'uppercase',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    fontFamily: fonts.serif,
-  },
+  header: { ...chrome.header },
+  headerRow: { ...chrome.headerRow },
+  backBtn: { ...chrome.backBtn, marginRight: 10 },
+  headerTitleBox: { ...chrome.headerTitleBox },
+  screenEyebrow: { ...chrome.screenEyebrow },
+  title: { ...chrome.title },
   headerActions: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
-  goldNewBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.gold,
-    paddingVertical: 7,
-    paddingHorizontal: 12,
-    borderRadius: radius.sm,
-    gap: 5,
-  },
-  goldNewBtnText: {
-    color: '#07070A',
-    fontWeight: '700',
-    fontSize: 12,
-    fontFamily: fonts.sans,
-  },
-  iconBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.3)',
-  },
+  goldNewBtn: { ...chrome.goldBtn },
+  goldNewBtnText: { ...chrome.goldBtnText },
+  iconBtn: { ...chrome.iconBtn },
   liveStrip: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'rgba(212, 175, 55, 0.06)',
+    backgroundColor: alpha(colors.gold, 0.06),
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.2)',
+    borderColor: alpha(colors.gold, 0.2),
     marginBottom: 10,
   },
   liveIndicatorRow: {
@@ -1401,13 +1351,13 @@ const styles = StyleSheet.create({
   },
   liveStripText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     fontFamily: fonts.sans,
   },
   liveStripClock: {
     color: colors.textTertiary,
-    fontSize: 9,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1.5,
   },
@@ -1417,21 +1367,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   tabItem: {
+    minHeight: 44,
+    justifyContent: 'center',
     flex: 1,
     paddingVertical: 8,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
     alignItems: 'center',
   },
   tabItemActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.12)',
+    backgroundColor: alpha(colors.gold, 0.12),
     borderColor: colors.gold,
   },
   tabItemActiveAmber: {
-    backgroundColor: 'rgba(245, 158, 11, 0.12)',
-    borderColor: '#F59E0B',
+    backgroundColor: alpha(colors.warning, 0.12),
+    borderColor: colors.warning,
   },
   tabText: {
     color: colors.textTertiary,
@@ -1448,6 +1400,8 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   storeFilterBtn: {
+    minHeight: 44,
+    justifyContent: 'center',
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: radius.xs,
@@ -1456,12 +1410,12 @@ const styles = StyleSheet.create({
     borderColor: colors.glassBorder,
   },
   storeFilterBtnActive: {
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
-    borderColor: 'rgba(212, 175, 55, 0.35)',
+    backgroundColor: alpha(colors.gold, 0.08),
+    borderColor: alpha(colors.gold, 0.35),
   },
   storeFilterText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   storeFilterTextActive: {
@@ -1502,48 +1456,48 @@ const styles = StyleSheet.create({
   },
   productDetails: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
     fontFamily: fonts.sans,
   },
   badgeReceived: {
-    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+    backgroundColor: alpha(colors.success, 0.1),
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(34, 197, 94, 0.3)',
+    borderColor: alpha(colors.success, 0.3),
   },
   badgeReceivedText: {
-    color: '#4ADE80',
-    fontSize: 10,
+    color: colors.success,
+    fontSize: 12,
     fontWeight: '800',
     fontFamily: fonts.sans,
   },
   badgeCancelled: {
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    backgroundColor: alpha(colors.danger, 0.1),
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    borderColor: alpha(colors.danger, 0.3),
   },
   badgeCancelledText: {
     color: colors.danger,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '800',
   },
   badgeUnsold: {
-    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    backgroundColor: alpha(colors.warning, 0.1),
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(245, 158, 11, 0.3)',
+    borderColor: alpha(colors.warning, 0.3),
   },
   badgeUnsoldText: {
-    color: '#F59E0B',
-    fontSize: 10,
+    color: colors.warning,
+    fontSize: 12,
     fontWeight: '800',
   },
   routeBox: {
@@ -1582,13 +1536,13 @@ const styles = StyleSheet.create({
   routeDash: {
     flex: 1,
     height: 1,
-    backgroundColor: 'rgba(212, 175, 55, 0.3)',
+    backgroundColor: alpha(colors.gold, 0.3),
   },
   routeDriverIcon: {
     paddingHorizontal: 6,
   },
   qtyBox: {
-    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+    backgroundColor: alpha(colors.gold, 0.1),
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: radius.xs,
@@ -1596,7 +1550,7 @@ const styles = StyleSheet.create({
   },
   qtyText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
   },
   statusLine: {
@@ -1607,7 +1561,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
     flex: 1,
@@ -1627,12 +1581,12 @@ const styles = StyleSheet.create({
   },
   expandedLabel: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
   },
   expandedValue: {
     color: colors.textSecondary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: fonts.sans,
   },
@@ -1646,15 +1600,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 5,
-    backgroundColor: 'rgba(239, 68, 68, 0.08)',
+    backgroundColor: alpha(colors.danger, 0.08),
     borderWidth: 1,
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    borderColor: alpha(colors.danger, 0.3),
     paddingVertical: 7,
     borderRadius: radius.xs,
   },
   cancelActionText: {
     color: colors.danger,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
   },
   unsoldActionBtn: {
@@ -1663,21 +1617,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 5,
-    backgroundColor: 'rgba(245, 158, 11, 0.08)',
+    backgroundColor: alpha(colors.warning, 0.08),
     borderWidth: 1,
-    borderColor: 'rgba(245, 158, 11, 0.3)',
+    borderColor: alpha(colors.warning, 0.3),
     paddingVertical: 7,
     borderRadius: radius.xs,
   },
   unsoldActionText: {
-    color: '#F59E0B',
-    fontSize: 11,
+    color: colors.warning,
+    fontSize: 12,
     fontWeight: '700',
   },
   requestCard: {
     padding: 16,
     borderRadius: radius.md,
-    borderColor: 'rgba(212, 175, 55, 0.4)',
+    borderColor: alpha(colors.gold, 0.4),
   },
   qtyPill: {
     backgroundColor: colors.gold,
@@ -1686,12 +1640,12 @@ const styles = StyleSheet.create({
     borderRadius: radius.xs,
   },
   qtyPillText: {
-    color: '#07070A',
+    color: colors.onGold,
     fontWeight: '800',
-    fontSize: 10,
+    fontSize: 12,
   },
   demandBadge: {
-    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+    backgroundColor: alpha(colors.gold, 0.15),
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: radius.xs,
@@ -1700,7 +1654,7 @@ const styles = StyleSheet.create({
   },
   demandBadgeText: {
     color: colors.gold,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '800',
   },
   requestRouteRow: {
@@ -1716,23 +1670,23 @@ const styles = StyleSheet.create({
   },
   requestSellerText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
     fontFamily: fonts.sans,
   },
   requestNoteText: {
     color: colors.gold,
-    fontSize: 11,
+    fontSize: 12,
     fontStyle: 'italic',
     marginTop: 4,
   },
   refuseBtn: {
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    backgroundColor: alpha(colors.danger, 0.1),
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    borderColor: alpha(colors.danger, 0.3),
     justifyContent: 'center',
   },
   refuseBtnText: {
@@ -1751,19 +1705,19 @@ const styles = StyleSheet.create({
   },
   waitingNoticeText: {
     color: colors.textTertiary,
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: fonts.sans,
     flex: 1,
   },
   cancelSmallBtn: {
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    backgroundColor: alpha(colors.danger, 0.1),
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: radius.xs,
   },
   cancelSmallBtnText: {
     color: colors.danger,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
   },
   loadingBox: {

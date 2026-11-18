@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     minWidth: 96,
   },
-  methodLabel: { fontFamily: fonts.semibold, fontSize: 11.5, color: colors.textMuted },
+  methodLabel: { fontFamily: fonts.semibold, fontSize: 12, color: colors.textMuted },
   methodValue: { fontFamily: fonts.bold, fontSize: 15, color: colors.textPrimary, fontVariant: ['tabular-nums'], marginTop: 2 },
 });

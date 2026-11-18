@@ -49,6 +49,7 @@ import {
   startFlashingTabTitle,
   stopFlashingTabTitle
 } from '../utils/ringtone';
+import { colors } from '../theme';
 
 interface IncomingTransferAlertModalProps {
   user: any;
@@ -406,12 +407,12 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
 
   const borderColorAnim = strobeAnim.interpolate({
     inputRange: [0, 0.5, 1],
-    outputRange: ['#d4af37', '#ff3b30', '#ffaa00']
+    outputRange: [colors.gold, '#ff3b30', '#ffaa00']
   });
 
   const strobeBannerBg = strobeAnim.interpolate({
     inputRange: [0, 0.5, 1],
-    outputRange: ['#ffaa00', '#ff3b30', '#d4af37']
+    outputRange: ['#ffaa00', '#ff3b30', colors.gold]
   });
 
   return (
@@ -430,7 +431,7 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
         <Animated.View style={[styles.container, { borderColor: borderColorAnim }]}>
           {/* Gyrophare Visuel Stroboscopique (attire l'attention même de loin à travers la boutique) */}
           <Animated.View style={[styles.strobeBanner, { backgroundColor: strobeBannerBg }]}>
-            <AlertTriangle color="#121212" size={18} style={{ marginRight: 8 }} />
+            <AlertTriangle color={colors.onGold} size={18} style={{ marginRight: 8 }} />
             <Text style={styles.strobeBannerText}>
               🚨 ATTENTION : DEMANDE DE TRANSFERT ENTRANTE (SONNERIE ACTIVE)
             </Text>
@@ -440,7 +441,7 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
           <View style={styles.topAlarmBar}>
             <Animated.View style={{ transform: [{ scale: pulseAnim }, { translateX: shakeAnim }] }}>
               <View style={styles.phoneIconCircle}>
-                <PhoneCall color="#121212" size={28} />
+                <PhoneCall color={colors.onGold} size={28} />
               </View>
             </Animated.View>
             <View style={{ flex: 1, marginLeft: 14 }}>
@@ -456,17 +457,17 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
             </View>
             <TouchableOpacity 
               onPress={handleMuteSound} 
-              style={[styles.muteBtn, soundMuted && { backgroundColor: '#2d1010', borderColor: '#ff5252' }]}
+              style={[styles.muteBtn, soundMuted && { backgroundColor: '#2d1010', borderColor: colors.danger }]}
             >
               {soundMuted ? (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <VolumeX color="#ff5252" size={18} />
-                  <Text style={{ color: '#ff5252', fontSize: 12, fontWeight: 'bold' }}>Coupé</Text>
+                  <VolumeX color={colors.danger} size={18} />
+                  <Text style={{ color: colors.danger, fontSize: 12, fontWeight: 'bold' }}>Coupé</Text>
                 </View>
               ) : (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <Volume2 color="#d4af37" size={18} />
-                  <Text style={{ color: '#d4af37', fontSize: 12, fontWeight: 'bold' }}>Couper le son</Text>
+                  <Volume2 color={colors.gold} size={18} />
+                  <Text style={{ color: colors.gold, fontSize: 12, fontWeight: 'bold' }}>Couper le son</Text>
                 </View>
               )}
             </TouchableOpacity>
@@ -481,7 +482,7 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
               playRingToneNow(30);
             }}
           >
-            <Volume2 color="#121212" size={20} />
+            <Volume2 color={colors.onGold} size={20} />
             <Text style={styles.soundTriggerText}>
               🔊 SONNERIE FORTE AUTOMATIQUE (Cliquez n'importe où pour forcer à 100%)
             </Text>
@@ -498,8 +499,8 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
                 <Text style={{ fontSize: 22 }}>➔</Text>
               </View>
               <View style={[styles.storeBadge, { backgroundColor: '#1a2a1a', borderColor: '#4CAF5060' }]}>
-                <Text style={[styles.storeBadgeLabel, { color: '#4CAF50' }]}>POUR LA BOUTIQUE</Text>
-                <Text style={[styles.storeBadgeName, { color: '#4CAF50' }]}>{toStoreName}</Text>
+                <Text style={[styles.storeBadgeLabel, { color: colors.success }]}>POUR LA BOUTIQUE</Text>
+                <Text style={[styles.storeBadgeName, { color: colors.success }]}>{toStoreName}</Text>
               </View>
             </View>
 
@@ -539,7 +540,7 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
                 <View key={idx} style={styles.itemCard}>
                   <View style={{ flex: 1 }}>
                     <View style={styles.itemNameRow}>
-                      <Package color="#d4af37" size={18} style={{ marginRight: 6 }} />
+                      <Package color={colors.gold} size={18} style={{ marginRight: 6 }} />
                       <Text style={styles.itemName}>{name}</Text>
                     </View>
 
@@ -547,7 +548,7 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
                     <View style={styles.specsRow}>
                       {reference ? (
                         <View style={styles.specBadgeRef}>
-                          <Tag color="#d4af37" size={11} style={{ marginRight: 4 }} />
+                          <Tag color={colors.gold} size={11} style={{ marginRight: 4 }} />
                           <Text style={styles.specBadgeRefText}>Réf : {reference}</Text>
                         </View>
                       ) : null}
@@ -625,9 +626,9 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
             </View>
 
             <View style={styles.travelEstBox}>
-              <Clock color="#d4af37" size={16} />
+              <Clock color={colors.gold} size={16} />
               <Text style={styles.travelEstText}>
-                Durée de trajet estimée : <Text style={{ color: '#d4af37', fontWeight: 'bold' }}>~15 minutes</Text> (Départ immédiat)
+                Durée de trajet estimée : <Text style={{ color: colors.gold, fontWeight: 'bold' }}>~15 minutes</Text> (Départ immédiat)
               </Text>
             </View>
           </ScrollView>
@@ -637,21 +638,21 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
             {isRequesterSide ? (
               <>
                 <TouchableOpacity 
-                  style={[styles.rejectBtn, { backgroundColor: '#2b1010', borderColor: '#ff5252' }]}
+                  style={[styles.rejectBtn, { backgroundColor: '#2b1010', borderColor: colors.danger }]}
                   onPress={handleCancelRequest}
                   disabled={isProcessing}
                 >
-                  <XCircle color="#ff5252" size={18} style={{ marginRight: 6 }} />
-                  <Text style={[styles.rejectBtnText, { color: '#ff5252' }]}>Annuler ma Demande</Text>
+                  <XCircle color={colors.danger} size={18} style={{ marginRight: 6 }} />
+                  <Text style={[styles.rejectBtnText, { color: colors.danger }]}>Annuler ma Demande</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity 
-                  style={[styles.acceptBtn, { backgroundColor: '#332408', borderColor: '#d4af37', borderWidth: 1 }]}
+                  style={[styles.acceptBtn, { backgroundColor: '#332408', borderColor: colors.gold, borderWidth: 1 }]}
                   onPress={() => playRingToneNow(30)}
                   disabled={isProcessing}
                 >
-                  <Volume2 color="#d4af37" size={20} style={{ marginRight: 8 }} />
-                  <Text style={[styles.acceptBtnText, { color: '#d4af37' }]}>Réécouter Sonnerie Forte</Text>
+                  <Volume2 color={colors.gold} size={20} style={{ marginRight: 8 }} />
+                  <Text style={[styles.acceptBtnText, { color: colors.gold }]}>Réécouter Sonnerie Forte</Text>
                 </TouchableOpacity>
               </>
             ) : (
@@ -661,7 +662,7 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
                   onPress={handleReject}
                   disabled={isProcessing}
                 >
-                  <XCircle color="#ff5252" size={18} style={{ marginRight: 6 }} />
+                  <XCircle color={colors.danger} size={18} style={{ marginRight: 6 }} />
                   <Text style={styles.rejectBtnText}>Refuser</Text>
                 </TouchableOpacity>
 
@@ -671,10 +672,10 @@ export default function IncomingTransferAlertModal({ user, currentStore }: Incom
                   disabled={isProcessing}
                 >
                   {isProcessing ? (
-                    <ActivityIndicator size="small" color="#121212" />
+                    <ActivityIndicator size="small" color={colors.onGold} />
                   ) : (
                     <>
-                      <CheckCircle2 color="#121212" size={20} style={{ marginRight: 8 }} />
+                      <CheckCircle2 color={colors.onGold} size={20} style={{ marginRight: 8 }} />
                       <Text style={styles.acceptBtnText}>Accepter & Expédier</Text>
                     </>
                   )}
@@ -697,15 +698,15 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   container: {
-    backgroundColor: '#181818',
+    backgroundColor: colors.surfaceSolid,
     borderRadius: 22,
     width: '100%',
     maxWidth: 540,
     maxHeight: '92%',
     borderWidth: 3,
-    borderColor: '#d4af37',
+    borderColor: colors.gold,
     overflow: 'hidden',
-    shadowColor: '#d4af37',
+    shadowColor: colors.gold,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 25,
@@ -718,7 +719,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   strobeBannerText: {
-    color: '#121212',
+    color: colors.onGold,
     fontSize: 12,
     fontWeight: '900',
     letterSpacing: 0.5,
@@ -736,30 +737,30 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#d4af37',
+    shadowColor: colors.gold,
     shadowOpacity: 0.8,
     shadowRadius: 10,
   },
   topAlarmTitle: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 15,
     fontWeight: 'bold',
     letterSpacing: 0.5,
   },
   topAlarmSubtitle: {
-    color: '#ccc',
+    color: colors.textSecondary,
     fontSize: 12,
     marginTop: 2,
   },
   muteBtn: {
     padding: 8,
-    backgroundColor: '#1f1f1f',
+    backgroundColor: colors.surfaceSolidHi,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: colors.border,
   },
   contentScroll: {
     maxHeight: 520,
@@ -768,12 +769,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#121212',
+    backgroundColor: colors.bgElevated,
     borderRadius: 14,
     padding: 12,
     marginBottom: 14,
     borderWidth: 1,
-    borderColor: '#262626',
+    borderColor: colors.border,
   },
   storeBadge: {
     flex: 1,
@@ -785,8 +786,8 @@ const styles = StyleSheet.create({
     borderColor: '#d4af3740',
   },
   storeBadgeLabel: {
-    color: '#d4af37',
-    fontSize: 10,
+    color: colors.gold,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   storeBadgeName: {
@@ -799,7 +800,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   requesterCard: {
-    backgroundColor: '#1f1f1f',
+    backgroundColor: colors.surfaceSolidHi,
     borderRadius: 12,
     padding: 12,
     marginBottom: 14,
@@ -807,8 +808,8 @@ const styles = StyleSheet.create({
     borderColor: '#2e2e2e',
   },
   requesterLabel: {
-    color: '#888',
-    fontSize: 11,
+    color: colors.textMuted,
+    fontSize: 12,
   },
   requesterName: {
     color: '#fff',
@@ -817,7 +818,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   requesterNote: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 12,
     fontStyle: 'italic',
     marginTop: 6,
@@ -831,7 +832,7 @@ const styles = StyleSheet.create({
   itemCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#121212',
+    backgroundColor: colors.bgElevated,
     borderRadius: 14,
     padding: 12,
     marginBottom: 10,
@@ -862,11 +863,11 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#d4af37',
+    borderColor: colors.gold,
   },
   specBadgeRefText: {
-    color: '#d4af37',
-    fontSize: 11,
+    color: colors.gold,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   specBadgeSize: {
@@ -875,11 +876,11 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#2196F3',
+    borderColor: colors.info,
   },
   specBadgeSizeText: {
     color: '#64B5F6',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   specBadgeColor: {
@@ -892,7 +893,7 @@ const styles = StyleSheet.create({
   },
   specBadgeColorText: {
     color: '#CE93D8',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
   },
   specBadgeCategory: {
@@ -901,11 +902,11 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#FF9800',
+    borderColor: colors.warning,
   },
   specBadgeCategoryText: {
     color: '#FFB74D',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
   },
   specBadgePrice: {
@@ -914,11 +915,11 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#4CAF50',
+    borderColor: colors.success,
   },
   specBadgePriceText: {
     color: '#81C784',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   specBadgeStock: {
@@ -931,7 +932,7 @@ const styles = StyleSheet.create({
   },
   specBadgeStockText: {
     color: '#AED581',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   specBadgeBarcode: {
@@ -943,12 +944,12 @@ const styles = StyleSheet.create({
     borderColor: '#555',
   },
   specBadgeBarcodeText: {
-    color: '#bbb',
-    fontSize: 10,
+    color: colors.textTertiary,
+    fontSize: 12,
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
   qtyBox: {
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 10,
@@ -957,17 +958,17 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   qtyLabel: {
-    color: '#121212',
-    fontSize: 8,
+    color: colors.onGold,
+    fontSize: 12,
     fontWeight: '900',
   },
   qtyText: {
-    color: '#121212',
+    color: colors.onGold,
     fontSize: 18,
     fontWeight: '900',
   },
   carrierBox: {
-    backgroundColor: '#1f1f1f',
+    backgroundColor: colors.surfaceSolidHi,
     borderRadius: 12,
     padding: 12,
     marginTop: 8,
@@ -975,29 +976,29 @@ const styles = StyleSheet.create({
     borderColor: '#2e2e2e',
   },
   carrierBoxTitle: {
-    color: '#aaa',
+    color: colors.textTertiary,
     fontSize: 12,
     fontWeight: 'bold',
   },
   carrierChip: {
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.surfaceStrong,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
     marginRight: 8,
     borderWidth: 1,
-    borderColor: '#3a3a3a',
+    borderColor: colors.borderStrong,
   },
   carrierChipActive: {
     backgroundColor: '#2e240a',
-    borderColor: '#d4af37',
+    borderColor: colors.gold,
   },
   carrierChipText: {
-    color: '#aaa',
+    color: colors.textTertiary,
     fontSize: 12,
   },
   carrierChipTextActive: {
-    color: '#d4af37',
+    color: colors.gold,
     fontWeight: 'bold',
   },
   travelEstBox: {
@@ -1010,7 +1011,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   travelEstText: {
-    color: '#aaa',
+    color: colors.textTertiary,
     fontSize: 12,
   },
   actionsFooter: {
@@ -1018,7 +1019,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#141414',
     borderTopWidth: 1,
-    borderTopColor: '#262626',
+    borderTopColor: colors.border,
     gap: 12,
   },
   rejectBtn: {
@@ -1033,7 +1034,7 @@ const styles = StyleSheet.create({
     borderColor: '#ff525250',
   },
   rejectBtnText: {
-    color: '#ff5252',
+    color: colors.danger,
     fontSize: 14,
     fontWeight: 'bold',
   },
@@ -1042,16 +1043,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     paddingVertical: 14,
     borderRadius: 12,
-    shadowColor: '#d4af37',
+    shadowColor: colors.gold,
     shadowOpacity: 0.5,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 2 },
   },
   acceptBtnText: {
-    color: '#121212',
+    color: colors.onGold,
     fontSize: 15,
     fontWeight: 'bold',
   },
@@ -1062,13 +1063,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     paddingVertical: 11,
     paddingHorizontal: 14,
     gap: 8,
   },
   soundTriggerText: {
-    color: '#121212',
+    color: colors.onGold,
     fontWeight: 'bold',
     fontSize: 13,
   },

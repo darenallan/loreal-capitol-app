@@ -29,6 +29,7 @@ import {
 } from 'lucide-react-native';
 import { searchOtherStoreProducts, requestTransferStock, isSuperBoss } from '../db/database';
 import { playRingToneNow } from '../utils/ringtone';
+import { colors } from '../theme';
 
 interface TransferRequestModalProps {
   visible: boolean;
@@ -264,10 +265,10 @@ export default function TransferRequestModal({
                 <Text style={styles.headerTitle}>Demande de Transfert Inter-Magasin</Text>
               </View>
               <Text style={styles.headerSubtitle}>
-                Recherchez et demandez des articles disponibles à <Text style={{ color: '#d4af37', fontWeight: 'bold' }}>{sourceStoreLabel}</Text> pour <Text style={{ color: '#4CAF50', fontWeight: 'bold' }}>{targetStoreLabel}</Text>
+                Recherchez et demandez des articles disponibles à <Text style={{ color: colors.gold, fontWeight: 'bold' }}>{sourceStoreLabel}</Text> pour <Text style={{ color: colors.success, fontWeight: 'bold' }}>{targetStoreLabel}</Text>
               </Text>
             </View>
-            <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={onClose} style={styles.closeBtn}>
               <X color="#fff" size={22} />
             </TouchableOpacity>
           </View>
@@ -301,19 +302,19 @@ export default function TransferRequestModal({
 
           {/* Barre de Recherche Multi-Critères */}
           <View style={styles.searchContainer}>
-            <Search color="#d4af37" size={20} style={{ marginRight: 8 }} />
+            <Search color={colors.gold} size={20} style={{ marginRight: 8 }} />
             <TextInput
               style={styles.searchInput}
               placeholder="Réf (ex: 4217), Nom (Macjames), Taille (43), Couleur (Noir)..."
-              placeholderTextColor="#666"
+              placeholderTextColor={colors.inputPlaceholder}
               value={searchQuery}
               onChangeText={handleSearch}
               autoCapitalize="none"
               autoCorrect={false}
             />
             {searchQuery.length > 0 && (
-              <TouchableOpacity onPress={() => handleSearch('')} style={{ padding: 4 }}>
-                <X color="#888" size={18} />
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Fermer" hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} onPress={() => handleSearch('')} style={{ padding: 4 }}>
+                <X color={colors.textMuted} size={18} />
               </TouchableOpacity>
             )}
           </View>
@@ -321,7 +322,7 @@ export default function TransferRequestModal({
           {/* Badge Résumé Résultats */}
           <View style={styles.resultsBadgeRow}>
             <Text style={styles.resultsBadgeText}>
-              Stock disponible à {sourceStoreLabel} : <Text style={{ color: '#d4af37', fontWeight: 'bold' }}>{searchResults.reduce((acc, it) => acc + (Number(it.stock) || 0), 0)} pièce(s)</Text> ({searchResults.length} modèles)
+              Stock disponible à {sourceStoreLabel} : <Text style={{ color: colors.gold, fontWeight: 'bold' }}>{searchResults.reduce((acc, it) => acc + (Number(it.stock) || 0), 0)} pièce(s)</Text> ({searchResults.length} modèles)
             </Text>
             {selectedCount > 0 && (
               <Text style={styles.selectedBadgeText}>
@@ -334,12 +335,12 @@ export default function TransferRequestModal({
           <View style={styles.listContainer}>
             {loadingSearch ? (
               <View style={styles.centerBox}>
-                <ActivityIndicator size="large" color="#d4af37" />
+                <ActivityIndicator size="large" color={colors.gold} />
                 <Text style={styles.loadingText}>Recherche du stock à {sourceStoreLabel}...</Text>
               </View>
             ) : searchResults.length === 0 ? (
               <View style={styles.centerBox}>
-                <AlertCircle color="#666" size={40} />
+                <AlertCircle color={colors.textMuted} size={40} />
                 <Text style={styles.emptyTitle}>Aucun article trouvé</Text>
                 <Text style={styles.emptySubtitle}>
                   Vérifiez l'orthographe de la référence, du nom ou de la taille.
@@ -364,7 +365,7 @@ export default function TransferRequestModal({
                         <View style={styles.specsRow}>
                           {item.reference ? (
                             <View style={styles.specBadgeRef}>
-                              <Tag color="#d4af37" size={11} style={{ marginRight: 3 }} />
+                              <Tag color={colors.gold} size={11} style={{ marginRight: 3 }} />
                               <Text style={styles.specBadgeRefText}>Réf {item.reference}</Text>
                             </View>
                           ) : null}
@@ -406,19 +407,19 @@ export default function TransferRequestModal({
                             style={styles.addBtn}
                             onPress={() => addItemToRequest(item)}
                           >
-                            <Plus color="#121212" size={16} />
+                            <Plus color={colors.onGold} size={16} />
                             <Text style={styles.addBtnText}>Demander</Text>
                           </TouchableOpacity>
                         ) : (
                           <View style={styles.counterRow}>
-                            <TouchableOpacity 
+                            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Diminuer la quantité" hitSlop={{ top: 8, bottom: 8 }} 
                               style={styles.counterBtn}
                               onPress={() => updateQuantity(item.id, -1)}
                             >
                               <Minus color="#fff" size={14} />
                             </TouchableOpacity>
                             <Text style={styles.counterQty}>{requestedQty}</Text>
-                            <TouchableOpacity 
+                            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Augmenter la quantité" hitSlop={{ top: 8, bottom: 8 }} 
                               style={[styles.counterBtn, requestedQty >= availableStock && styles.counterBtnDisabled]}
                               onPress={() => updateQuantity(item.id, 1)}
                               disabled={requestedQty >= availableStock}
@@ -443,7 +444,7 @@ export default function TransferRequestModal({
                 <TextInput
                   style={styles.noteInput}
                   placeholder="Note pour l'autre magasin (ex: Client attend au magasin Falaise)"
-                  placeholderTextColor="#666"
+                  placeholderTextColor={colors.inputPlaceholder}
                   value={clientNote}
                   onChangeText={setClientNote}
                 />
@@ -465,10 +466,10 @@ export default function TransferRequestModal({
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
-                    <ActivityIndicator size="small" color="#121212" />
+                    <ActivityIndicator size="small" color={colors.onGold} />
                   ) : (
                     <>
-                      <Send color="#121212" size={18} style={{ marginRight: 8 }} />
+                      <Send color={colors.onGold} size={18} style={{ marginRight: 8 }} />
                       <Text style={styles.submitBtnText}>Envoyer la Demande</Text>
                     </>
                   )}
@@ -496,7 +497,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     borderWidth: 1,
-    borderColor: '#2a2a2a',
+    borderColor: colors.border,
   },
   header: {
     flexDirection: 'row',
@@ -506,7 +507,7 @@ const styles = StyleSheet.create({
     paddingTop: 18,
     paddingBottom: 14,
     borderBottomWidth: 1,
-    borderBottomColor: '#262626',
+    borderBottomColor: colors.border,
   },
   headerTitleRow: {
     flexDirection: 'row',
@@ -522,12 +523,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   headerSubtitle: {
-    color: '#888',
+    color: colors.textMuted,
     fontSize: 12,
     marginTop: 4,
   },
   closeBtn: {
-    backgroundColor: '#262626',
+    backgroundColor: colors.surfaceStrong,
     padding: 8,
     borderRadius: 20,
   },
@@ -536,37 +537,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 10,
-    backgroundColor: '#1f1f1f',
+    backgroundColor: colors.surfaceSolidHi,
     borderBottomWidth: 1,
-    borderBottomColor: '#2a2a2a',
+    borderBottomColor: colors.border,
     gap: 8,
   },
   switchLabel: {
-    color: '#aaa',
+    color: colors.textTertiary,
     fontSize: 12,
   },
   switchTab: {
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.surfaceStrong,
   },
   switchTabActive: {
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
   },
   switchTabText: {
-    color: '#aaa',
+    color: colors.textTertiary,
     fontSize: 12,
     fontWeight: '600',
   },
   switchTabTextActive: {
-    color: '#121212',
+    color: colors.onGold,
     fontWeight: 'bold',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#222',
+    backgroundColor: colors.surfaceSolidHi,
     marginHorizontal: 16,
     marginTop: 14,
     paddingHorizontal: 14,
@@ -591,18 +592,18 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   resultsBadgeText: {
-    color: '#ddd',
+    color: colors.textSecondary,
     fontSize: 13.5,
     fontWeight: '500',
   },
   selectedBadgeText: {
-    color: '#4CAF50',
+    color: colors.success,
     fontSize: 13,
     fontWeight: 'bold',
   },
   listContainer: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: colors.bgElevated,
   },
   centerBox: {
     flex: 1,
@@ -611,7 +612,7 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   loadingText: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 13,
     marginTop: 10,
   },
@@ -622,7 +623,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   emptySubtitle: {
-    color: '#777',
+    color: colors.textMuted,
     fontSize: 13,
     textAlign: 'center',
     marginTop: 6,
@@ -630,7 +631,7 @@ const styles = StyleSheet.create({
   productCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1a1a1a',
+    backgroundColor: colors.surfaceSolidHi,
     padding: 12,
     borderRadius: 12,
     marginBottom: 10,
@@ -638,7 +639,7 @@ const styles = StyleSheet.create({
     borderColor: '#282828',
   },
   productCardSelected: {
-    borderColor: '#d4af37',
+    borderColor: colors.gold,
     backgroundColor: '#221e12',
   },
   productName: {
@@ -664,8 +665,8 @@ const styles = StyleSheet.create({
     borderColor: '#d4af3760',
   },
   specBadgeRefText: {
-    color: '#d4af37',
-    fontSize: 11,
+    color: colors.gold,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   specBadge: {
@@ -675,8 +676,8 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   specBadgeText: {
-    color: '#ccc',
-    fontSize: 11,
+    color: colors.textSecondary,
+    fontSize: 12,
   },
   bottomInfoRow: {
     flexDirection: 'row',
@@ -684,16 +685,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stockText: {
-    color: '#888',
+    color: colors.textMuted,
     fontSize: 12,
   },
   stockNumber: {
-    color: '#4CAF50',
+    color: colors.success,
     fontWeight: 'bold',
     fontSize: 13,
   },
   priceText: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 13,
     fontWeight: 'bold',
   },
@@ -704,21 +705,21 @@ const styles = StyleSheet.create({
   addBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 8,
     gap: 4,
   },
   addBtnText: {
-    color: '#121212',
+    color: colors.onGold,
     fontSize: 12,
     fontWeight: 'bold',
   },
   counterRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.surfaceStrong,
     borderRadius: 8,
     padding: 3,
     gap: 6,
@@ -744,7 +745,7 @@ const styles = StyleSheet.create({
   footer: {
     backgroundColor: '#1b1b1b',
     borderTopWidth: 1,
-    borderTopColor: '#2a2a2a',
+    borderTopColor: colors.border,
     padding: 14,
   },
   noteBox: {
@@ -754,7 +755,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: colors.border,
   },
   noteInput: {
     color: '#fff',
@@ -772,18 +773,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   footerSummarySubtitle: {
-    color: '#d4af37',
+    color: colors.gold,
     fontSize: 12,
     marginTop: 2,
   },
   submitBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#d4af37',
+    backgroundColor: colors.gold,
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 12,
-    shadowColor: '#d4af37',
+    shadowColor: colors.gold,
     shadowOpacity: 0.3,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 2 },
@@ -792,7 +793,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   submitBtnText: {
-    color: '#121212',
+    color: colors.onGold,
     fontSize: 14,
     fontWeight: 'bold',
   },

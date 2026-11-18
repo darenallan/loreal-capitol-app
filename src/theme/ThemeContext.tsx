@@ -12,6 +12,8 @@ export interface ColorPalette {
   surfaceSolid: string;
   surfaceSolidHi: string;
   overlay: string;
+  /** Fond des barres d'en-tête d'écran (légèrement translucide) */
+  chromeBg: string;
   border: string;
   borderStrong: string;
   borderGold: string;
@@ -65,6 +67,7 @@ export const darkPalette: ColorPalette = {
   surfaceSolid: '#151522',
   surfaceSolidHi: '#1C1C2C',
   overlay: 'rgba(4,4,6,0.88)',
+  chromeBg: 'rgba(7,7,10,0.95)',
 
   // Bordures hautement visibles
   border: 'rgba(255,255,255,0.14)',
@@ -86,7 +89,7 @@ export const darkPalette: ColorPalette = {
   textSecondary: '#E2DCD0',
   textTertiary: '#B8B0A0',
   textMuted: '#968E7E',
-  textDim: '#6E6759',
+  textDim: '#8C8474', // AA : 4.5:1 min. sur toutes les surfaces sombres (avant #6E6759, 3.0-3.5:1)
   onGold: '#07070A',
 
   // États
@@ -128,6 +131,7 @@ export const lightPalette: ColorPalette = {
   surfaceSolid: '#FFFFFF',
   surfaceSolidHi: '#F9F7F2',
   overlay: 'rgba(30,24,14,0.5)',
+  chromeBg: 'rgba(246,243,236,0.95)',
 
   // Bordures dorées chaudes
   border: 'rgba(166,124,30,0.22)',
@@ -135,7 +139,7 @@ export const lightPalette: ColorPalette = {
   borderGold: 'rgba(166,124,30,0.55)',
 
   // Or royal / ambré profond
-  gold: '#A67C1E',
+  gold: '#7F5F10', // AA : or bronze lisible en texte (avant #A67C1E, 3.4:1)
   goldLight: '#C99D36',
   goldBright: '#8B6510',
   goldDeep: '#73520A',
@@ -148,18 +152,18 @@ export const lightPalette: ColorPalette = {
   textPrimary: '#14120E',
   textSecondary: '#3C3529',
   textTertiary: '#5C5342',
-  textMuted: '#7D725E',
-  textDim: '#A09580',
+  textMuted: '#655B4A',
+  textDim: '#776C58',
   onGold: '#FFFFFF',
 
   // États adaptés au clair
-  success: '#2E7D32',
+  success: '#256B29',
   successSoft: 'rgba(46,125,50,0.12)',
-  danger: '#D32F2F',
+  danger: '#B71C1C',
   dangerSoft: 'rgba(211,47,47,0.12)',
-  warning: '#ED6C02',
+  warning: '#9C4505',
   warningSoft: 'rgba(237,108,2,0.12)',
-  info: '#0288D1',
+  info: '#0266A0',
   infoSoft: 'rgba(2,136,209,0.12)',
   violet: '#7B1FA2',
   violetSoft: 'rgba(123,31,162,0.12)',
@@ -170,8 +174,8 @@ export const lightPalette: ColorPalette = {
   inputBg: '#FFFFFF',
   inputBorder: 'rgba(166,124,30,0.45)',
   inputText: '#14120E',
-  inputPlaceholder: '#7D725E',
-  pillActiveBg: '#A67C1E',
+  inputPlaceholder: '#655B4A',
+  pillActiveBg: '#7F5F10',
   pillActiveText: '#FFFFFF',
   pillInactiveBg: '#EAE4D8',
   pillInactiveText: '#2C261D',

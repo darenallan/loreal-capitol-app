@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, LayoutChangeEvent, Platform, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
-import { colors, fonts, formatMoney, radius, type } from '../theme';
+import { ActivityIndicator, Animated, Easing, LayoutChangeEvent, Platform, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import { alpha, colors, fonts, formatMoney, radius, type } from '../theme';
 import PressableScale from './PressableScale';
 import { ND, haptic } from './haptics';
 
@@ -59,7 +59,7 @@ export function IconButton({ icon, onPress, badge, size = 44, tone = 'default', 
   icon: React.ReactNode; onPress?: () => void; badge?: number; size?: number; tone?: 'default' | 'gold' | 'danger';
   accessibilityLabel?: string; style?: StyleProp<ViewStyle>; testID?: string;
 }) {
-  const border = tone === 'gold' ? colors.borderGold : tone === 'danger' ? 'rgba(235,111,94,0.3)' : colors.border;
+  const border = tone === 'gold' ? colors.borderGold : tone === 'danger' ? alpha(colors.danger, 0.3) : colors.border;
   const bg = tone === 'gold' ? colors.goldSoft : tone === 'danger' ? colors.dangerSoft : colors.surfaceStrong;
   return (
     <PressableScale
@@ -68,6 +68,7 @@ export function IconButton({ icon, onPress, badge, size = 44, tone = 'default', 
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
       testID={testID}
+      hitSlop={size < 44 ? Math.ceil((44 - size) / 2) : undefined}
       hoverStyle={{ borderColor: colors.borderGold, backgroundColor: colors.goldSofter }}
       style={[{ width: size, height: size, borderRadius: size / 2, borderWidth: 1, borderColor: border, backgroundColor: bg, alignItems: 'center', justifyContent: 'center' }, style]}
     >
@@ -129,6 +130,7 @@ export function Segmented<T extends string>({ options, value, onChange, style, c
             hoverLift={0}
             accessibilityRole="button"
             accessibilityState={{ selected: active }}
+            hitSlop={{ top: 4, bottom: 4 }}
             style={[s.segItem, compact && { paddingHorizontal: 12, height: 34 }]}
           >
             {o.icon}
@@ -172,7 +174,7 @@ export function Pill({ label, tone = 'gold', size, icon, style }: { label: strin
   return (
     <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: bg, borderRadius: radius.pill, paddingHorizontal: 10, paddingVertical: 4, alignSelf: 'flex-start' }, style]}>
       {icon}
-      <Text style={{ fontFamily: fonts.bold, fontSize: 11, color: fg, letterSpacing: 0.3 }}>{label}</Text>
+      <Text style={{ fontFamily: fonts.bold, fontSize: 12, color: fg, letterSpacing: 0.3 }}>{label}</Text>
     </View>
   );
 }
@@ -194,22 +196,32 @@ export function EmptyState({ icon, title, subtitle }: { icon?: React.ReactNode; 
   );
 }
 
+/** Indicateur de chargement sobre (or), centré, avec libellé optionnel. */
+export function LoadingState({ label, style }: { label?: string; style?: StyleProp<ViewStyle> }) {
+  return (
+    <View style={[{ alignItems: 'center', justifyContent: 'center', paddingVertical: 32, gap: 12 }, style]} accessibilityRole="progressbar" accessibilityLabel={label || 'Chargement'}>
+      <ActivityIndicator size="large" color={colors.gold} />
+      {label ? <Text style={[type.caption, { textAlign: 'center' }]}>{label}</Text> : null}
+    </View>
+  );
+}
+
 const s = StyleSheet.create({
   badge: {
-    position: 'absolute', top: -3, right: -3, minWidth: 18, height: 18, paddingHorizontal: 4,
-    borderRadius: 9, backgroundColor: colors.danger, alignItems: 'center', justifyContent: 'center',
+    position: 'absolute', top: -3, right: -3, minWidth: 20, height: 20, paddingHorizontal: 4,
+    borderRadius: 10, backgroundColor: colors.danger, alignItems: 'center', justifyContent: 'center',
     borderWidth: 2, borderColor: colors.bg,
   },
-  badgeText: { color: '#fff', fontSize: 9.5, fontFamily: fonts.extrabold },
+  badgeText: { color: colors.textPrimary, fontSize: 11, fontFamily: fonts.extrabold },
   segWrap: {
     flexDirection: 'row', alignSelf: 'flex-start', padding: 4, borderRadius: radius.pill,
-    backgroundColor: 'rgba(255,255,255,0.04)',
+    backgroundColor: colors.surface,
     ...(Platform.OS === 'web' ? ({ backdropFilter: 'blur(12px)' } as any) : null),
   },
   segBorder: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, borderRadius: radius.pill, borderWidth: 1, borderColor: colors.border },
   segPill: {
     position: 'absolute', top: 4, bottom: 4, borderRadius: radius.pill, backgroundColor: colors.gold,
-    ...(Platform.OS === 'web' ? ({ boxShadow: '0 6px 18px -4px rgba(212,175,55,0.6), inset 0 1px 0 rgba(255,255,255,0.4)' } as any) : null),
+    ...(Platform.OS === 'web' ? ({ boxShadow: `0 6px 18px -4px ${alpha(colors.gold, 0.6)}, inset 0 1px 0 rgba(255,255,255,0.4)` } as any) : null),
   },
   segItem: { height: 38, paddingHorizontal: 16, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 },
   segText: { fontFamily: fonts.bold, fontSize: 13, color: colors.textSecondary },

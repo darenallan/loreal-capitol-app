@@ -93,5 +93,5 @@ const styles = StyleSheet.create({
   alertCardInner: { padding: 14, alignItems: 'center', gap: 4 },
   alertIconWrap: { width: 34, height: 34, borderRadius: 17, backgroundColor: colors.surfaceStrong, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
   alertCount: { fontFamily: fonts.bold, fontSize: 17, color: colors.text },
-  alertTitle: { ...type.caption, fontSize: 11, color: colors.textMuted, textAlign: 'center' },
+  alertTitle: { ...type.caption, fontSize: 12, color: colors.textMuted, textAlign: 'center' },
 });

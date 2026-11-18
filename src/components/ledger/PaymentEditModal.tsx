@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 14,
     borderRadius: radius.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.glassBorder,
   },
