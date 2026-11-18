@@ -18,3 +18,6 @@ export * from './services/backdated';
 export * from './services/stores';
 export * from './services/transfers';
 export * from './services/inventory';
+export * from './services/cashClosing';
+export * from './services/analytics';
+export * from './services/customers';

@@ -55,9 +55,10 @@ for (let day = 0; day < 10; day++) {
       const seller = sellers[store][k % 2];
       sales[`test_sale_${n++}`] = {
         total: price, article_total: price, date: d.toISOString(),
-        payment_method: ['Espèces', 'Orange Money', 'MTN MoMo'][k % 3],
+        payment_method: ['Espèces', 'OM', 'MoMo', 'Carte Bancaire'][(day + k) % 4],
         user_id: seller.toLowerCase(), seller_name: seller, beneficiary: '',
-        is_advance: 0, client_name: '', client_phone: '', client_email: '',
+        is_advance: 0, client_name: k === 1 ? ['Mme Ngo', 'M. Fotso', 'Mme Bella'][day % 3] : '',
+        client_phone: k === 1 ? ['690000001', '690000002', '690000003'][day % 3] : '', client_email: '',
         advanceData: null, sale_label: null, store,
         items: [{ product_id: `test_${store}_${idx}`, name, quantity: 1, price, size, color, reference }],
       };
@@ -66,6 +67,14 @@ for (let day = 0; day < 10; day++) {
 }
 
 const advances = {
+  test_adv_late: {
+    sale_id: 'test_sale_adv_late', client_name: 'M. Fotso', client_phone: '690000002', client_email: '',
+    amount_paid: 10000, amount_remaining: 42000, due_date: new Date(Date.now() - 5 * 864e5).toISOString().split('T')[0],
+    status: 'pending', created_at: new Date(Date.now() - 20 * 864e5).toISOString(), product_name: 'Robe Plissée Or (x1)',
+    items: [{ product_id: 'test_tougou_4', name: 'Robe Plissée Or', quantity: 1, price: 52000 }],
+    reference: 'RPL-OR', size: 'S', color: 'Or', store: 'tougou', seller_name: 'Ivy', user_id: 'ivy',
+    payments: [{ date: new Date(Date.now() - 20 * 864e5).toISOString(), amount: 10000, method: 'OM' }],
+  },
   test_adv_1: {
     sale_id: 'test_sale_adv_1', client_name: 'Client Test', client_phone: '600000000', client_email: '',
     amount_paid: 20000, amount_remaining: 65000, due_date: new Date(Date.now() + 7 * 864e5).toISOString().split('T')[0],
@@ -87,5 +96,5 @@ const advances = {
     console.error('Seed échoué', res.status, await res.text());
     process.exit(1);
   }
-  console.log(`Seed OK → ${Object.keys(products).length} produits, ${Object.keys(sales).length} ventes, 1 acompte, ${Object.keys(users).length} utilisateurs`);
+  console.log(`Seed OK → ${Object.keys(products).length} produits, ${Object.keys(sales).length} ventes, 2 acomptes, ${Object.keys(users).length} utilisateurs`);
 })();

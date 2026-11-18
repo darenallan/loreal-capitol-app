@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Package, PackagePlus, Wallet, Banknote, FileText, ClipboardList, ArrowRightLeft, Download, ShieldCheck, ClipboardCheck, ArrowUpRight, CalendarClock } from 'lucide-react-native';
+import { Package, PackagePlus, Wallet, Banknote, FileText, ClipboardList, ArrowRightLeft, Download, ShieldCheck, ClipboardCheck, ArrowUpRight, CalendarClock, Lock, Users, BarChart3 } from 'lucide-react-native';
 import { isSuperBoss } from '../../db/database';
 import { GlassCard, PressableScale, colors, fonts, radius, type, useResponsive } from '../../ui';
 import { useAppTheme } from '../../theme/ThemeContext';
@@ -145,6 +145,43 @@ export default function ActionsBentoGrid({
           </GlassCard>
         </PressableScale>
 
+        {/* Nouveautés P4 — tous rôles (l'écran limite à la boutique de l'utilisateur) */}
+        <PressableScale
+          style={styles.actionTile}
+          onPress={() => navigation.navigate('CashClosing', { user, storeId: selectedStore !== 'all' ? selectedStore : undefined })}
+          haptic="selection"
+          accessibilityRole="button"
+          accessibilityLabel="Clôture de caisse"
+        >
+          <GlassCard style={styles.actionTileInner}>
+            <View style={styles.actionTileIconWrap}>
+              <Lock color={colors.success} size={20} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.actionTileTitle}>Clôture de caisse</Text>
+              <Text style={styles.actionTileSub}>Compter et justifier la caisse du jour</Text>
+            </View>
+          </GlassCard>
+        </PressableScale>
+
+        <PressableScale
+          style={styles.actionTile}
+          onPress={() => navigation.navigate('Customers', { user, storeId: selectedStore !== 'all' ? selectedStore : undefined })}
+          haptic="selection"
+          accessibilityRole="button"
+          accessibilityLabel="Fichier clients"
+        >
+          <GlassCard style={styles.actionTileInner}>
+            <View style={styles.actionTileIconWrap}>
+              <Users color={colors.goldLight} size={20} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.actionTileTitle}>Fichier clients</Text>
+              <Text style={styles.actionTileSub}>Historique, acomptes et relances WhatsApp</Text>
+            </View>
+          </GlassCard>
+        </PressableScale>
+
         {isSuperBoss(user) && (
           <>
             <PressableScale
@@ -191,6 +228,24 @@ export default function ActionsBentoGrid({
                 <View style={{ flex: 1 }}>
                   <Text style={styles.actionTileTitle}>Historique & Saisie antérieure</Text>
                   <Text style={styles.actionTileSub}>Consulter ou saisir un jour passé</Text>
+                </View>
+              </GlassCard>
+            </PressableScale>
+
+            <PressableScale
+              style={styles.actionTile}
+              onPress={() => navigation.navigate('Performance', { user, storeId: selectedStore !== 'all' ? selectedStore : undefined })}
+              haptic="selection"
+              accessibilityRole="button"
+              accessibilityLabel="Performance & Stock"
+            >
+              <GlassCard style={styles.actionTileInner}>
+                <View style={styles.actionTileIconWrap}>
+                  <BarChart3 color={colors.info} size={20} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.actionTileTitle}>Performance & Stock</Text>
+                  <Text style={styles.actionTileSub}>Boutiques, vendeuses, articles, alertes stock</Text>
                 </View>
               </GlassCard>
             </PressableScale>

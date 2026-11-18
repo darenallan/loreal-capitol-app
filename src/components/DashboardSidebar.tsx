@@ -14,6 +14,9 @@ import {
   LogOut,
   User,
   CalendarClock,
+  Lock,
+  Users,
+  BarChart3,
 } from 'lucide-react-native';
 import { fonts, radius, shadow, type } from '../theme';
 import { useAppTheme } from '../theme/ThemeContext';
@@ -86,6 +89,18 @@ export default function DashboardSidebar({
       icon: <Banknote color={colors.textSecondary} size={18} />,
       onPress: () => navigation.navigate('DailyReceipt', { user, storeId: selectedStore }),
     },
+    {
+      id: 'cashClosing',
+      label: 'Clôture de caisse',
+      icon: <Lock color={colors.textSecondary} size={18} />,
+      onPress: () => navigation.navigate('CashClosing', { user, storeId: selectedStore !== 'all' ? selectedStore : undefined }),
+    },
+    {
+      id: 'customers',
+      label: 'Fichier clients',
+      icon: <Users color={colors.textSecondary} size={18} />,
+      onPress: () => navigation.navigate('Customers', { user, storeId: selectedStore !== 'all' ? selectedStore : undefined }),
+    },
   ];
 
   const bossItems = [
@@ -106,6 +121,12 @@ export default function DashboardSidebar({
       label: 'Historique & Saisie antérieure',
       icon: <CalendarClock color={colors.gold} size={18} />,
       onPress: () => navigation.navigate('BackdatedHistory', { user, storeId: selectedStore }),
+    },
+    {
+      id: 'performance',
+      label: 'Performance & Stock',
+      icon: <BarChart3 color={colors.gold} size={18} />,
+      onPress: () => navigation.navigate('Performance', { user, storeId: selectedStore !== 'all' ? selectedStore : undefined }),
     },
     {
       id: 'audit',

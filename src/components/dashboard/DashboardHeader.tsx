@@ -34,10 +34,13 @@ export default function DashboardHeader({
   handleLogout,
 }: DashboardHeaderProps) {
   const { colors } = useAppTheme();
+  // Écran étroit (téléphone) : salutation sur sa propre ligne, actions en dessous,
+  // pour ne plus tronquer « Bonjour, … » derrière les 5 icônes.
+  const compact = r.width < 480;
   return (
-    <View style={[styles.header, { paddingHorizontal: r.gutter }]}>
-      <View style={{ flex: 1, minWidth: 0 }}>
-        <Text numberOfLines={1} style={styles.headerGreeting}>
+    <View style={[styles.header, compact && styles.headerCompact, { paddingHorizontal: r.gutter }]}>
+      <View style={compact ? styles.titleBlockCompact : styles.titleBlock}>
+        <Text numberOfLines={1} style={[styles.headerGreeting, compact && styles.headerGreetingCompact]}>
           {isSuperBoss(user) ? `Bonjour, ${user?.name || 'Direction'}` : `Session active · ${user?.name || 'Vendeur'}`}
         </Text>
         <Text numberOfLines={1} style={styles.headerStoreSub}>
@@ -47,7 +50,7 @@ export default function DashboardHeader({
         </Text>
       </View>
 
-      <View style={styles.headerActions}>
+      <View style={[styles.headerActions, compact && styles.headerActionsCompact]}>
         {isSuperBoss(user) && (
           <>
             <PressableScale
@@ -121,6 +124,11 @@ const styles = StyleSheet.create({
   headerGreeting: { fontFamily: fonts.display, fontSize: 24, color: colors.text, letterSpacing: -0.3 },
   headerStoreSub: { ...type.caption, fontSize: 13.5, color: colors.goldLight, marginTop: 2 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  headerActionsCompact: { alignSelf: 'flex-end', marginTop: 10, gap: 8 },
+  headerCompact: { flexDirection: 'column', alignItems: 'stretch' },
+  titleBlock: { flex: 1, minWidth: 0 },
+  titleBlockCompact: { minWidth: 0 },
+  headerGreetingCompact: { fontSize: 22 },
   headerIconBtn: {
     width: 38,
     height: 38,
