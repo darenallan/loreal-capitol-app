@@ -342,3 +342,43 @@ export async function exportAuditLogsCSV(logsList?: any[]) {
   downloadCSV(`LOREAL_AUDIT_LOGS_${dateStr}.csv`, headers, rows);
   return rows.length;
 }
+
+// Export Historique (écran « Historique & Saisie antérieure ») : uniquement la liste fournie
+export function exportHistoryCSV(sales: any[], periodLabel: string, storeId: string = 'all') {
+  const list = Array.isArray(sales) ? [...sales] : [];
+  if (list.length === 0) return 0;
+  list.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+
+  const target = (storeId || 'all').trim().toLowerCase();
+  const storeLabel = target === 'falaise' ? 'LA_FALAISE' : target === 'tougou' ? 'TOUGOU' : 'GLOBAL';
+  const safePeriod = String(periodLabel || '').replace(/[^0-9A-Za-z_-]+/g, '_') || new Date().toISOString().split('T')[0];
+  const fmtDate = (iso: any) => {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return isNaN(d.getTime()) ? String(iso) : d.toLocaleString('fr-FR');
+  };
+
+  const headers = ['ID', 'Date', 'Magasin', 'Vendeur', 'Client', 'Articles', 'Total effectif (FCFA)', 'Paiement', 'Saisie antérieure', 'Note', 'Saisi le'];
+  const rows = list.map(s => {
+    const items = Array.isArray(s.items) ? s.items : [];
+    const articles = s.itemsLabel
+      || items.map((i: any) => `${i?.name || 'Article'} x${i?.quantity || 1}`).join(' | ');
+    const store = String(s.store || 'falaise').trim().toLowerCase();
+    return [
+      s.id,
+      s.backdated ? String(s.day || String(s.date || '').slice(0, 10)) : fmtDate(s.date),
+      store === 'tougou' ? 'Tougou' : 'La Falaise',
+      s.seller_name || '',
+      s.client_name || '',
+      articles,
+      Math.round(Number(s.total) || 0),
+      s.payment_method || '',
+      s.backdated ? 'Oui' : 'Non',
+      s.note || '',
+      s.entered_at ? fmtDate(s.entered_at) : '',
+    ];
+  });
+
+  downloadCSV(`LOREAL_HISTORIQUE_${storeLabel}_${safePeriod}.csv`, headers, rows);
+  return rows.length;
+}

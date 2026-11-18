@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   LogOut,
   User,
+  CalendarClock,
 } from 'lucide-react-native';
 import { fonts, radius, shadow, type } from '../theme';
 import { useAppTheme } from '../theme/ThemeContext';
@@ -99,6 +100,12 @@ export default function DashboardSidebar({
       label: 'Inventaire Physique',
       icon: <ClipboardCheck color={colors.gold} size={18} />,
       onPress: () => navigation.navigate('PhysicalInventory', { user, storeId: selectedStore }),
+    },
+    {
+      id: 'backdated',
+      label: 'Historique & Saisie antérieure',
+      icon: <CalendarClock color={colors.gold} size={18} />,
+      onPress: () => navigation.navigate('BackdatedHistory', { user, storeId: selectedStore }),
     },
     {
       id: 'audit',

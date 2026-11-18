@@ -107,6 +107,7 @@ import HelpScreen from './src/screens/HelpScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import TransfersScreen from './src/screens/TransfersScreen';
 import PhysicalInventoryScreen from './src/screens/PhysicalInventoryScreen';
+import BackdatedHistoryScreen from './src/screens/BackdatedHistoryScreen';
 import UpdateNotificationModal from './src/components/UpdateNotificationModal';
 
 const Stack = createNativeStackNavigator();
@@ -158,6 +159,7 @@ function RootNavigator() {
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Transfers" component={TransfersScreen} />
           <Stack.Screen name="PhysicalInventory" component={PhysicalInventoryScreen} />
+          <Stack.Screen name="BackdatedHistory" component={BackdatedHistoryScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <UpdateNotificationModal />

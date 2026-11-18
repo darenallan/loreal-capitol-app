@@ -6,7 +6,8 @@ import {
   LogOut, Package, PackagePlus, TrendingUp, AlertTriangle, Wallet, CreditCard, Banknote, 
   FileText, HelpCircle, User, Users, Bell, Trash2, MapPin, ClipboardList, ArrowRightLeft,
   ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Calendar, Edit3, Eye, EyeOff, PlusCircle, Check, ShoppingBag,
-  Download, ShieldCheck, FileSpreadsheet, PackageCheck, ClipboardCheck, RefreshCw, Sparkles, ArrowUpRight
+  Download, ShieldCheck, FileSpreadsheet, PackageCheck, ClipboardCheck, RefreshCw, Sparkles, ArrowUpRight,
+  CalendarClock
 } from 'lucide-react-native';
 import { 
   addUser, getUsers, updateUser, deleteUser, getSecurityLogs, deleteSecurityLog, 
@@ -1861,6 +1862,22 @@ export default function DashboardScreen({ navigation, route }: any) {
                       <View style={{ flex: 1 }}>
                         <Text style={styles.actionTileTitle}>Inventaire Physique</Text>
                         <Text style={styles.actionTileSub}>Comptage réel et calcul des écarts</Text>
+                      </View>
+                    </GlassCard>
+                  </PressableScale>
+
+                  <PressableScale
+                    style={styles.actionTile}
+                    onPress={() => navigation.navigate('BackdatedHistory', { user, storeId: selectedStore })}
+                    haptic="selection"
+                  >
+                    <GlassCard style={styles.actionTileInner}>
+                      <View style={styles.actionTileIconWrap}>
+                        <CalendarClock color={colors.gold} size={20} />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Text style={styles.actionTileTitle}>Historique & Saisie antérieure</Text>
+                        <Text style={styles.actionTileSub}>Consulter ou saisir un jour passé</Text>
                       </View>
                     </GlassCard>
                   </PressableScale>
