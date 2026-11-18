@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, Alert, Animated, RefreshControl } from 'react-native';
-import { AlertTriangle } from 'lucide-react-native';
+import { AlertTriangle, Sparkles } from 'lucide-react-native';
 import { 
   addUser, getUsers, updateUser, deleteUser, getSecurityLogs, deleteSecurityLog, 
   deleteSale, transferStock, getProductByBarcode, getProducts, getLocalCache, isSuperBoss,
@@ -682,7 +682,12 @@ export default function DashboardScreen({ navigation, route }: any) {
           const label = `${isNaN(h) ? 0 : h}h`;
           hours[label] = (hours[label] || 0) + (s.total || 0);
         });
-        groupedChart = Object.keys(hours).sort((a, b) => parseInt(a) - parseInt(b)).map(k => ({ label: k, value: hours[k] }));
+        // Journée complète (8h → 20h au minimum) pour que les heures creuses se voient aussi
+        const saleHours = Object.keys(hours).map(k => parseInt(k, 10));
+        const firstH = Math.min(8, ...saleHours);
+        const lastH = Math.max(20, ...saleHours);
+        groupedChart = [];
+        for (let hh = firstH; hh <= lastH; hh++) groupedChart.push({ label: `${hh}h`, value: hours[`${hh}h`] || 0 });
 
       } else if (effectiveFilter === 'week') {
         // Semaine du Lundi au Samedi (Dimanche exclu : non travaillé)
@@ -885,7 +890,7 @@ export default function DashboardScreen({ navigation, route }: any) {
       if (groupedChart.length > 0) {
         const best = groupedChart.reduce((max, item) => item.value > max.value ? item : max, groupedChart[0]);
         if (best.value > 0) {
-          setInsightText(`🏆 Meilleure période : ${best.label} avec ${best.value.toLocaleString()} FCFA`);
+          setInsightText(`Meilleure période : ${best.label} avec ${best.value.toLocaleString('fr-FR')} FCFA`);
         } else {
           setInsightText('Aucune vente enregistrée pour cette sélection.');
         }
@@ -1028,7 +1033,7 @@ export default function DashboardScreen({ navigation, route }: any) {
 
   return (
     <View style={[styles.container, r.isWide && styles.containerWide]}>
-      <AmbientBackground intensity={0.8} />
+      <AmbientBackground intensity={0.35} />
 
       {/* Sidebar sur grand écran (Laptop, Desktop, iPad Paysage) */}
       {r.isWide && (
@@ -1067,11 +1072,6 @@ export default function DashboardScreen({ navigation, route }: any) {
             <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor={colors.gold} colors={[colors.gold]} />
           }
         >
-          {/* Bannière audio & notifications si non armée */}
-          {!audioAndNotifArmed && (
-            <SoundArmBanner setAudioAndNotifArmed={setAudioAndNotifArmed} />
-          )}
-
           {/* Suivi des transferts en direct */}
           <LiveTransferBanner
             user={user}
@@ -1128,6 +1128,11 @@ export default function DashboardScreen({ navigation, route }: any) {
             selectedStore={selectedStore}
             inTransitTransfersCount={inTransitTransfersCount}
           />
+
+          {/* Rappel discret : alertes sonores & notifications (après les chiffres, plus en tête d'écran) */}
+          {!audioAndNotifArmed && (
+            <SoundArmBanner setAudioAndNotifArmed={setAudioAndNotifArmed} />
+          )}
 
           {/* GRAPHIQUE D'ANALYSE */}
           {chartData.length > 0 && (
@@ -1290,11 +1295,13 @@ export default function DashboardScreen({ navigation, route }: any) {
       </Modal>
 
       {/* Floating Action Button for AI Chat */}
-      <TouchableOpacity 
-        style={styles.fab} 
+      <TouchableOpacity
+        style={styles.fab}
         onPress={() => setShowAIAssistant(true)}
+        accessibilityRole="button"
+        accessibilityLabel="Assistant IA"
       >
-        <Text style={{ fontSize: 28 }}>🤖</Text>
+        <Sparkles color={colors.goldLight} size={22} />
       </TouchableOpacity>
 
       {/* AIAssistant Modal */}
@@ -1368,21 +1375,24 @@ const styles = StyleSheet.create({
   content: { flex: 1 },
   toast: { position: 'absolute', top: 0, left: 20, right: 20, backgroundColor: colors.bgElevated, padding: 15, borderRadius: radius.md, flexDirection: 'row', alignItems: 'center', gap: 10, zIndex: 100, borderWidth: 1, borderColor: colors.danger },
   toastText: { color: colors.text, fontSize: 16, fontFamily: fonts.bold },
+  // Bouton assistant : sobre (fond sombre, filet or) — ne concurrence plus la recette du jour
   fab: {
     position: 'absolute',
     bottom: 24,
     right: 24,
-    backgroundColor: colors.gold,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    backgroundColor: colors.bgElevated,
+    borderWidth: 1,
+    borderColor: colors.borderGold,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 8,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.45,
+    shadowRadius: 12,
     zIndex: 100,
   },
 });

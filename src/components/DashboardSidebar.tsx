@@ -118,7 +118,7 @@ export default function DashboardSidebar({
     },
     {
       id: 'backdated',
-      label: 'Historique & Saisie antérieure',
+      label: 'Historique & saisie',
       icon: <CalendarClock color={colors.gold} size={18} />,
       onPress: () => navigation.navigate('BackdatedHistory', { user, storeId: selectedStore }),
     },

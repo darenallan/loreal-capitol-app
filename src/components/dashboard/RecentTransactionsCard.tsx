@@ -74,28 +74,15 @@ export default function RecentTransactionsCard({
                 {new Date(sale.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
                 {sale.seller_name ? ` · ${sale.seller_name}` : ''}
               </Text>
-              <Text style={{ color: colors.gold, fontSize: 12, marginTop: 2, fontFamily: fonts.semibold }}>
-                👁️ Voir l'intégralité de l'achat
-              </Text>
             </View>
 
             <View style={{ alignItems: 'flex-end', flexDirection: 'row', gap: 10 }}>
               <View style={{ alignItems: 'flex-end' }}>
                 <Text style={styles.historyItemTotal}>{formatMoney(sale.total)} F</Text>
-                <Text
-                  style={[
-                    styles.historyItemMethod,
-                    sale.payment_method === 'Espèces' && { color: colors.success },
-                    sale.payment_method === 'MoMo' && { color: colors.warning },
-                    sale.payment_method === 'OM' && { color: '#FF5722' },
-                    sale.payment_method === 'Avance' && { color: colors.warning },
-                  ]}
-                >
-                  {sale.payment_method}
-                </Text>
+                <Text style={styles.historyItemMethod}>{sale.payment_method}</Text>
               </View>
-              <View style={{ padding: 4, justifyContent: 'center' }}>
-                <Eye color={colors.goldLight} size={18} />
+              <View style={{ padding: 4, justifyContent: 'center' }} accessibilityLabel="Voir l'achat">
+                <Eye color={colors.textMuted} size={17} />
               </View>
               <TouchableOpacity accessibilityRole="button" accessibilityLabel="Supprimer" hitSlop={{ top: 8, bottom: 8 }} 
                 onPress={(e) => {
@@ -104,7 +91,7 @@ export default function RecentTransactionsCard({
                 }} 
                 style={{ padding: 6 }}
               >
-                <Trash2 color={colors.danger} size={16} />
+                <Trash2 color={colors.textMuted} size={16} />
               </TouchableOpacity>
             </View>
           </TouchableOpacity>
@@ -115,7 +102,7 @@ export default function RecentTransactionsCard({
 
 const styles = StyleSheet.create({
   historyCard: { padding: 20, borderRadius: radius.xxl, gap: 12 },
-  historyTitle: { ...type.h2, fontSize: 17, color: colors.text },
+  historyTitle: { fontFamily: fonts.displaySemi, fontSize: 20, color: colors.text },
   historySearchInput: {
     height: 44,
     backgroundColor: colors.surfaceSolid,
@@ -127,9 +114,9 @@ const styles = StyleSheet.create({
     fontFamily: fonts.medium,
     fontSize: 13,
   },
-  historyItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: colors.border },
+  historyItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 13, borderBottomWidth: 1, borderBottomColor: colors.border },
   historyItemName: { color: colors.text, fontSize: 14, fontFamily: fonts.semibold },
   historyItemDate: { color: colors.textMuted, fontSize: 12, marginTop: 3 },
-  historyItemTotal: { color: colors.gold, fontSize: 15, fontFamily: fonts.bold },
-  historyItemMethod: { color: colors.info, fontSize: 12, marginTop: 2 },
+  historyItemTotal: { color: colors.text, fontSize: 15, fontFamily: fonts.bold, fontVariant: ['tabular-nums'] },
+  historyItemMethod: { color: colors.textMuted, fontSize: 12, marginTop: 2, fontFamily: fonts.medium },
 });

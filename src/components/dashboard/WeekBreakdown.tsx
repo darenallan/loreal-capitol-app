@@ -92,7 +92,7 @@ export default function WeekBreakdown({ weekDaysBreakdown, expandedDayKeys, setE
                             {typeof sale.items === 'string' ? sale.items : (Array.isArray(sale.items) ? sale.items.map((i: any) => `${i.name} (x${i.quantity})`).join(', ') : 'Article')}
                           </Text>
                           <Text style={{ color: colors.goldLight, fontSize: 12, marginTop: 2 }}>
-                            👁️ Toucher pour voir le reçu complet
+                            Voir le reçu complet ›
                           </Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>

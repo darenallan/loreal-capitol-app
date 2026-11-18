@@ -1,22 +1,24 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Bell } from 'lucide-react-native';
+import { BellOff } from 'lucide-react-native';
 import { startAudioKeepAlive, requestDesktopNotificationPermission, playRingToneNow, stopRingtone } from '../../utils/ringtone';
 import { PressableScale } from '../../ui';
 import { useAppTheme } from '../../theme/ThemeContext';
-import { colors } from '../../theme';
+import { colors, fonts, radius } from '../../theme';
 
 export interface SoundArmBannerProps {
   setAudioAndNotifArmed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-/** Bannière d'activation des alertes sonores et notifications. */
+/** Rappel discret (une ligne) pour activer les alertes sonores et notifications. */
 export default function SoundArmBanner({ setAudioAndNotifArmed }: SoundArmBannerProps) {
   const { colors } = useAppTheme();
   return (
     <PressableScale
-      style={styles.soundArmBanner}
+      style={styles.strip}
       haptic="medium"
+      accessibilityRole="button"
+      accessibilityLabel="Activer les alertes sonores et notifications"
       onPress={async () => {
         startAudioKeepAlive();
         playRingToneNow(1);
@@ -28,64 +30,39 @@ export default function SoundArmBanner({ setAudioAndNotifArmed }: SoundArmBanner
         }
       }}
     >
-      <View style={styles.soundArmIcon}>
-        <Bell color={colors.onGold} size={18} />
-      </View>
-      <View style={{ flex: 1, minWidth: 0 }}>
-        <Text style={styles.soundArmTitle}>Activer les alertes sonores & notifications</Text>
-        <Text style={styles.soundArmSubtitle}>
-          Autoriser les alertes automatiques en cas de demande de transfert ou stock critique.
-        </Text>
-      </View>
-      <View style={styles.soundArmBadge}>
-        <Text style={styles.soundArmBadgeText}>Activer</Text>
+      <BellOff color={colors.textMuted} size={16} />
+      <Text style={styles.text} numberOfLines={1}>
+        Alertes sonores désactivées <Text style={styles.hint}>· transferts et stock critique</Text>
+      </Text>
+      <View style={styles.action}>
+        <Text style={styles.actionText}>Activer</Text>
       </View>
     </PressableScale>
   );
 }
 
 const styles = StyleSheet.create({
-  soundArmBanner: {
+  strip: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#2b2005',
-    borderWidth: 1.5,
-    borderColor: colors.gold,
-    borderRadius: 14,
-    padding: 12,
-    marginBottom: 14,
-    shadowColor: colors.gold,
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
+    gap: 10,
+    paddingVertical: 8,
+    paddingLeft: 14,
+    paddingRight: 8,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
   },
-  soundArmIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: colors.gold,
-    alignItems: 'center',
+  text: { flex: 1, minWidth: 0, fontFamily: fonts.semibold, fontSize: 13, color: colors.textSecondary },
+  hint: { fontFamily: fonts.medium, color: colors.textMuted },
+  action: {
+    paddingHorizontal: 14,
+    minHeight: 32,
     justifyContent: 'center',
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.borderGold,
   },
-  soundArmTitle: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  soundArmSubtitle: {
-    color: colors.textTertiary,
-    fontSize: 12,
-    marginTop: 2,
-  },
-  soundArmBadge: {
-    backgroundColor: colors.gold,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    marginLeft: 8,
-  },
-  soundArmBadgeText: {
-    color: colors.onGold,
-    fontWeight: 'bold',
-    fontSize: 12,
-  },
+  actionText: { fontFamily: fonts.bold, fontSize: 12, color: colors.gold },
 });

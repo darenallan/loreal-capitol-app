@@ -89,7 +89,7 @@ export default function SalesHistoryModal({
                         {sale.seller_name ? ` • Vendeur : ${sale.seller_name}` : ''}
                       </Text>
                       <Text style={{ color: colors.gold, fontSize: 12, marginTop: 2 }}>
-                        👁️ Toucher pour voir le reçu complet
+                        Voir le reçu complet ›
                       </Text>
                     </View>
                     <View style={{ alignItems: 'flex-end', marginRight: 8 }}>

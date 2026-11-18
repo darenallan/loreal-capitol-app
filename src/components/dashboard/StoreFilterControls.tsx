@@ -11,7 +11,14 @@ export interface StoreFilterControlsProps {
   filterLabels: Record<string, string>;
 }
 
-/** Sélecteurs boutique et période (Boss). */
+const STORES = [
+  { id: 'falaise', label: 'La Falaise' },
+  { id: 'tougou', label: 'Tougou' },
+  { id: 'all', label: 'Vue Globale' },
+];
+const PERIODS = ['today', 'yesterday', 'week', 'month', 'year'];
+
+/** Sélecteurs boutique et période (Boss) — deux contrôles segmentés sur une même ligne. */
 export default function StoreFilterControls({
   filter,
   setFilter,
@@ -21,47 +28,43 @@ export default function StoreFilterControls({
   filterLabels,
 }: StoreFilterControlsProps) {
   return (
-    <View style={styles.controlsBar}>
-      <View style={styles.storeSelectorWrap}>
-        {[
-          { id: 'falaise', label: 'La Falaise' },
-          { id: 'tougou', label: 'Tougou' },
-          { id: 'all', label: 'Vue Globale' },
-        ].map((s) => {
+    <View style={styles.bar}>
+      <View style={styles.segment} accessibilityRole="tablist">
+        {STORES.map((s) => {
           const active = selectedStore === s.id;
           return (
             <PressableScale
               key={s.id}
-              style={[styles.storePill, active && styles.storePillActive]}
+              style={[styles.seg, active && styles.segActive]}
               onPress={() => setSelectedStore(s.id)}
               haptic="selection"
-              scaleTo={0.96}
+              scaleTo={0.97}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: active }}
             >
-              <Text style={[styles.storePillText, active && styles.storePillTextActive]}>
-                {s.label}
-              </Text>
+              <Text style={[styles.segText, active && styles.segTextActive]}>{s.label}</Text>
             </PressableScale>
           );
         })}
       </View>
 
-      <View style={styles.filterPillsWrap}>
-        {['today', 'yesterday', 'week', 'month', 'year'].map((f) => {
+      <View style={styles.segment} accessibilityRole="tablist">
+        {PERIODS.map((f) => {
           const active = filter === f;
           return (
             <PressableScale
               key={f}
-              style={[styles.filterPill, active && styles.filterPillActive]}
+              style={[styles.seg, active && styles.segActive]}
               onPress={() => {
                 setFilter(f);
                 setPeriodOffset(0);
               }}
               haptic="selection"
-              scaleTo={0.96}
+              scaleTo={0.97}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: active }}
             >
-              <Text style={[styles.filterPillText, active && styles.filterPillTextActive]}>
-                {filterLabels[f]}
-              </Text>
+              <Text style={[styles.segText, active && styles.segTextActive]}>{filterLabels[f]}</Text>
             </PressableScale>
           );
         })}
@@ -71,29 +74,19 @@ export default function StoreFilterControls({
 }
 
 const styles = StyleSheet.create({
-  controlsBar: { gap: 12, marginVertical: 4 },
-  storeSelectorWrap: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
-  storePill: {
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: radius.pill,
-    backgroundColor: colors.surfaceStrong,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  storePillActive: { backgroundColor: colors.goldSoft, borderColor: colors.gold },
-  storePillText: { fontFamily: fonts.semibold, fontSize: 13.5, color: colors.textMuted },
-  storePillTextActive: { fontFamily: fonts.bold, color: colors.gold },
-  filterPillsWrap: { flexDirection: 'row', gap: 6, flexWrap: 'wrap' },
-  filterPill: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+  bar: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
+  segment: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 3,
+    gap: 2,
     borderRadius: radius.pill,
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
   },
-  filterPillActive: { backgroundColor: colors.gold, borderColor: colors.goldLight },
-  filterPillText: { fontFamily: fonts.medium, fontSize: 13, color: colors.textSecondary },
-  filterPillTextActive: { fontFamily: fonts.bold, color: colors.onGold },
+  seg: { paddingHorizontal: 14, minHeight: 36, justifyContent: 'center', borderRadius: radius.pill, borderWidth: 1, borderColor: 'transparent' },
+  segActive: { backgroundColor: colors.goldSoft, borderColor: colors.borderGold },
+  segText: { fontFamily: fonts.semibold, fontSize: 13, color: colors.textMuted },
+  segTextActive: { fontFamily: fonts.bold, color: colors.goldLight },
 });
