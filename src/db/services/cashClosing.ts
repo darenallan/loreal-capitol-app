@@ -214,9 +214,11 @@ export function computeCashSalesBreakdown(salesData: any, store: string, day: st
       out.boss.om_boss += amount;
     } else if (pm === 'Ami / Don') {
       out.gifts_count += 1;
-      if (amount) out.other['Ami / Don'] = (out.other['Ami / Don'] || 0) + amount;
+      // Clé RTDB : « / » est interdit dans un nom de nœud → « Ami - Don »
+      if (amount) out.other['Ami - Don'] = (out.other['Ami - Don'] || 0) + amount;
     } else {
-      const label = String(pm || 'Non précisé');
+      // Firebase refuse . # $ / [ ] dans les clés : on les remplace pour que la clôture s'enregistre
+      const label = String(pm || 'Non précisé').replace(/[.#$/\[\]]/g, '-');
       out.other[label] = (out.other[label] || 0) + amount;
     }
   }

@@ -1,3 +1,9 @@
+// ⚠ ÉCRIT EN PRODUCTION et ÉCRASE tous les utilisateurs (codes compris).
+// Garde-fou : ne s'exécute que si CONFIRM_PROD=oui est défini explicitement.
+if (process.env.CONFIRM_PROD !== 'oui') {
+  console.error('Refus : script de production. Relancer avec CONFIRM_PROD=oui si c\'est vraiment voulu.');
+  process.exit(1);
+}
 const https = require('https');
 
 const updatedUsers = {

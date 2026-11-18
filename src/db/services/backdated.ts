@@ -21,6 +21,8 @@ export type BackdatedItemInput = {
 };
 
 export type RecordBackdatedSaleInput = {
+  /** Clé d'idempotence (newBackdatedSaleKey) : réutilisée lors d'un nouvel essai pour éviter un doublon. */
+  saleKey?: string;
   actor: any;
   date: string; // YYYY-MM-DD
   store: 'falaise' | 'tougou';
@@ -82,6 +84,11 @@ async function sdkUpdateConfirmed(updates: Record<string, any>): Promise<boolean
   } catch (e) {
     return false;
   }
+}
+
+/** Nouvelle clé de vente (push id Firebase), à garder côté formulaire jusqu'au succès. */
+export function newBackdatedSaleKey(): string {
+  return push(ref(db, 'sales')).key || `sale_${Date.now()}`;
 }
 
 /**
@@ -148,7 +155,22 @@ export async function recordBackdatedSale(input: RecordBackdatedSaleInput): Prom
 
   const impactStock = mode === 'detailed' && input.impactStock === true;
   const nowISO = new Date().toISOString();
-  const saleKey = push(ref(db, 'sales')).key || `sale_${Date.now()}`;
+  const saleKey = input.saleKey || newBackdatedSaleKey();
+
+  // Nouvel essai après un « non confirmé » : si la vente est finalement arrivée, on ne la refait pas
+  // (sinon vente ET décrément de stock en double).
+  if (input.saleKey) {
+    try {
+      const res = await fetch(`${RTDB_REST_URL}/sales/${saleKey}.json`);
+      if (res.ok) {
+        const existing = await res.json();
+        if (existing && existing.backdated === true) {
+          const applied = Array.isArray(existing.stock_applied) ? existing.stock_applied : [];
+          return { saleId: saleKey, total: Number(existing.total) || total, stockApplied: applied, warnings: ['Cette saisie était déjà enregistrée : aucun doublon créé.'] };
+        }
+      }
+    } catch (e) {}
+  }
 
   // Décrément de stock : seul ce qui est réellement appliqué est tracé (stock_applied)
   const prodCache: Record<string, any> = getFastCache<Record<string, any>>('loreal_cache_products') || getLocalCache('loreal_cache_products') || {};
@@ -270,10 +292,12 @@ export async function deleteBackdatedSale(saleId: string, actor: any, reason: st
   if (!saleId) throw new Error('ID de vente manquant.');
 
   let sale: any = null;
+  let restAnswered = false; // le serveur a répondu (même « null ») : on ne retombe PAS sur le cache
   try {
     const res = await fetch(`${RTDB_REST_URL}/sales/${saleId}.json`);
-    if (res.ok) sale = await res.json();
+    if (res.ok) { sale = await res.json(); restAnswered = true; }
   } catch (e) {}
+  if (restAnswered && !sale) throw new Error('Vente introuvable (déjà supprimée ?).');
   if (!sale) {
     try {
       const snap: any = await Promise.race([

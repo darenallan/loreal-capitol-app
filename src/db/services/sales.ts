@@ -430,13 +430,32 @@ export async function deleteSale(saleId: string, userId: string = '', userName: 
     ? sale.rawItems
     : (Array.isArray(sale.items) ? sale.items : []);
 
+  // Saisie antérieure (Boss) : on ne restitue QUE le stock réellement retiré à la saisie
+  // (stock_applied), jamais la quantité vendue entière (le stock n'est souvent pas impacté).
+  const isBackdated = sale.backdated === true;
+  const appliedLeft: Record<string, number> = {};
+  if (isBackdated) {
+    const applied: any[] = Array.isArray(sale.stock_applied)
+      ? sale.stock_applied
+      : (sale.stock_applied && typeof sale.stock_applied === 'object' ? Object.values(sale.stock_applied) : []);
+    for (const a of applied) {
+      const pid = a?.product_id ? String(a.product_id) : '';
+      const q = parseInt(a?.qty, 10) || 0;
+      if (pid && q > 0) appliedLeft[pid] = (appliedLeft[pid] || 0) + q;
+    }
+  }
+
   // Réintégration en stock uniquement si restoreStock === true
   if (rawSaleItems.length > 0) {
     for (const item of rawSaleItems) {
-      const qty = Math.max(1, parseInt(item.quantity, 10) || 1);
-      itemNames.push(`${item.name || 'Article'} (x${qty})`);
+      const soldQty = Math.max(1, parseInt(item.quantity, 10) || 1);
+      itemNames.push(`${item.name || 'Article'} (x${soldQty})`);
 
-      if (restoreStock) {
+      const itemPid = String(item.product_id || item.id || '');
+      const qty = isBackdated ? Math.min(soldQty, appliedLeft[itemPid] || 0) : soldQty;
+      if (isBackdated && qty > 0) appliedLeft[itemPid] -= qty;
+
+      if (restoreStock && qty > 0) {
         const pId = item.product_id || item.id;
         let targetKey: string | null = null;
         let currentStock = 0;
@@ -459,7 +478,7 @@ export async function deleteSale(saleId: string, userId: string = '', userName: 
         }
 
         // Recherche de secours par référence ou nom + taille + magasin
-        if (!targetKey && Object.keys(prodCache).length > 0) {
+        if (!targetKey && !isBackdated && Object.keys(prodCache).length > 0) {
           const matchedKey = Object.keys(prodCache).find(k => {
             const p = prodCache[k];
             if (!p) return false;

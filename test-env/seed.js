@@ -4,7 +4,7 @@
  * Usage : npm run seed:test   (émulateur démarré au préalable)
  */
 const BASE = process.env.EMULATOR_URL || 'http://127.0.0.1:9000';
-if (!/^http:\/\/(127\.0\.0\.1|localhost)/.test(BASE)) {
+if (!/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?(\/|$)/.test(BASE)) {
   console.error('Refus : le seed ne cible que l’émulateur local.');
   process.exit(1);
 }

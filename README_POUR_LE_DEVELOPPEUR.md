@@ -2,6 +2,18 @@
 
 Bienvenue sur le projet **L'Oréal Capitol** (Application de Gestion Commerciale, Caisse, Stocks & Vitrine Web).
 
+> **Ce qui a changé depuis ta version** : voir [CHANGELOG.md](CHANGELOG.md) — saisie/consultation des ventes passées (Boss), clôture de caisse, performance & stock, fichier clients, restructuration du code, correctifs, et la liste des choses à faire de ton côté (clé Groq à changer, phase sécurité).
+>
+> **Pour tester sans risque** : section 6 (mode TEST local) — l'app tourne sur `http://localhost:8081` avec une base locale fictive, la production n'est jamais touchée.
+
+### Nouveaux écrans
+| Écran | Accès | Où le trouver |
+|---|---|---|
+| Historique & Saisie antérieure | Boss uniquement | Menu « Direction & Contrôle » / tuile du tableau de bord |
+| Performance & Stock | Boss uniquement | Menu « Direction & Contrôle » / tuile |
+| Clôture de caisse | Tous (sa boutique) ; Boss : les deux | Menu « Navigation » / tuile |
+| Fichier clients | Tous (sa boutique) ; Boss : les deux | Menu « Navigation » / tuile |
+
 ---
 
 ## 1. Technologies Utilisées

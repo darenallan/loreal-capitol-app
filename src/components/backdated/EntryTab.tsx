@@ -3,7 +3,7 @@ import { StyleSheet, Switch, Text, View } from 'react-native';
 import { AlertTriangle, CheckCircle2, Save } from 'lucide-react-native';
 import { colors, fonts, formatMoney, radius } from '../../theme';
 import { GlassCard, GoldButton, Segmented } from '../../ui';
-import { recordBackdatedSale } from '../../db/database';
+import { recordBackdatedSale, newBackdatedSaleKey } from '../../db/database';
 import {
   EntryStore, StoreChoice, formatYMDLong, isStrictlyPast, isSundayYMD, storeLabel,
 } from '../../utils/backdatedHelpers';
@@ -36,6 +36,10 @@ export default function EntryTab({ user, store, onStoreChange, date, onDateChang
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<{ text: string; warnings: string[] } | null>(null);
   const savingRef = useRef(false);
+  // Clé d'idempotence : conservée après un échec réseau pour qu'un nouvel essai ne crée pas de doublon,
+  // oubliée dès que la saisie change ou réussit.
+  const pendingKeyRef = useRef<string | null>(null);
+  useEffect(() => { pendingKeyRef.current = null; }, [mode, amount, globalMethod, draft, impactStock, date, store]);
 
   // Les articles du catalogue appartiennent à une boutique : on repart de zéro si elle change.
   useEffect(() => {
@@ -58,7 +62,9 @@ export default function EntryTab({ user, store, onStoreChange, date, onDateChang
     setError(null);
     setSuccess(null);
     try {
+      if (!pendingKeyRef.current) pendingKeyRef.current = newBackdatedSaleKey();
       const res = await recordBackdatedSale({
+        saleKey: pendingKeyRef.current,
         actor: user,
         date,
         store,
@@ -74,6 +80,7 @@ export default function EntryTab({ user, store, onStoreChange, date, onDateChang
         note: mode === 'daily_total' ? globalNote : draft.note,
         impactStock: mode === 'detailed' ? impactStock : false,
       });
+      pendingKeyRef.current = null;
       setSuccess({
         text: `${formatMoney(res.total)} FCFA enregistrés pour le ${formatYMDLong(date)} (${storeLabel(store)}).${res.stockApplied.length > 0 ? ' Stock mis à jour.' : ''}`,
         warnings: res.warnings,

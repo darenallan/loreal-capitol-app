@@ -639,6 +639,12 @@
     };
 
     function parseParams() {
+      // Les données du reçu viennent de l'URL : tout texte inséré en HTML est échappé (anti-XSS).
+      function escHtml(v) {
+        return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
       var params = new URLSearchParams(window.location.search);
       var d = params.get('d') || params.get('data');
       if (d) {
@@ -712,7 +718,7 @@
         document.getElementById('clientMetaRow').style.display = 'flex';
         document.getElementById('clientName').textContent = receiptData.client || 'Client';
         if (receiptData.phone) {
-          document.getElementById('clientPhoneWrap').innerHTML = 'Tél : <b>' + receiptData.phone + '</b>';
+          document.getElementById('clientPhoneWrap').innerHTML = 'Tél : <b>' + escHtml(receiptData.phone) + '</b>';
         }
       }
 
@@ -769,8 +775,8 @@
 
           row.innerHTML = 
             '<div class="item-desc">' +
-              '<div class="item-name">' + (item.name || 'Article') + '</div>' +
-              '<div class="item-sub">' + subText + '</div>' +
+              '<div class="item-name">' + escHtml(item.name || 'Article') + '</div>' +
+              '<div class="item-sub">' + escHtml(subText) + '</div>' +
             '</div>' +
             '<div class="item-total">' + money(lineTotal) + ' FCFA</div>';
           container.appendChild(row);

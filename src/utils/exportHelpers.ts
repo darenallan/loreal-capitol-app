@@ -7,7 +7,9 @@ import { localDayKey, normStore, todayKey } from './saleMath';
 export function downloadCSV(filename: string, headers: string[], rows: (string | number | null | undefined)[][]) {
   const escapeCell = (cell: any) => {
     if (cell === null || cell === undefined) return '""';
-    const str = String(cell).replace(/"/g, '""');
+    let str = String(cell).replace(/"/g, '""');
+    // Anti-injection de formule Excel : un texte saisi commençant par = + - @ est neutralisé.
+    if (typeof cell === 'string' && /^[=+\-@\t\r]/.test(str)) str = `'${str}`;
     return `"${str}"`;
   };
 

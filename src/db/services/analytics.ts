@@ -651,8 +651,16 @@ export async function loadAnalyticsSales(): Promise<AnalyticsSale[]> {
   return normalizeSales(await loadRawSales());
 }
 
-/** Toutes boutiques, via getProducts (cache rapide + rafraîchissement silencieux). */
+/** Toutes boutiques. Stock FRAIS d'abord (REST), cache getProducts seulement si le réseau échoue. */
 export async function loadAnalyticsProducts(): Promise<AnalyticsProduct[]> {
+  try {
+    const res = await fetch(`${RTDB_REST_URL}/products.json`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && typeof data === 'object') return normalizeProducts(data);
+      if (data === null) return [];
+    }
+  } catch (e) {}
   const list = await getProducts('all');
   return normalizeProducts(Array.isArray(list) ? list : []);
 }
