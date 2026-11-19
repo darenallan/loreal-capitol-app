@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
   recapKey: { fontFamily: fonts.medium, fontSize: 13.5, color: colors.textSecondary },
   recapValue: { flexShrink: 1, fontFamily: fonts.bold, fontSize: 14, color: colors.textPrimary, textAlign: 'right', textTransform: 'capitalize' },
   recapTotalRow: { marginTop: 4, paddingTop: 10, borderTopWidth: 1, borderTopColor: colors.borderGold },
-  recapTotal: { fontFamily: fonts.extrabold, fontSize: 22, color: colors.goldLight, fontVariant: ['tabular-nums'] },
+  recapTotal: { fontFamily: fonts.mono, fontSize: 22, color: colors.goldLight, fontVariant: ['tabular-nums'] },
   error: { fontFamily: fonts.semibold, fontSize: 13, color: colors.danger, marginTop: 4 },
   success: { gap: 4, marginTop: 4 },
   successHead: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },

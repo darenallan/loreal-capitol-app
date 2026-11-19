@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   headText: { flex: 1, minWidth: 0, gap: 4 },
   title: { fontFamily: fonts.displaySemi, fontSize: 19, color: colors.textPrimary, textTransform: 'capitalize' },
   totalRow: { flexDirection: 'row', alignItems: 'flex-end', gap: 8, flexWrap: 'wrap' },
-  total: { fontFamily: fonts.extrabold, fontSize: 34, color: colors.goldLight, letterSpacing: -0.6, fontVariant: ['tabular-nums'] },
+  total: { fontFamily: fonts.mono, fontSize: 34, color: colors.goldLight, letterSpacing: -0.6, fontVariant: ['tabular-nums'] },
   currency: { fontFamily: fonts.bold, fontSize: 14, color: colors.gold, marginBottom: 7 },
   count: { fontFamily: fonts.medium, fontSize: 13.5, color: colors.textSecondary },
   methods: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12 },

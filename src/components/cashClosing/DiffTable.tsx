@@ -95,5 +95,5 @@ const local = StyleSheet.create({
   diff: { fontFamily: fonts.extrabold, fontSize: 14, fontVariant: ['tabular-nums'] },
   total: { gap: 8, padding: 14, borderRadius: radius.md, borderWidth: 1 },
   totalLabel: { flexShrink: 1, fontFamily: fonts.bold, fontSize: 13 },
-  totalDiff: { fontFamily: fonts.extrabold, fontSize: 20, fontVariant: ['tabular-nums'] },
+  totalDiff: { fontFamily: fonts.mono, fontSize: 20, fontVariant: ['tabular-nums'] },
 });

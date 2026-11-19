@@ -57,69 +57,73 @@ export interface ColorPalette {
   isDark: boolean;
 }
 
+/**
+ * Thème « Haute Joaillerie & Couture Ledger » (design system Stitch).
+ * Obsidienne chaude + or couture. Tokens Stitch d'origine en commentaire.
+ */
 export const darkPalette: ColorPalette = {
-  // Fonds profonds mais avec du contraste pour ne pas noyer les éléments
-  bg: '#0A0A10',
-  bgElevated: '#12121D',
-  bgSunken: '#06060A',
-  surface: 'rgba(255,255,255,0.06)',
-  surfaceStrong: 'rgba(255,255,255,0.10)',
-  surfaceSolid: '#151522',
-  surfaceSolidHi: '#1C1C2C',
-  overlay: 'rgba(4,4,6,0.88)',
-  chromeBg: 'rgba(7,7,10,0.95)',
+  // Obsidienne (--color-obsidian-*)
+  bg: '#16130D', // surface
+  bgElevated: '#1F1B15', // container-low
+  bgSunken: '#110E09', // lowest
+  surface: 'rgba(245,240,230,0.05)',
+  surfaceStrong: 'rgba(245,240,230,0.09)',
+  surfaceSolid: '#26211A', // container
+  surfaceSolidHi: '#2F2A22', // container-high
+  overlay: 'rgba(17,14,9,0.88)',
+  chromeBg: 'rgba(22,19,13,0.95)',
 
-  // Bordures hautement visibles
-  border: 'rgba(255,255,255,0.14)',
-  borderStrong: 'rgba(255,255,255,0.24)',
-  borderGold: 'rgba(229,193,88,0.55)',
+  // Bordures (--color-obsidian-border)
+  border: '#3D3932',
+  borderStrong: '#575147',
+  borderGold: 'rgba(229,193,88,0.35)',
 
-  // Or vibrant & lisible
+  // Or couture (--color-gold-*)
   gold: '#E5C158',
-  goldLight: '#FBE89F',
-  goldBright: '#FFF2BF',
-  goldDeep: '#B08826',
-  goldSoft: 'rgba(229,193,88,0.16)',
-  goldSofter: 'rgba(229,193,88,0.08)',
-  goldGlow: 'rgba(229,193,88,0.45)',
+  goldLight: '#F3DB83',
+  goldBright: '#FFF0C2',
+  goldDeep: '#947221',
+  goldSoft: 'rgba(229,193,88,0.12)', // gold-dim
+  goldSofter: 'rgba(229,193,88,0.06)',
+  goldGlow: 'rgba(229,193,88,0.25)',
 
-  // Texte avec un contraste maximal
-  text: '#FFFFFF',
-  textPrimary: '#FFFFFF',
-  textSecondary: '#E2DCD0',
-  textTertiary: '#B8B0A0',
-  textMuted: '#968E7E',
-  textDim: '#8C8474', // AA : 4.5:1 min. sur toutes les surfaces sombres (avant #6E6759, 3.0-3.5:1)
-  onGold: '#07070A',
+  // Texte (--text-*)
+  text: '#F5F0E6',
+  textPrimary: '#F5F0E6',
+  textSecondary: '#C9C4B8',
+  textTertiary: '#ABA598',
+  textMuted: '#8C8577',
+  textDim: '#8C8577', // AA : 4.5:1 sur fond et cartes
+  onGold: '#110E09',
 
-  // États
-  // Tons accordés au noir & or : pas de bleu ni de violet vifs.
-  // info = ivoire (2e boutique dans les graphiques, infos neutres), violet = bronze.
-  success: '#7CC79A',
-  successSoft: 'rgba(124,199,154,0.14)',
-  danger: '#FF6B6B',
-  dangerSoft: 'rgba(255,107,107,0.16)',
-  warning: '#F5B041',
-  warningSoft: 'rgba(245,176,65,0.16)',
-  info: '#D9CFBF',
-  infoSoft: 'rgba(217,207,191,0.12)',
-  violet: '#C8A27A',
+  // États (--color-status-*). Les fonds « soft » reprennent les tokens Stitch ;
+  // la couleur de texte est éclaircie dans la même teinte, car sauge #658354 (4.0:1)
+  // et rubis #B94A48 (3.4:1) ne passent pas AA en texte sur obsidienne.
+  success: '#8DAA7A', // sauge
+  successSoft: 'rgba(101,131,84,0.15)',
+  danger: '#E07A76', // rubis
+  dangerSoft: 'rgba(185,74,72,0.15)',
+  warning: '#D97706', // ambre
+  warningSoft: 'rgba(217,119,6,0.15)',
+  info: '#C9C4B8', // ivoire : 2e boutique dans les graphiques, infos neutres
+  infoSoft: 'rgba(201,196,184,0.10)',
+  violet: '#C8A27A', // bronze
   violetSoft: 'rgba(200,162,122,0.14)',
 
-  // Cartes & Formulaires
-  cardBg: '#13131F',
-  cardBorder: 'rgba(229,193,88,0.35)',
-  inputBg: '#161624',
-  inputBorder: 'rgba(229,193,88,0.45)',
-  inputText: '#FFFFFF',
-  inputPlaceholder: '#A39B8B',
-  pillActiveBg: 'rgba(229,193,88,0.16)', // pastille active translucide (comme le tableau de bord)
-  pillActiveText: '#FBE89F',
-  pillInactiveBg: '#1A1A28',
-  pillInactiveText: '#E2DCD0',
-  pillInactiveBorder: 'rgba(255,255,255,0.20)',
-  glassBorder: 'rgba(255,255,255,0.14)',
-  obsidian: '#0A0A10',
+  // Cartes & Formulaires (.card-prestige)
+  cardBg: '#1F1B15',
+  cardBorder: '#3D3932',
+  inputBg: '#110E09',
+  inputBorder: '#3D3932',
+  inputText: '#F5F0E6',
+  inputPlaceholder: '#8C8577',
+  pillActiveBg: 'rgba(229,193,88,0.12)',
+  pillActiveText: '#F3DB83',
+  pillInactiveBg: '#1F1B15',
+  pillInactiveText: '#C9C4B8',
+  pillInactiveBorder: '#3D3932',
+  glassBorder: '#3D3932',
+  obsidian: '#16130D',
   isDark: true,
 };
 

@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   meta: { fontFamily: fonts.medium, fontSize: 12, color: colors.textTertiary, marginTop: 4, lineHeight: 17 },
   amountBox: { alignItems: 'flex-end' },
   amountLabel: { fontFamily: fonts.semibold, fontSize: 12, color: colors.textTertiary },
-  amount: { fontFamily: fonts.extrabold, fontSize: 20, color: colors.gold, fontVariant: ['tabular-nums'] },
+  amount: { fontFamily: fonts.mono, fontSize: 20, color: colors.gold, fontVariant: ['tabular-nums'] },
   amountLate: { color: colors.danger },
   currency: { fontFamily: fonts.bold, fontSize: 12, color: colors.textTertiary },
   pills: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },

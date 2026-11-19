@@ -120,7 +120,7 @@ export default function HistoryTab({ refreshKey, onOpen }: Props) {
 const local = StyleSheet.create({
   summaryRow: { flexDirection: 'row', gap: 12, flexWrap: 'wrap' },
   summaryCard: { flex: 1, minWidth: 140, gap: 4 },
-  summaryDiff: { fontFamily: fonts.extrabold, fontSize: 20, fontVariant: ['tabular-nums'] },
+  summaryDiff: { fontFamily: fonts.mono, fontSize: 20, fontVariant: ['tabular-nums'] },
   list: { paddingHorizontal: 12, paddingVertical: 4 },
   dayRow: { paddingVertical: 10, gap: 8, borderBottomWidth: StyleSheet.hairlineWidth },
   dayLabel: { textTransform: 'capitalize' },

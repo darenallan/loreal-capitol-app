@@ -13,50 +13,65 @@ export * from './ThemeContext';
 export const colors = darkPalette;
 
 export const gradients = {
-  gold: ['#FFF2BF', '#E5C158', '#B08826'] as const,
-  goldSoft: ['rgba(255,242,191,0.22)', 'rgba(229,193,88,0.10)', 'rgba(229,193,88,0)'] as const,
-  glassTop: ['rgba(255,255,255,0.12)', 'rgba(255,255,255,0.0)'] as const,
-  fadeBottom: ['rgba(10,10,16,0)', 'rgba(10,10,16,0.95)'] as const,
+  // .gold-gradient-text de Stitch
+  gold: ['#FFF0C2', '#E5C158', '#947221'] as const,
+  goldSoft: ['rgba(255,240,194,0.18)', 'rgba(229,193,88,0.08)', 'rgba(229,193,88,0)'] as const,
+  glassTop: ['rgba(245,240,230,0.08)', 'rgba(245,240,230,0.0)'] as const,
+  fadeBottom: ['rgba(22,19,13,0)', 'rgba(22,19,13,0.95)'] as const,
 };
 
-/** Familles de polices chargées dans App.tsx */
+/**
+ * Familles de polices chargées dans App.tsx (design system Stitch) :
+ * Bodoni Moda = serif de prestige (titres), Inter = interface, Space Grotesk = chiffres.
+ */
 export const fonts = {
-  display: 'PlayfairDisplay_700Bold',
-  displaySemi: 'PlayfairDisplay_600SemiBold',
-  displayItalic: 'PlayfairDisplay_400Regular_Italic',
-  regular: 'Manrope_400Regular',
-  medium: 'Manrope_500Medium',
-  semibold: 'Manrope_600SemiBold',
-  bold: 'Manrope_700Bold',
-  extrabold: 'Manrope_800ExtraBold',
-  serif: 'PlayfairDisplay_700Bold',
-  sans: 'Manrope_600SemiBold',
+  display: 'BodoniModa_700Bold',
+  displaySemi: 'BodoniModa_600SemiBold',
+  displayItalic: 'BodoniModa_400Regular_Italic',
+  regular: 'Inter_400Regular',
+  medium: 'Inter_500Medium',
+  semibold: 'Inter_600SemiBold',
+  bold: 'Inter_700Bold',
+  extrabold: 'Inter_800ExtraBold',
+  serif: 'BodoniModa_700Bold',
+  sans: 'Inter_600SemiBold',
+  /** Montants et compteurs (--font-mono-numbers) */
+  mono: 'SpaceGrotesk_600SemiBold',
+  monoMedium: 'SpaceGrotesk_500Medium',
 };
 
 export const space = { xxs: 4, xs: 8, sm: 12, md: 16, lg: 20, xl: 24, xxl: 32, xxxl: 48 };
-export const radius = { xs: 6, sm: 10, md: 14, lg: 20, xl: 26, xxl: 32, pill: 999, full: 999 };
+// Rayons Stitch : sm 6, md 10, lg 16. Les grandes cartes restent à 16-20.
+export const radius = { xs: 6, sm: 6, md: 10, lg: 16, xl: 16, xxl: 20, pill: 999, full: 999 };
 
 export const breakpoints = { tablet: 640, laptop: 1024, desktop: 1440 };
 
 export const shadow = {
+  // --shadow-prestige-card / card-dark de Stitch
   soft: Platform.select<ViewStyle>({
-    web: { boxShadow: '0 8px 24px rgba(0,0,0,0.35)' } as any,
-    default: { shadowColor: '#000', shadowOpacity: 0.35, shadowRadius: 14, shadowOffset: { width: 0, height: 8 }, elevation: 6 },
+    web: { boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' } as any,
+    default: { shadowColor: '#000', shadowOpacity: 0.5, shadowRadius: 14, shadowOffset: { width: 0, height: 8 }, elevation: 6 },
   }),
   deep: Platform.select<ViewStyle>({
-    web: { boxShadow: '0 24px 48px -10px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.06)' } as any,
-    default: { shadowColor: '#000', shadowOpacity: 0.55, shadowRadius: 26, shadowOffset: { width: 0, height: 16 }, elevation: 12 },
+    web: { boxShadow: '0 12px 32px -8px rgba(0,0,0,0.65), 0 0 1px 1px rgba(255,255,255,0.04)' } as any,
+    default: { shadowColor: '#000', shadowOpacity: 0.65, shadowRadius: 22, shadowOffset: { width: 0, height: 12 }, elevation: 12 },
   }),
+  // Halo or très discret (gold-glow Stitch), réservé au bouton principal
   gold: Platform.select<ViewStyle>({
-    web: { boxShadow: '0 10px 30px -6px rgba(229,193,88,0.45)' } as any,
-    default: { shadowColor: '#E5C158', shadowOpacity: 0.45, shadowRadius: 18, shadowOffset: { width: 0, height: 8 }, elevation: 8 },
+    web: { boxShadow: '0 0 20px -3px rgba(229,193,88,0.2)' } as any,
+    default: { shadowColor: '#E5C158', shadowOpacity: 0.2, shadowRadius: 12, shadowOffset: { width: 0, height: 4 }, elevation: 4 },
   }),
   glowGold: Platform.select<ViewStyle>({
-    web: { boxShadow: '0 10px 30px -6px rgba(229,193,88,0.45)' } as any,
-    default: { shadowColor: '#E5C158', shadowOpacity: 0.45, shadowRadius: 18, shadowOffset: { width: 0, height: 8 }, elevation: 8 },
+    web: { boxShadow: '0 0 20px -3px rgba(229,193,88,0.2)' } as any,
+    default: { shadowColor: '#E5C158', shadowOpacity: 0.2, shadowRadius: 12, shadowOffset: { width: 0, height: 4 }, elevation: 4 },
+  }),
+  /** --shadow-gold-focus : anneau de focus des champs */
+  focus: Platform.select<ViewStyle>({
+    web: { boxShadow: '0 0 0 2px rgba(229,193,88,0.35)' } as any,
+    default: {},
   }),
   lg: Platform.select<ViewStyle>({
-    web: { boxShadow: '0 24px 48px -10px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.06)' } as any,
+    web: { boxShadow: '0 12px 32px -8px rgba(0,0,0,0.65), 0 0 1px 1px rgba(255,255,255,0.04)' } as any,
     default: { shadowColor: '#000', shadowOpacity: 0.55, shadowRadius: 26, shadowOffset: { width: 0, height: 16 }, elevation: 12 },
   }),
 };
@@ -81,14 +96,14 @@ export const theme = {
 
 /** Préréglages typographiques pour haute lisibilité mobile */
 export const type = StyleSheet.create({
-  display: { fontFamily: fonts.display, fontSize: 40, lineHeight: 46, color: colors.text, letterSpacing: -0.5 },
-  h1: { fontFamily: fonts.display, fontSize: 30, lineHeight: 36, color: colors.text, letterSpacing: -0.3 },
+  display: { fontFamily: fonts.display, fontSize: 40, lineHeight: 48, color: colors.text, letterSpacing: -0.6 },
+  h1: { fontFamily: fonts.display, fontSize: 30, lineHeight: 38, color: colors.text, letterSpacing: -0.45 },
   h2: { fontFamily: fonts.displaySemi, fontSize: 24, lineHeight: 30, color: colors.text },
   title: { fontFamily: fonts.bold, fontSize: 18, lineHeight: 24, color: colors.text },
   body: { fontFamily: fonts.medium, fontSize: 15.5, lineHeight: 22, color: colors.textSecondary },
   caption: { fontFamily: fonts.medium, fontSize: 13.5, lineHeight: 18, color: colors.textMuted },
   eyebrow: { fontFamily: fonts.bold, fontSize: 12, letterSpacing: 2.2, textTransform: 'uppercase', color: colors.gold },
-  number: { fontFamily: fonts.extrabold, fontSize: 30, color: colors.text, letterSpacing: -0.6, fontVariant: ['tabular-nums'] },
+  number: { fontFamily: fonts.mono, fontSize: 30, color: colors.text, letterSpacing: -0.6, fontVariant: ['tabular-nums'] },
 }) as Record<'display' | 'h1' | 'h2' | 'title' | 'body' | 'caption' | 'eyebrow' | 'number', TextStyle>;
 
 /** Choisit la famille Manrope correspondant au fontWeight demandé */

@@ -115,10 +115,21 @@ export function buildReceiptWebUrl(sale: any, clientName?: string, storeName?: s
       ? window.btoa(unescape(encodeURIComponent(jsonStr)))
       : '';
     const safeB64 = encodeURIComponent(b64);
-    return `https://loreal-capitol-app.vercel.app/receipt.html?id=${ticketId}&d=${safeB64}`;
+    return `${receiptBaseUrl()}/receipt.html?id=${ticketId}&d=${safeB64}`;
   } catch (e) {
-    return `https://loreal-capitol-app.vercel.app/receipt.html?id=${ticketId}`;
+    return `${receiptBaseUrl()}/receipt.html?id=${ticketId}`;
   }
+}
+
+/**
+ * Domaine où est servi receipt.html : le site lui-même sur le web (Render, Vercel…),
+ * sinon EXPO_PUBLIC_SITE_URL (appli mobile), sinon l'ancien domaine Vercel.
+ */
+function receiptBaseUrl(): string {
+  if (typeof window !== 'undefined' && window.location && /^https?:$/.test(window.location.protocol)) {
+    return window.location.origin;
+  }
+  return (process.env.EXPO_PUBLIC_SITE_URL || 'https://loreal-capitol-app.vercel.app').replace(/\/$/, '');
 }
 
 /** 

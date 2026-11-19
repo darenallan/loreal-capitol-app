@@ -78,19 +78,18 @@ class AppErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState>
     return this.props.children;
   }
 }
-import {
-  PlayfairDisplay_700Bold,
-  PlayfairDisplay_600SemiBold,
-  PlayfairDisplay_400Regular,
-  PlayfairDisplay_400Regular_Italic,
-} from '@expo-google-fonts/playfair-display';
-import {
-  Manrope_400Regular,
-  Manrope_500Medium,
-  Manrope_600SemiBold,
-  Manrope_700Bold,
-  Manrope_800ExtraBold,
-} from '@expo-google-fonts/manrope';
+// Polices du design system Stitch : Bodoni Moda (prestige), Inter (interface), Space Grotesk (chiffres).
+// Import par graisse : seuls les fichiers utilisés entrent dans le bundle.
+import { BodoniModa_400Regular_Italic } from '@expo-google-fonts/bodoni-moda/400Regular_Italic';
+import { BodoniModa_600SemiBold } from '@expo-google-fonts/bodoni-moda/600SemiBold';
+import { BodoniModa_700Bold } from '@expo-google-fonts/bodoni-moda/700Bold';
+import { Inter_400Regular } from '@expo-google-fonts/inter/400Regular';
+import { Inter_500Medium } from '@expo-google-fonts/inter/500Medium';
+import { Inter_600SemiBold } from '@expo-google-fonts/inter/600SemiBold';
+import { Inter_700Bold } from '@expo-google-fonts/inter/700Bold';
+import { Inter_800ExtraBold } from '@expo-google-fonts/inter/800ExtraBold';
+import { SpaceGrotesk_500Medium } from '@expo-google-fonts/space-grotesk/500Medium';
+import { SpaceGrotesk_600SemiBold } from '@expo-google-fonts/space-grotesk/600SemiBold';
 
 import { initDB } from './src/db/database';
 import { initAudioUnlock } from './src/utils/ringtone';
@@ -179,15 +178,16 @@ export default function App() {
   const [fontTimeout, setFontTimeout] = useState(false);
 
   const [fontsLoaded] = useFonts({
-    PlayfairDisplay_700Bold,
-    PlayfairDisplay_600SemiBold,
-    PlayfairDisplay_400Regular,
-    PlayfairDisplay_400Regular_Italic,
-    Manrope_400Regular,
-    Manrope_500Medium,
-    Manrope_600SemiBold,
-    Manrope_700Bold,
-    Manrope_800ExtraBold,
+    BodoniModa_400Regular_Italic,
+    BodoniModa_600SemiBold,
+    BodoniModa_700Bold,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    SpaceGrotesk_500Medium,
+    SpaceGrotesk_600SemiBold,
   });
 
   useEffect(() => {
@@ -236,7 +236,7 @@ export default function App() {
             padding: 0;
             height: 100%;
             overflow-x: hidden;
-            font-family: 'Manrope_500Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter_500Medium', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             transition: background-color 0.25s ease;
@@ -252,8 +252,8 @@ export default function App() {
             -webkit-text-size-adjust: 100% !important;
           }
           ::selection {
-            background: #D4AF37 !important;
-            color: #07070A !important;
+            background: #E5C158 !important;
+            color: #110E09 !important;
           }
           ::-webkit-scrollbar {
             width: 8px;
@@ -263,17 +263,38 @@ export default function App() {
             background: rgba(0, 0, 0, 0.15);
           }
           ::-webkit-scrollbar-thumb {
-            background: rgba(212, 175, 55, 0.4);
+            background: rgba(229, 193, 88, 0.35);
             border-radius: 999px;
           }
           ::-webkit-scrollbar-thumb:hover {
-            background: #D4AF37;
+            background: #E5C158;
           }
           input, textarea, select, button {
             font-family: inherit;
           }
           *:focus {
             outline: none !important;
+          }
+          /* --shadow-gold-focus (Stitch) : anneau doré sur les champs et au clavier */
+          input:focus, textarea:focus, select:focus {
+            box-shadow: 0 0 0 2px rgba(229, 193, 88, 0.35) !important;
+          }
+          *:focus-visible {
+            box-shadow: 0 0 0 2px rgba(229, 193, 88, 0.35);
+          }
+          /* Animations du design system Stitch */
+          @keyframes pulseLive {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(101, 131, 84, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(101, 131, 84, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(101, 131, 84, 0); }
+          }
+          @keyframes pulseRuby {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(185, 74, 72, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(185, 74, 72, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(185, 74, 72, 0); }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
           }
           * {
             touch-action: manipulation;
@@ -298,7 +319,7 @@ export default function App() {
         </View>
         <Text style={styles.splashTitle}>CAPITOL</Text>
         <Text style={styles.splashSubtitle}>L'ORÉAL · LUXURY RETAIL</Text>
-        <ActivityIndicator size="small" color="#D4AF37" style={{ marginTop: 24 }} />
+        <ActivityIndicator size="small" color="#E5C158" style={{ marginTop: 24 }} />
       </View>
     );
   }
@@ -315,7 +336,7 @@ export default function App() {
 const styles = StyleSheet.create({
   splashContainer: {
     flex: 1,
-    backgroundColor: '#0A0A10',
+    backgroundColor: '#16130D',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
@@ -325,14 +346,14 @@ const styles = StyleSheet.create({
     height: 64,
     borderRadius: 32,
     borderWidth: 1.5,
-    borderColor: '#D4AF37',
+    borderColor: '#E5C158',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 16,
-    backgroundColor: 'rgba(212,175,55,0.08)',
+    backgroundColor: 'rgba(229,193,88,0.12)',
   },
   splashBrand: {
-    color: '#D4AF37',
+    color: '#E5C158',
     fontSize: 28,
     fontWeight: '700',
   },

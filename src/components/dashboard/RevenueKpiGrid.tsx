@@ -107,7 +107,7 @@ export default function RevenueKpiGrid({
 }
 
 const heroAmountBase = {
-  fontFamily: fonts.extrabold,
+  fontFamily: fonts.mono,
   fontSize: 36,
   color: colors.text,
   letterSpacing: -1,

@@ -337,5 +337,5 @@ const local = StyleSheet.create({
   outAmount: { width: 104 },
   confirmBox: { padding: 14, borderRadius: radius.md, borderWidth: 1, gap: 6 },
   confirmTone: { fontFamily: fonts.bold, fontSize: 13, flexShrink: 1 },
-  confirmDiff: { fontFamily: fonts.extrabold, fontSize: 26, fontVariant: ['tabular-nums'] },
+  confirmDiff: { fontFamily: fonts.mono, fontSize: 26, fontVariant: ['tabular-nums'] },
 });
