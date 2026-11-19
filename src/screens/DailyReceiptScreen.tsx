@@ -77,8 +77,9 @@ export default function DailyReceiptScreen({ navigation, route }: any) {
     // 2. Souscription résiliente double transport (HTTPS REST + WebSocket)
     const unsubscribe = subscribeResilient(
       'sales',
-      (data) => {
-        if (data) processSalesData(data);
+      (data, source) => {
+        // null via Firebase = liste vide (réponse réelle), pas une absence de réponse.
+        if (data || source === 'websocket') processSalesData(data);
       },
       { cacheKey: 'loreal_cache_sales' }
     );

@@ -743,13 +743,22 @@ export default function TransfersScreen({ navigation, route }: any) {
     // 2. Souscription résiliente double transport (HTTPS REST + WebSocket)
     const unsubscribe = subscribeResilient(
       'transfers',
-      (data) => {
-        if (data) processTransfersData(data);
+      (data, source) => {
+        // Firebase (websocket) renvoie null quand il n'y a aucun transfert : c'est une vraie
+        // réponse « liste vide », pas une absence de réponse. Sans ça, la roue tournait à l'infini
+        // et une liste vidée continuait d'afficher les anciens transferts.
+        if (data || source === 'websocket') processTransfersData(data);
       },
       { cacheKey: 'loreal_cache_transfers' }
     );
 
-    return () => unsubscribe();
+    // Filet de sécurité : si aucun transport ne répond (réseau mobile bloqué), on arrête la roue.
+    const giveUp = setTimeout(() => setLoading(false), 10000);
+
+    return () => {
+      clearTimeout(giveUp);
+      unsubscribe();
+    };
   }, []);
 
   const toggleExpand = (id: string) => {

@@ -51,13 +51,18 @@ export default function ArrivageHistoryScreen({ navigation, route }: any) {
     // 2. Souscription résiliente double transport (HTTPS REST + WebSocket)
     const unsubscribe = subscribeResilient(
       'arrivages',
-      (data) => {
-        if (data) applyArrivages(data);
+      (data, source) => {
+        // null via Firebase = aucun arrivage (réponse réelle) : ne pas laisser la roue tourner.
+        if (data || source === 'websocket') applyArrivages(data);
       },
       { cacheKey: 'loreal_cache_arrivages' }
     );
+    const giveUp = setTimeout(() => setLoading(false), 10000);
 
-    return () => unsubscribe();
+    return () => {
+      clearTimeout(giveUp);
+      unsubscribe();
+    };
   }, []);
 
   useEffect(() => {

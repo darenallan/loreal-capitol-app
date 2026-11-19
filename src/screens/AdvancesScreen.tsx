@@ -94,8 +94,9 @@ export default function AdvancesScreen({ navigation, route }: any) {
     // 2. Souscription résiliente double transport (HTTPS REST + WebSocket)
     const unsubscribe = subscribeResilient(
       'advances',
-      (data) => {
-        if (data) processAdvancesData(data);
+      (data, source) => {
+        // null via Firebase = liste vide (réponse réelle), pas une absence de réponse.
+        if (data || source === 'websocket') processAdvancesData(data);
       },
       { cacheKey: 'loreal_cache_advances' }
     );
