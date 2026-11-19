@@ -944,7 +944,7 @@ export default function TransfersScreen({ navigation, route }: any) {
               style={[styles.tabItem, tab === 'requested' && styles.tabItemActiveAmber]}
               onPress={() => setTab('requested')}
             >
-              <Text style={[styles.tabText, { color: colors.warning }]}>
+              <Text style={[styles.tabText, styles.tabTextActive]}>
                 Demandes ({requestedCount})
               </Text>
             </TouchableOpacity>
@@ -1361,67 +1361,17 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     letterSpacing: 1.5,
   },
-  tabBar: {
-    flexDirection: 'row',
-    gap: 6,
-    marginBottom: 10,
-  },
-  tabItem: {
-    minHeight: 44,
-    justifyContent: 'center',
-    flex: 1,
-    paddingVertical: 8,
-    borderRadius: radius.sm,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    alignItems: 'center',
-  },
-  tabItemActive: {
-    backgroundColor: alpha(colors.gold, 0.12),
-    borderColor: colors.gold,
-  },
-  tabItemActiveAmber: {
-    backgroundColor: alpha(colors.warning, 0.12),
-    borderColor: colors.warning,
-  },
-  tabText: {
-    color: colors.textTertiary,
-    fontSize: 12,
-    fontWeight: '600',
-    fontFamily: fonts.sans,
-  },
-  tabTextActive: {
-    color: colors.gold,
-    fontWeight: '700',
-  },
-  storeFilterRow: {
-    flexDirection: 'row',
-    gap: 6,
-  },
-  storeFilterBtn: {
-    minHeight: 44,
-    justifyContent: 'center',
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: radius.xs,
-    backgroundColor: 'rgba(255, 255, 255, 0.02)',
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-  },
-  storeFilterBtnActive: {
-    backgroundColor: alpha(colors.gold, 0.08),
-    borderColor: alpha(colors.gold, 0.35),
-  },
-  storeFilterText: {
-    color: colors.textTertiary,
-    fontSize: 12,
-    fontFamily: fonts.sans,
-  },
-  storeFilterTextActive: {
-    color: colors.gold,
-    fontWeight: '700',
-  },
+  tabBar: { ...chrome.segGroup, marginBottom: 10 },
+  tabItem: { ...chrome.storeBtn },
+  tabItemActive: { ...chrome.storeBtnActive },
+  tabItemActiveAmber: { ...chrome.storeBtnActive },
+  tabText: { ...chrome.storeBtnText },
+  tabTextActive: { ...chrome.storeBtnTextActive },
+  storeFilterRow: { ...chrome.segGroup },
+  storeFilterBtn: { ...chrome.storeBtn, minHeight: 32, paddingHorizontal: 12 },
+  storeFilterBtnActive: { ...chrome.storeBtnActive },
+  storeFilterText: { ...chrome.storeBtnText, fontSize: 12 },
+  storeFilterTextActive: { ...chrome.storeBtnTextActive },
   list: {
     paddingHorizontal: 16,
     paddingTop: 12,

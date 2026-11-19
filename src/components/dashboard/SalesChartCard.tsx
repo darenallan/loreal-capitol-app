@@ -19,6 +19,8 @@ export default function SalesChartCard({ chartData, insightText }: SalesChartCar
   const isBest = insightText.startsWith('Meilleure');
   // Beaucoup de barres (heures, jours du mois) : on n'affiche le montant que sur la meilleure.
   const dense = chartData.length > 8;
+  // Aucune vente : pas de repères chiffrés (sinon « 1 » s'affiche deux fois).
+  const hasData = chartData.some((d) => d.value > 0);
 
   return (
     <GlassCard style={styles.card}>
@@ -36,7 +38,7 @@ export default function SalesChartCard({ chartData, insightText }: SalesChartCar
         {/* Lignes de repère : 100 %, 50 %, 0 */}
         {[0, 0.5, 1].map((p) => (
           <View key={p} style={[styles.gridLine, { bottom: 22 + p * CHART_H }]}>
-            {p > 0 && <Text style={styles.gridLabel}>{fmtShort(Math.round(maxVal * p))}</Text>}
+            {p > 0 && hasData && <Text style={styles.gridLabel}>{fmtShort(Math.round(maxVal * p))}</Text>}
           </View>
         ))}
 

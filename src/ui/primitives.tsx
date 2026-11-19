@@ -134,7 +134,7 @@ export function Segmented<T extends string>({ options, value, onChange, style, c
             style={[s.segItem, compact && { paddingHorizontal: 12, height: 34 }]}
           >
             {o.icon}
-            <Text numberOfLines={1} style={[s.segText, compact && { fontSize: 12 }, active && { color: colors.onGold }]}>{o.label}</Text>
+            <Text numberOfLines={1} style={[s.segText, compact && { fontSize: 12 }, active && { color: colors.goldLight }]}>{o.label}</Text>
           </PressableScale>
         );
       })}
@@ -220,10 +220,10 @@ const s = StyleSheet.create({
   },
   segBorder: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, borderRadius: radius.pill, borderWidth: 1, borderColor: colors.border },
   segPill: {
-    position: 'absolute', top: 4, bottom: 4, borderRadius: radius.pill, backgroundColor: colors.gold,
-    ...(Platform.OS === 'web' ? ({ boxShadow: `0 6px 18px -4px ${alpha(colors.gold, 0.6)}, inset 0 1px 0 rgba(255,255,255,0.4)` } as any) : null),
+    position: 'absolute', top: 4, bottom: 4, borderRadius: radius.pill,
+    backgroundColor: colors.goldSoft, borderWidth: 1, borderColor: colors.borderGold,
   },
   segItem: { height: 38, paddingHorizontal: 16, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 },
-  segText: { fontFamily: fonts.bold, fontSize: 13, color: colors.textSecondary },
+  segText: { fontFamily: fonts.bold, fontSize: 13, color: colors.textMuted },
   emptyIcon: { width: 56, height: 56, borderRadius: 28, backgroundColor: colors.goldSofter, borderWidth: 1, borderColor: colors.borderGold, alignItems: 'center', justifyContent: 'center' },
 });

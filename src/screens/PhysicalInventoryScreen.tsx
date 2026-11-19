@@ -315,14 +315,14 @@ export default function PhysicalInventoryScreen({ navigation, route }: any) {
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statCol}>
-                <Text style={[styles.statVal, { color: colors.danger }]}>
-                  -{totalMissingQty}
+                <Text style={[styles.statVal, totalMissingQty > 0 && { color: colors.danger }]}>
+                  {totalMissingQty > 0 ? `-${totalMissingQty}` : 0}
                 </Text>
                 <Text style={styles.statLbl}>Manquants</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statCol}>
-                <Text style={[styles.statVal, { color: colors.danger }]}>
+                <Text style={[styles.statVal, totalFinancialLoss > 0 && { color: colors.danger }]}>
                   {formatMoney(totalFinancialLoss)} F
                 </Text>
                 <Text style={styles.statLbl}>Valeur perte</Text>
@@ -427,18 +427,11 @@ const styles = StyleSheet.create({
   exportBtn: { ...chrome.iconBtn },
   goldApplyBtn: { ...chrome.goldBtn },
   goldApplyBtnText: { ...chrome.goldBtnText },
-  storeSelector: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 10,
-  },
+  storeSelector: { ...chrome.segGroup, marginBottom: 10 },
   storeBtn: { ...chrome.storeBtn },
   storeBtnActive: { ...chrome.storeBtnActive },
-  storeBtnText: { color: colors.textTertiary, fontSize: 13, fontWeight: '600', fontFamily: fonts.sans },
-  storeBtnTextActive: {
-    color: colors.gold,
-    fontWeight: '700',
-  },
+  storeBtnText: { ...chrome.storeBtnText },
+  storeBtnTextActive: { ...chrome.storeBtnTextActive },
   searchBarRow: {
     flexDirection: 'row',
     gap: 8,
@@ -464,16 +457,13 @@ const styles = StyleSheet.create({
   },
   filterToggleBtn: {
     paddingHorizontal: 14,
-    borderRadius: radius.sm,
+    borderRadius: radius.pill,
     backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: colors.glassBorder,
+    borderColor: colors.border,
     justifyContent: 'center',
   },
-  filterToggleBtnActive: {
-    backgroundColor: alpha(colors.gold, 0.1),
-    borderColor: colors.gold,
-  },
+  filterToggleBtnActive: { ...chrome.storeBtnActive },
   filterToggleText: {
     color: colors.textTertiary,
     fontSize: 12,
@@ -557,7 +547,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
     marginTop: 4,
-    fontFamily: fonts.serif,
+    fontFamily: fonts.bold,
   },
   counterSection: {
     flexDirection: 'row',

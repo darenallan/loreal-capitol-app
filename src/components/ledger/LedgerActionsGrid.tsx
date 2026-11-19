@@ -54,8 +54,8 @@ export default function LedgerActionsGrid({
         onPress={openTransferSearchModal}
       >
         <GlassCard style={styles.actionCard}>
-          <View style={[styles.actionIconCircle, { backgroundColor: 'rgba(192, 132, 252, 0.12)', borderColor: 'rgba(192, 132, 252, 0.4)' }]}>
-            <ArrowRightLeft color="#C084FC" size={22} />
+          <View style={[styles.actionIconCircle, { backgroundColor: colors.surface, borderColor: colors.glassBorder }]}>
+            <ArrowRightLeft color={colors.gold} size={22} />
           </View>
           <Text style={styles.actionCardTitle}>Transfert Manuel</Text>
           <Text style={styles.actionCardDesc}>Expédier article</Text>
@@ -67,8 +67,8 @@ export default function LedgerActionsGrid({
         onPress={() => { setScannerMode('transfer'); setScannerVisible(true); }}
       >
         <GlassCard style={styles.actionCard}>
-          <View style={[styles.actionIconCircle, { backgroundColor: 'rgba(192, 132, 252, 0.12)', borderColor: 'rgba(192, 132, 252, 0.4)' }]}>
-            <ScanLine color="#C084FC" size={22} />
+          <View style={[styles.actionIconCircle, { backgroundColor: colors.surface, borderColor: colors.glassBorder }]}>
+            <ScanLine color={colors.gold} size={22} />
           </View>
           <Text style={styles.actionCardTitle}>Transfert par Scan</Text>
           <Text style={styles.actionCardDesc}>Scan direct sortie</Text>

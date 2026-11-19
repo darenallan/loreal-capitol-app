@@ -95,23 +95,42 @@ const subtitle: TextStyle = {
   fontFamily: fonts.semibold,
 };
 
-/** Sélecteur de boutique La Falaise / Tougou (Boss). */
-const storeBtn: ViewStyle = {
-  flex: 1,
-  minHeight: HEADER_BTN,
-  justifyContent: 'center',
-  paddingVertical: 8,
-  borderRadius: radius.sm,
+/**
+ * Groupe d'onglets en pastilles (même rendu que les filtres du tableau de bord) :
+ * conteneur arrondi discret, segment actif teinté or avec un filet doré.
+ */
+const segGroup: ViewStyle = {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  alignSelf: 'flex-start',
+  padding: 3,
+  gap: 2,
+  borderRadius: radius.pill,
   backgroundColor: colors.surface,
   borderWidth: 1,
-  borderColor: colors.glassBorder,
+  borderColor: colors.border,
+};
+
+/** Segment d'un groupe (boutique, statut, filtre). */
+const storeBtn: ViewStyle = {
+  minHeight: 36,
+  paddingHorizontal: 14,
+  flexDirection: 'row',
+  gap: 6,
+  justifyContent: 'center',
   alignItems: 'center',
+  borderRadius: radius.pill,
+  borderWidth: 1,
+  borderColor: 'transparent',
 };
 
 const storeBtnActive: ViewStyle = {
   backgroundColor: colors.goldSoft,
-  borderColor: colors.gold,
+  borderColor: colors.borderGold,
 };
+
+const storeBtnText: TextStyle = { color: colors.textMuted, fontSize: 13, fontFamily: fonts.semibold };
+const storeBtnTextActive: TextStyle = { color: colors.goldLight, fontFamily: fonts.bold };
 
 export const chrome = {
   header,
@@ -124,6 +143,9 @@ export const chrome = {
   screenEyebrow,
   title,
   subtitle,
+  segGroup,
   storeBtn,
   storeBtnActive,
+  storeBtnText,
+  storeBtnTextActive,
 };

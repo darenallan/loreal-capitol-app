@@ -23,7 +23,8 @@ export function Screen({ children, maxWidth, padded = false, style, intensity }:
 
   return (
     <View style={[styles.root, { backgroundColor: colors.bg }]}>
-      <AmbientBackground intensity={intensity} />
+      {/* Fond discret par défaut (comme le tableau de bord) ; la connexion passe sa propre intensité. */}
+      <AmbientBackground intensity={intensity ?? 0.35} />
       <FadeIn distance={10} duration={500} style={{ flex: 1 }}>
         <View
           style={[

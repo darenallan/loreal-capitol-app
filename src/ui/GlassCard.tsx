@@ -37,8 +37,9 @@ export default function GlassCard({ style, variant = 'default', padded = true, g
         styles.card,
         { borderColor, backgroundColor },
         padded && styles.padded,
+        // `glow` reste accepté pour compatibilité, mais n'ajoute plus de halo doré :
+        // la hiérarchie passe par la bordure or (variant="gold"), pas par la lumière.
         shadow.deep,
-        glow && shadow.gold,
         Platform.OS === 'web' && ({ backdropFilter: 'blur(16px) saturate(140%)', WebkitBackdropFilter: 'blur(16px) saturate(140%)' } as any),
         style,
       ]}

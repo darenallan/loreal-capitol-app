@@ -230,17 +230,11 @@ const styles = StyleSheet.create({
   screenEyebrow: { ...chrome.screenEyebrow },
   title: { ...chrome.title },
   exportBtn: { ...chrome.iconBtn },
-  storeSelector: {
-    flexDirection: 'row',
-    gap: 8,
-  },
+  storeSelector: { ...chrome.segGroup },
   storeBtn: { ...chrome.storeBtn },
   storeBtnActive: { ...chrome.storeBtnActive },
-  storeBtnText: { color: colors.textTertiary, fontSize: 13, fontWeight: '600', fontFamily: fonts.sans },
-  storeBtnTextActive: {
-    color: colors.gold,
-    fontWeight: '700',
-  },
+  storeBtnText: { ...chrome.storeBtnText },
+  storeBtnTextActive: { ...chrome.storeBtnTextActive },
   contentScroll: {
     paddingHorizontal: 16,
     paddingTop: 16,

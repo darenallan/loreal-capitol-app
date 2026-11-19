@@ -51,7 +51,7 @@ export default function TransferModal({
 
           {transferProduct && (
             <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={{ backgroundColor: colors.surfaceStrong, padding: 14, borderRadius: 10, marginBottom: 15, borderWidth: 1, borderColor: colors.violet }}>
+              <View style={{ backgroundColor: colors.surfaceStrong, padding: 14, borderRadius: 10, marginBottom: 15, borderWidth: 1, borderColor: colors.borderGold }}>
                 <Text style={{ color: '#fff', fontSize: 17, fontWeight: 'bold' }}>{transferProduct.name}</Text>
                 <Text style={{ color: colors.gold, marginTop: 4, fontWeight: 'bold' }}>Stock disponible à {selectedStore.toUpperCase()} : {transferProduct.stock}</Text>
                 <Text style={{ color: colors.textTertiary, marginTop: 2, fontSize: 12 }}>
@@ -65,13 +65,13 @@ export default function TransferModal({
               <Text style={sharedStyles.fieldLabel}>Boutique Destinataire</Text>
               <View style={{ flexDirection: 'row', gap: 10, marginBottom: 15 }}>
                 <TouchableOpacity 
-                  style={[sharedStyles.input, { flex: 1, justifyContent: 'center', alignItems: 'center', borderWidth: 1.5, borderColor: transferDest === 'falaise' ? colors.violet : '#444', backgroundColor: transferDest === 'falaise' ? '#4a1555' : '#2a2a2a' }]}
+                  style={[sharedStyles.input, { flex: 1, justifyContent: 'center', alignItems: 'center', borderWidth: 1.5, borderColor: transferDest === 'falaise' ? colors.borderGold : colors.border, backgroundColor: transferDest === 'falaise' ? colors.goldSoft : colors.surface }]}
                   onPress={() => setTransferDest('falaise')}
                 >
                   <Text style={{ color: transferDest === 'falaise' ? '#fff' : '#888', fontWeight: 'bold' }}>📍 La Falaise</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
-                  style={[sharedStyles.input, { flex: 1, justifyContent: 'center', alignItems: 'center', borderWidth: 1.5, borderColor: transferDest === 'tougou' ? colors.violet : '#444', backgroundColor: transferDest === 'tougou' ? '#4a1555' : '#2a2a2a' }]}
+                  style={[sharedStyles.input, { flex: 1, justifyContent: 'center', alignItems: 'center', borderWidth: 1.5, borderColor: transferDest === 'tougou' ? colors.borderGold : colors.border, backgroundColor: transferDest === 'tougou' ? colors.goldSoft : colors.surface }]}
                   onPress={() => setTransferDest('tougou')}
                 >
                   <Text style={{ color: transferDest === 'tougou' ? '#fff' : '#888', fontWeight: 'bold' }}>📍 Tougou</Text>
@@ -160,8 +160,8 @@ export default function TransferModal({
                 <TouchableOpacity style={[sharedStyles.cancelBtn, { flex: 1, margin: 0 }]} onPress={() => { setTransferProduct(null); setTransferQty('1'); }}>
                   <Text style={sharedStyles.cancelBtnText}>Changer</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[sharedStyles.saveBtn, { flex: 2, backgroundColor: colors.violet, margin: 0 }]} onPress={handleTransferSubmit}>
-                  <Text style={[sharedStyles.saveBtnText, { color: '#fff', fontWeight: 'bold' }]}>🚀 Lancer le Suivi Live</Text>
+                <TouchableOpacity style={[sharedStyles.saveBtn, { flex: 2, backgroundColor: colors.gold, margin: 0 }]} onPress={handleTransferSubmit}>
+                  <Text style={[sharedStyles.saveBtnText, { color: colors.onGold, fontWeight: 'bold' }]}>Lancer le suivi live</Text>
                 </TouchableOpacity>
               </View>
             </ScrollView>

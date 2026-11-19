@@ -420,8 +420,8 @@ export default function AdvancesScreen({ navigation, route }: any) {
             style={[styles.statusTabBtn, statusFilter === 'pending' && styles.statusTabBtnActiveAmber]} 
             onPress={() => setStatusFilter('pending')}
           >
-            <Clock color={statusFilter === 'pending' ? colors.warning : colors.textTertiary} size={14} />
-            <Text style={[styles.statusTabText, statusFilter === 'pending' && { color: colors.warning, fontWeight: '700' }]}>
+            <Clock color={statusFilter === 'pending' ? colors.goldLight : colors.textMuted} size={14} />
+            <Text style={[styles.statusTabText, statusFilter === 'pending' && styles.storeBtnTextActive]}>
               En cours ({pendingCount})
             </Text>
           </TouchableOpacity>
@@ -430,8 +430,8 @@ export default function AdvancesScreen({ navigation, route }: any) {
             style={[styles.statusTabBtn, statusFilter === 'completed' && styles.statusTabBtnActiveGreen]} 
             onPress={() => setStatusFilter('completed')}
           >
-            <CheckCheck color={statusFilter === 'completed' ? colors.success : colors.textTertiary} size={14} />
-            <Text style={[styles.statusTabText, statusFilter === 'completed' && { color: colors.success, fontWeight: '700' }]}>
+            <CheckCheck color={statusFilter === 'completed' ? colors.goldLight : colors.textMuted} size={14} />
+            <Text style={[styles.statusTabText, statusFilter === 'completed' && styles.storeBtnTextActive]}>
               Soldées ({completedCount})
             </Text>
           </TouchableOpacity>
@@ -440,7 +440,7 @@ export default function AdvancesScreen({ navigation, route }: any) {
             style={[styles.statusTabBtn, statusFilter === 'all' && styles.statusTabBtnActive]} 
             onPress={() => setStatusFilter('all')}
           >
-            <Text style={[styles.statusTabText, statusFilter === 'all' && { color: colors.gold, fontWeight: '700' }]}>
+            <Text style={[styles.statusTabText, statusFilter === 'all' && styles.storeBtnTextActive]}>
               Tout ({advances.length})
             </Text>
           </TouchableOpacity>
@@ -624,15 +624,14 @@ export default function AdvancesScreen({ navigation, route }: any) {
                   <TouchableOpacity 
                     style={[
                       styles.receiptActionBtn,
-                      isCompleted && { borderColor: colors.success, backgroundColor: alpha(colors.success, 0.1) }
+                      null
                     ]}
                     onPress={() => openAdvanceReceipt(item)}
                     activeOpacity={0.7}
                   >
-                    <Printer color={isCompleted ? colors.success : colors.gold} size={15} />
+                    <Printer color={colors.gold} size={15} />
                     <Text style={[
-                      styles.receiptActionBtnText,
-                      isCompleted && { color: colors.success }
+                      styles.receiptActionBtnText
                     ]}>
                       {isCompleted ? 'Reçu Soldé' : 'Reçu Avance'}
                     </Text>
@@ -644,10 +643,11 @@ export default function AdvancesScreen({ navigation, route }: any) {
                     activeOpacity={0.7}
                     accessibilityLabel="Supprimer l'avance et restituer l'article au stock"
                   >
-                    <Trash2 color={colors.danger} size={14} />
+                    <Trash2 color={colors.textMuted} size={14} />
                     <Text style={styles.deleteActionBtnText}>Supprimer</Text>
                   </TouchableOpacity>
 
+                  <View style={{ flex: 1 }} />
                   {!isCompleted && (
                     <GoldButton 
                       label="Payer Tranche"
@@ -930,54 +930,18 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sans,
     flex: 1,
   },
-  storeSelector: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 10,
-  },
+  storeSelector: { ...chrome.segGroup, marginBottom: 10 },
   storeBtn: { ...chrome.storeBtn },
   storeBtnActive: { ...chrome.storeBtnActive },
-  storeBtnText: { color: colors.textTertiary, fontSize: 13, fontWeight: '600', fontFamily: fonts.sans },
-  storeBtnTextActive: {
-    color: colors.gold,
-    fontWeight: '700',
-  },
-  statusTabsRow: {
-    flexDirection: 'row',
-    gap: 6,
-    marginBottom: 10,
-  },
-  statusTabBtn: {
-    minHeight: 44,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 5,
-    paddingVertical: 8,
-    borderRadius: radius.sm,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-  },
-  statusTabBtnActive: {
-    backgroundColor: alpha(colors.gold, 0.1),
-    borderColor: colors.gold,
-  },
-  statusTabBtnActiveAmber: {
-    backgroundColor: alpha(colors.warning, 0.12),
-    borderColor: colors.warning,
-  },
-  statusTabBtnActiveGreen: {
-    backgroundColor: alpha(colors.success, 0.1),
-    borderColor: colors.success,
-  },
-  statusTabText: {
-    color: colors.textTertiary,
-    fontSize: 12,
-    fontWeight: '600',
-    fontFamily: fonts.sans,
-  },
+  storeBtnText: { ...chrome.storeBtnText },
+  storeBtnTextActive: { ...chrome.storeBtnTextActive },
+  statusTabsRow: { ...chrome.segGroup, marginBottom: 10 },
+  statusTabBtn: { ...chrome.storeBtn },
+  statusTabBtnActive: { ...chrome.storeBtnActive },
+  // Un seul état actif (or) : la couleur ne code plus le statut dans les onglets.
+  statusTabBtnActiveAmber: { ...chrome.storeBtnActive },
+  statusTabBtnActiveGreen: { ...chrome.storeBtnActive },
+  statusTabText: { ...chrome.storeBtnText },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1191,50 +1155,46 @@ const styles = StyleSheet.create({
   },
   cardActionsRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
     alignItems: 'center',
     gap: 8,
     borderTopWidth: 1,
     borderTopColor: colors.glassBorder,
-    paddingTop: 10,
+    paddingTop: 12,
   },
   whatsAppReminderBtn: {
-    minHeight: 44,
+    minHeight: 40,
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: 'rgba(37, 211, 102, 0.1)',
+    paddingHorizontal: 14,
+    borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: 'rgba(37, 211, 102, 0.3)',
-    paddingVertical: 7,
-    paddingHorizontal: 10,
-    borderRadius: radius.xs,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
   },
   whatsAppReminderBtnText: {
-    color: '#25D366',
-    fontSize: 12,
-    fontWeight: '700',
-    fontFamily: fonts.sans,
+    color: colors.textSecondary,
+    fontSize: 12.5,
+    fontFamily: fonts.semibold,
   },
   receiptActionBtn: {
-    minHeight: 44,
+    minHeight: 40,
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
-    backgroundColor: alpha(colors.gold, 0.1),
+    gap: 6,
+    paddingHorizontal: 14,
+    borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: colors.gold,
-    paddingVertical: 7,
-    paddingHorizontal: 12,
-    borderRadius: radius.xs,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
   },
   receiptActionBtnText: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: '700',
-    fontFamily: fonts.sans,
+    color: colors.textSecondary,
+    fontSize: 12.5,
+    fontFamily: fonts.semibold,
   },
   historyReceiptBtn: {
     flexDirection: 'row',
@@ -1350,23 +1310,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   deleteActionBtn: {
-    minHeight: 44,
+    minHeight: 40,
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    paddingVertical: 7,
-    paddingHorizontal: 10,
-    borderRadius: radius.sm,
-    backgroundColor: alpha(colors.danger, 0.08),
+    paddingHorizontal: 12,
+    borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: alpha(colors.danger, 0.35),
+    borderColor: 'transparent',
+    backgroundColor: 'transparent',
   },
   deleteActionBtnText: {
-    color: colors.danger,
-    fontSize: 12,
-    fontWeight: '700',
-    fontFamily: fonts.sans,
+    color: colors.textMuted,
+    fontSize: 12.5,
+    fontFamily: fonts.semibold,
   },
   modalCancelBtn: {
     paddingVertical: 12,

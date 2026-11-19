@@ -570,7 +570,7 @@ export default function InventoryScreen({ navigation, route }: any) {
             accessibilityLabel="Ajouter un article"
           >
             <Plus color={colors.gold} size={15} />
-            <Text style={[styles.headerActionPillText, { color: colors.gold, fontWeight: '800' }]}>+ Nouvel Article</Text>
+            <Text style={[styles.headerActionPillText, { color: colors.gold, fontWeight: '800' }]}>Nouvel article</Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
@@ -592,12 +592,12 @@ export default function InventoryScreen({ navigation, route }: any) {
           </TouchableOpacity>
 
           <TouchableOpacity 
-            style={[styles.headerActionPill, { borderColor: alpha(colors.info, 0.3), backgroundColor: alpha(colors.info, 0.08) }]} 
+            style={[styles.headerActionPill, { borderColor: colors.border, backgroundColor: colors.surface }]} 
             onPress={() => setDoctorModalVisible(true)}
             accessibilityLabel="Docteur Réseau Cameroun"
           >
-            <RefreshCw color={colors.info} size={14} />
-            <Text style={[styles.headerActionPillText, { color: colors.info }]}>Réseau</Text>
+            <RefreshCw color={colors.textSecondary} size={14} />
+            <Text style={[styles.headerActionPillText, { color: colors.textSecondary }]}>Réseau</Text>
           </TouchableOpacity>
         </ScrollView>
 
@@ -1501,6 +1501,7 @@ const styles = StyleSheet.create({
     color: colors.textTertiary,
     fontSize: 12,
     fontWeight: '700',
+    fontFamily: fonts.bold,
   },
   storeCountTextActive: {
     color: colors.gold,

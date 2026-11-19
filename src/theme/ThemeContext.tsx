@@ -93,16 +93,18 @@ export const darkPalette: ColorPalette = {
   onGold: '#07070A',
 
   // États
-  success: '#56DF95',
-  successSoft: 'rgba(86,223,149,0.16)',
+  // Tons accordés au noir & or : pas de bleu ni de violet vifs.
+  // info = ivoire (2e boutique dans les graphiques, infos neutres), violet = bronze.
+  success: '#7CC79A',
+  successSoft: 'rgba(124,199,154,0.14)',
   danger: '#FF6B6B',
   dangerSoft: 'rgba(255,107,107,0.16)',
   warning: '#F5B041',
   warningSoft: 'rgba(245,176,65,0.16)',
-  info: '#64B5F6',
-  infoSoft: 'rgba(100,181,246,0.16)',
-  violet: '#C490E4',
-  violetSoft: 'rgba(196,144,228,0.16)',
+  info: '#D9CFBF',
+  infoSoft: 'rgba(217,207,191,0.12)',
+  violet: '#C8A27A',
+  violetSoft: 'rgba(200,162,122,0.14)',
 
   // Cartes & Formulaires
   cardBg: '#13131F',
@@ -111,8 +113,8 @@ export const darkPalette: ColorPalette = {
   inputBorder: 'rgba(229,193,88,0.45)',
   inputText: '#FFFFFF',
   inputPlaceholder: '#A39B8B',
-  pillActiveBg: '#E5C158',
-  pillActiveText: '#08080C',
+  pillActiveBg: 'rgba(229,193,88,0.16)', // pastille active translucide (comme le tableau de bord)
+  pillActiveText: '#FBE89F',
   pillInactiveBg: '#1A1A28',
   pillInactiveText: '#E2DCD0',
   pillInactiveBorder: 'rgba(255,255,255,0.20)',
@@ -163,10 +165,10 @@ export const lightPalette: ColorPalette = {
   dangerSoft: 'rgba(211,47,47,0.12)',
   warning: '#9C4505',
   warningSoft: 'rgba(237,108,2,0.12)',
-  info: '#0266A0',
-  infoSoft: 'rgba(2,136,209,0.12)',
-  violet: '#7B1FA2',
-  violetSoft: 'rgba(123,31,162,0.12)',
+  info: '#5A4E3C',
+  infoSoft: 'rgba(90,78,60,0.10)',
+  violet: '#7A5230',
+  violetSoft: 'rgba(122,82,48,0.10)',
 
   // Cartes & Formulaires
   cardBg: '#FFFFFF',
