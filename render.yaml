@@ -1,12 +1,12 @@
 # Render Blueprint — L'Oréal Capitol (version web, site statique)
 # Sur Render : New > Blueprint > choisir ce dépôt GitHub. Render lit ce fichier,
 # construit l'app Expo pour le web (dossier dist/) et la sert en HTTPS.
-# Chaque push sur la branche main redéploie automatiquement.
+# Chaque push sur la branche master redéploie automatiquement.
 services:
   - type: web
     name: loreal-capitol
     runtime: static
-    branch: main
+    branch: master
     autoDeploy: true
     pullRequestPreviewsEnabled: false
     # --include=dev : le build n'échoue pas si NODE_ENV=production est défini
